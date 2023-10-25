@@ -1,0 +1,619 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>operator模块 | 车川的个人博客</title><meta name="author" content="车 川,1163317515@qq.com"><meta name="copyright" content="车 川"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="operator模块输出一系列对应Python内部操作符的函数。例如：operator.add(x, y)等价于表达式x+y。许多函数的名称都被一些特定的方法使用，没有下划线加持。为了向下兼容，它们中的许多都保留着由双下划线的变体。那些不具备双下划线的变体是为了使表达更清晰。 这些函数在各种函数目录里扮演者对相比较、逻辑操作、数学运算以及序列操作等角色。 对于所有对象来讲对象比较函数是十分有用的，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="operator模块">
+<meta property="og:url" content="http://example.com/2021/04/20/%E9%B2%9C%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E6%A8%A1%E5%9D%97%E4%B9%8Boperator/index.html">
+<meta property="og:site_name" content="车川的个人博客">
+<meta property="og:description" content="operator模块输出一系列对应Python内部操作符的函数。例如：operator.add(x, y)等价于表达式x+y。许多函数的名称都被一些特定的方法使用，没有下划线加持。为了向下兼容，它们中的许多都保留着由双下划线的变体。那些不具备双下划线的变体是为了使表达更清晰。 这些函数在各种函数目录里扮演者对相比较、逻辑操作、数学运算以及序列操作等角色。 对于所有对象来讲对象比较函数是十分有用的，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/move-to-new-domain-cover.png">
+<meta property="article:published_time" content="2021-04-20T08:27:43.000Z">
+<meta property="article:modified_time" content="2023-10-19T09:55:58.310Z">
+<meta property="article:author" content="车 川">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/move-to-new-domain-cover.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/04/20/%E9%B2%9C%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E6%A8%A1%E5%9D%97%E4%B9%8Boperator/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"languages":{"hits_empty":"找不到您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 车 川","link":"連結: ","source":"來源: 车川的个人博客","info":"著作權歸作者所有。商業轉載請聯繫作者獲得授權，非商業轉載請註明出處。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'operator模块',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: false,
+  postUpdate: '2023-10-19 17:55:58'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.postimg.cc/kMkqZ7ym/Wechat-IMG95.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">54</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">14</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/move-to-new-domain-cover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="车川的个人博客"><span class="site-name">车川的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">operator模块</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2021-04-20T08:27:43.000Z" title="發表於 2021-04-20 16:27:43">2021-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2023-10-19T09:55:58.310Z" title="更新於 2023-10-19 17:55:58">2023-10-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/">python</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="operator模块"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>operator模块输出一系列对应Python内部操作符的函数。例如：operator.add(x, y)等价于表达式x+y。许多函数的名称都被一些特定的方法使用，没有下划线加持。为了向下兼容，它们中的许多都保留着由双下划线的变体。那些不具备双下划线的变体是为了使表达更清晰。</p>
+<p>这些函数在各种函数目录里扮演者对相比较、逻辑操作、数学运算以及序列操作等角色。</p>
+<p>对于所有对象来讲对象比较函数是十分有用的，并且这些函数以它们支持的丰富的比较操作命名。</p>
+<span id="more"></span>
+<p>最近遇到一个像这样的问题，搜索框以下拉框的形式展开，下拉框里包含着三级菜单，无论点哪级菜单，都会筛选出这级菜单下的数据来，是这样，前端保存的时候传的是一个数组。对于菜单其实是建了一个字段来存菜单id,现在查询，前端传一个菜单id,就可以查到，因为我们有一张单独的表来维护菜单，所以每级菜单的索引都是不同的，最重要的问题怎么用一个数组和另一个数字比较，用递归，也可以。我是这样做的，把前端传过来的id放到一个列表里，然后用高阶函数reduc配合operator来实现，让两个列表内的元素依次做比较,最终筛选出比较之后的数据。起初我是没有思路的，因为我是真的忘了，python还有这么一个模块，不得不说，实在是奇特。</p>
+<p>代码示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user_source:</span><br><span class="line">            new_list.append(user_source)</span><br><span class="line">            get_data = get_data.<span class="built_in">filter</span>(reduce(operator.and_,(Q(user_source__contains=x) <span class="keyword">for</span> x <span class="keyword">in</span> new_list)))</span><br></pre></td></tr></table></figure>
+
+<p>以下是关于operator的用法，先码后看，我怕以后想看又找不到了。</p>
+<p>operator. <strong>lt(a, b)</strong>          &#x2F;&#x2F;less than小于</p>
+<p>operator. <strong>le(a, b)</strong>          &#x2F;&#x2F;lessthan or equal to小于等于</p>
+<p>operator. <strong>eq(a, b)</strong>          &#x2F;&#x2F;equal to等于</p>
+<p>operator. <strong>ne(a, b)</strong>          &#x2F;&#x2F;not equalto不等于</p>
+<p>operator. <strong>ge(a, b)</strong>          &#x2F;&#x2F;greaterand equal to大于等于</p>
+<p>operator. <strong>gt(a, b)</strong>          &#x2F;&#x2F;greater大于</p>
+<p>operator. <strong><strong>le</strong>(a, b)</strong></p>
+<p>operator. <strong><strong>lt</strong>(a, b)</strong></p>
+<p>operator. <strong><strong>eq</strong>(a, b)</strong></p>
+<p>operator. <strong><strong>ne</strong>(a, b)</strong></p>
+<p>operator. <strong><strong>ge</strong>(a, b)</strong></p>
+<p>operator. <strong><strong>gt</strong>(a, b)</strong></p>
+<p>在a与b之间之行丰富的比较操作。特别地，lt(a, b)等价于a &lt; b、le(a, b)等价于a &lt;&#x3D; b、eq(a, b)等价于a &#x3D;&#x3D; b、ne(a, b)等价于a !&#x3D; b、gt(a, b)等价于a &gt; b、ge(a, b)等价于a &gt;&#x3D; b。注意：这些函数可以返回任何值，这个值可能当做布尔值用、也有可能不行。</p>
+<p><strong>逻辑操作一般也适用于所有对象，并且支持真值比较、定义测试和布尔操作。</strong></p>
+<p>operator. <strong>not_(obj)</strong></p>
+<p>operator. <strong><strong>not</strong>(obj)</strong></p>
+<p>返回非obj的结果。（注意：对于对象实例不存在__not__()方法；只有解释器代码定义了这个操作。它的结果受__bool__()和__len__()方法影响）。</p>
+<p>operator. <strong>truth(obj)</strong></p>
+<p>如果obj是真的，就返回True，否则返回False。等价于使用布尔构造器。</p>
+<p>operator. <strong>is_(a, b)</strong></p>
+<p>返回表达式a is b，用于测试对象的定义。</p>
+<p>operator. <strong>is_not(a, b)</strong></p>
+<p>返回表达式a is not b，用于测试对象定义。</p>
+<p>​    <strong>数学运算和按位运算是最多的：</strong></p>
+<p>operator. <strong>abs(obj)</strong></p>
+<p>operator. <strong><strong>abs</strong>(obj)</strong></p>
+<p>返回obj的绝对值。</p>
+<p>operator**. add(a, b)**</p>
+<p>operator. <strong><strong>add</strong>(a, b)</strong></p>
+<p>返回a+b，a与b应为数字。</p>
+<p>operator. <strong>and(a, b)</strong></p>
+<p>operator. <strong><strong>and</strong>(a, b)</strong></p>
+<p>返回a与b的按位与操作结果。</p>
+<p>operator. <strong>floordiv(a, b)</strong></p>
+<p>operator. <strong>__floordiv(a, b)</strong></p>
+<p>返回a&#x2F;&#x2F;b。（a&#x2F;b向下取整）</p>
+<p>operator. <strong>index(a)</strong></p>
+<p>operator. <strong><strong>index</strong>(a)</strong></p>
+<p>将a转换为整数数据并返回。等价于a. <strong>index</strong>()</p>
+<p>operator. <strong>inv(obj)</strong></p>
+<p>operator. <strong>invert(obj)</strong></p>
+<p>operator. <strong><strong>inv</strong>(obj)</strong></p>
+<p>operator. <strong><strong>invert</strong>(obj)</strong></p>
+<p>对数字obj按位求反，并返回。等价于~obj。</p>
+<p>operator. <strong>lshift(a, b)</strong></p>
+<p>operator. <strong><strong>lshift</strong>(a, b)</strong></p>
+<p>将a左移b位后返回。</p>
+<p>operator. <strong>mod(a, b)</strong></p>
+<p>operator. <strong><strong>mod</strong>(a, b)</strong></p>
+<p>返回a%b。</p>
+<p>operator. <strong>mul(a, b)</strong></p>
+<p>operator. <strong><strong>mul</strong>(a, b)</strong></p>
+<p>返回a*b，a与b都为数字。</p>
+<p>operator. <strong>matmul(a, b)</strong></p>
+<p>operator. <strong><strong>matmul</strong>(a, b)</strong></p>
+<p>返回a@b。</p>
+<p>operator. <strong>nge(obj)</strong></p>
+<p>operator. <strong><strong>neg</strong>(obj)</strong></p>
+<p>返回obj的负值（-obj）。</p>
+<p>operator. <strong>or(a, b)</strong></p>
+<p>operator. <strong><strong>or</strong>(a, b)</strong></p>
+<p>a与b按位求或，并返回结果值。</p>
+<p>operator. <strong>pos(obj)</strong></p>
+<p>operator. <strong><strong>pow</strong>(obj)</strong></p>
+<p>返回obj的正值（+obj）。</p>
+<p>operator. <strong>pow(a, b)</strong></p>
+<p>operator. <strong><strong>pow</strong>(a, b)</strong></p>
+<p>返回a ** b，a与b都为数字。</p>
+<p>operator. <strong>rshift(a, b)</strong></p>
+<p>operator. <strong><strong>rshift</strong>(a, b)</strong></p>
+<p>a右移b位，并返回结果值。</p>
+<p>operator. <strong>sub(a, b)</strong></p>
+<p>operator. <strong><strong>sub</strong>(a, b)</strong></p>
+<p>返回a – b。</p>
+<p>operator. <strong>truediv(a, b)</strong></p>
+<p>operator. <strong><strong>truediv</strong>(a, b)</strong></p>
+<p>返回a &#x2F; b，并且类似于2&#x2F;3是0.66而不是0。它也被称为真除法。</p>
+<p>operator. <strong>xor(a, b)</strong></p>
+<p>operator. <strong><strong>xor</strong>(a, b)</strong></p>
+<p>a与b按位异或，并返回结果。</p>
+<p>​    <strong>和序列有关的操作（其中的一些也可用于映射），包括：</strong></p>
+<p>operator. <strong>concat(a, b)</strong></p>
+<p>operator. <strong><strong>concat</strong>(a, b)</strong></p>
+<p>返回a + b，a与b都为序列。</p>
+<p>operator. <strong>contains(a, b)</strong></p>
+<p>operator. <strong><strong>contains</strong>(a, b)</strong></p>
+<p>返回测试b in a的结果。请注意反转操作数。</p>
+<p>operator. <strong>countof(a, b)</strong></p>
+<p>返回b在a中出现的次数。</p>
+<p>operator. <strong>delitem(a, b)</strong></p>
+<p>operator. <strong><strong>delitem</strong>(a, b)</strong></p>
+<p>删除a索引b的值。</p>
+<p>operator. <strong>getitem(a, b)</strong></p>
+<p>operator. <strong><strong>getitem</strong>(a, b)</strong></p>
+<p>返回a索引b的值。</p>
+<p>operator. <strong>indexof(a, b)</strong></p>
+<p>返回b在a中第一次出现时的索引。</p>
+<p>operator. <strong>setitem(a, b, c)</strong></p>
+<p>operator. <strong><strong>setitem</strong>(a, b, c)</strong></p>
+<p>a中索引b的位置上的值设置为c。</p>
+<p>operator. <strong>length_hint(obj, default&#x3D;0)</strong></p>
+<p>返回对象obj的估算长度。首先试图返回真实的长度，不行的话使用obj.<strong>length_hint</strong>()估算长度，再不行的话返回默认值规定的长度。</p>
+<p><strong>operator模块也定义了一些广义属性和项目查找的工具。它们常用于为诸如map()、sorted()、itertools. groupby()或其他需要函数作为参数的函数提供参数，该参数为一个高速的字段提取器。</strong></p>
+<p>operator. attrgetter(attr)</p>
+<p>operator. attrgetter(*attrs)</p>
+<p>返回一个可点用对象，该对象能从其操作中捕获attr。如果提供了多个属性，返回一个属性构成的元组。属性名也可以包含符号点。例如：</p>
+<p>•••运行 f &#x3D; attrgetter(‘name’)之后，调用f(b)，返回b.name。</p>
+<p>•运行 f &#x3D; attregetter(‘name’,’date’)之后，调用f(b)，返回(b. name, b,date)。</p>
+<p>•运行f &#x3D;attregetter(‘name.first’, ‘name. last’)之后，调用f(b)，返回(b. name. first, b. name. last)。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">defattrgetter(*items):</span><br><span class="line"></span><br><span class="line">    ifany(notisinstance(item, <span class="built_in">str</span>) <span class="keyword">for</span> item <span class="keyword">in</span> items):</span><br><span class="line"></span><br><span class="line">        raiseTypeError(<span class="string">&#x27;attribute namemust be a string&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    iflen(items) ==<span class="number">1</span>:</span><br><span class="line"></span><br><span class="line">        attr = items[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        defg(obj):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> resolve_attr(obj, attr)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">        defg(obj):</span><br><span class="line"></span><br><span class="line">            returntuple(resolve_attr(obj, attr) <span class="keyword">for</span> attr <span class="keyword">in</span> items)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">defresolve_attr(obj, attr):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> attr.split(<span class="string">&quot;.&quot;</span>):</span><br><span class="line"></span><br><span class="line">        obj =<span class="built_in">getattr</span>(obj, name)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>operator. <strong>itemgetter(item)</strong></p>
+<p>operator. <strong>itemgetter(*items)</strong></p>
+<p>返回一个可调用对象，该对象可以使用操作__getitem__()方法从自身的操作中捕获item。如果制定了多个items，返回一个由查询值组成的元组。例如：</p>
+<p>•运行f &#x3D;itemgetter(2)，然后调用f(r)，返回r[2]。</p>
+<p>•运行g &#x3D;itemgetter(2, 5, 3)，然后调用g(r)，返回(r[2], r[5], r[3])。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span>  <span class="title function_">itemgetter</span>(<span class="params">*items</span>):</span><br><span class="line"></span><br><span class="line">    iflen(items) ==<span class="number">1</span>:</span><br><span class="line"></span><br><span class="line">        item = items[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        defg(obj):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> obj[item]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">        defg(obj):</span><br><span class="line"></span><br><span class="line">            returntuple(obj[item] <span class="keyword">for</span> item <span class="keyword">in</span> items)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> g</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Items可以是任何类型，只要该类型可以接受__getitem__()方法的操作。字典结合搜任何可哈希的值。列表、元组和字符串接受索引或者片段：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;itemgetter(<span class="number">1</span>)(<span class="string">&#x27;ABCDEFG&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;B&#x27;</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;itemgetter(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>)(<span class="string">&#x27;ABCDEFG&#x27;</span>)</span><br><span class="line"></span><br><span class="line">(<span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;F&#x27;</span>)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;itemgetter(<span class="built_in">slice</span>(<span class="number">2</span>,<span class="literal">None</span>))(<span class="string">&#x27;ABCDEFG&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;CDEFG&#x27;</span></span><br><span class="line"></span><br><span class="line">例如使用itemgetter()从元组记录中取回特定的字段：</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;inventory = [(<span class="string">&#x27;apple&#x27;</span>, <span class="number">3</span>), (<span class="string">&#x27;banana&#x27;</span>, <span class="number">2</span>), (<span class="string">&#x27;pear&#x27;</span>, <span class="number">5</span>), (<span class="string">&#x27;orange&#x27;</span>, <span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;getcount = itemgetter(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">list</span>(<span class="built_in">map</span>(getcount, inventory))</span><br><span class="line"></span><br><span class="line">[<span class="number">3</span>, <span class="number">2</span>, <span class="number">5</span>,<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">sorted</span>(inventory, key=getcount)</span><br><span class="line"></span><br><span class="line">[(<span class="string">&#x27;orange&#x27;</span>,<span class="number">1</span>), (<span class="string">&#x27;banana&#x27;</span>, <span class="number">2</span>), (<span class="string">&#x27;apple&#x27;</span>, <span class="number">3</span>), (<span class="string">&#x27;pear&#x27;</span>, <span class="number">5</span>)]</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>operator. <strong>methodcaller(name[, args…])</strong></p>
+<p>返回一个可调用的对象，该对象可以在其操作内调用名为name的方法。如果额外的参数或者关键字参数被给出，它们也会被传递给方法。例如：</p>
+<p>•运行 f &#x3D; methodcaller(‘name’)，调用f(b)，返回b. name()。</p>
+<p>•运行 f &#x3D; methodcaller(‘name’, ‘foo’, bar&#x3D;1)，调用f(b)，返回b. name(‘foo’, bar&#x3D;1)。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">defmethodcaller(name, *args, **kwargs):</span><br><span class="line"></span><br><span class="line">    defcaller(obj):</span><br><span class="line"></span><br><span class="line">        returngetattr(obj, name)(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> caller</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>1. 函数的映射操作</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>语法</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>加法</td>
+<td>a + b</td>
+<td>add(a, b)</td>
+</tr>
+<tr>
+<td>连接</td>
+<td>seq1 + seq2</td>
+<td>concat(seq1, seq2)</td>
+</tr>
+<tr>
+<td>包含测试</td>
+<td>obj in seq</td>
+<td>contains(seq, obj)</td>
+</tr>
+<tr>
+<td>除法</td>
+<td>a &#x2F; b</td>
+<td>truediv(a, b)</td>
+</tr>
+<tr>
+<td>除法</td>
+<td>a &#x2F;&#x2F; b</td>
+<td>floordiv(a, b)</td>
+</tr>
+<tr>
+<td>按位与</td>
+<td>a &amp; b</td>
+<td>and_(a, b)</td>
+</tr>
+<tr>
+<td>按位异或</td>
+<td>a ^ b</td>
+<td>xor(a, b)</td>
+</tr>
+<tr>
+<td>按位求反</td>
+<td>~ a</td>
+<td>invert(a)</td>
+</tr>
+<tr>
+<td>按位求或</td>
+<td>a | b</td>
+<td>or_(a, b)</td>
+</tr>
+<tr>
+<td>求幂</td>
+<td>a ** b</td>
+<td>pow(a, b)</td>
+</tr>
+<tr>
+<td>身份测试</td>
+<td>a is b</td>
+<td>is_(a, b)</td>
+</tr>
+<tr>
+<td>身份测试</td>
+<td>a is not b</td>
+<td>is_not(a, b)</td>
+</tr>
+<tr>
+<td>索引分配</td>
+<td>obj[k] &#x3D; v</td>
+<td>setitem(obj, k, v)</td>
+</tr>
+<tr>
+<td>索引删除</td>
+<td>del obj[k]</td>
+<td>delitem(obj, k)</td>
+</tr>
+<tr>
+<td>得出索引键值</td>
+<td>obj[k]</td>
+<td>getitem(obj, k)</td>
+</tr>
+<tr>
+<td>左移</td>
+<td>a &lt;&lt; b</td>
+<td>lshift(a, b)</td>
+</tr>
+<tr>
+<td>求模</td>
+<td>a % b</td>
+<td>mod(a, b)</td>
+</tr>
+<tr>
+<td>乘法</td>
+<td>a * b</td>
+<td>mul(a, b)</td>
+</tr>
+<tr>
+<td>矩阵乘法</td>
+<td>a @ b</td>
+<td>matmul(a, b)</td>
+</tr>
+<tr>
+<td>求负值（数学）</td>
+<td>- a</td>
+<td>neg(a)</td>
+</tr>
+<tr>
+<td>求负值（逻辑）</td>
+<td>not a</td>
+<td>not_(a)</td>
+</tr>
+<tr>
+<td>求正值</td>
+<td>+ a</td>
+<td>pos(a)</td>
+</tr>
+<tr>
+<td>右移</td>
+<td>a &gt;&gt; b</td>
+<td>rshift(a, b)</td>
+</tr>
+<tr>
+<td>片段分配</td>
+<td>seq[i: j] &#x3D; values</td>
+<td>setitem(seq, slice(I, j), values)</td>
+</tr>
+<tr>
+<td>片段删除</td>
+<td>del seq[i, j]</td>
+<td>delitem(seq, slice(I, j))</td>
+</tr>
+<tr>
+<td>得到片段</td>
+<td>swq[i : j]</td>
+<td>getitme(seq, slice(i, j))</td>
+</tr>
+<tr>
+<td>字符串格式化</td>
+<td>s % obj</td>
+<td>mod(s, obj)</td>
+</tr>
+<tr>
+<td>减法</td>
+<td>a - b</td>
+<td>sub(a, b)</td>
+</tr>
+<tr>
+<td>真值测试</td>
+<td>obj</td>
+<td>truth(obj)</td>
+</tr>
+<tr>
+<td>排序</td>
+<td>a &lt; b</td>
+<td>lt(a, b)</td>
+</tr>
+<tr>
+<td>排序</td>
+<td>a &lt;&#x3D; b</td>
+<td>le(a, b)</td>
+</tr>
+<tr>
+<td>相等</td>
+<td>a &#x3D;&#x3D; b</td>
+<td>eq(a, b)</td>
+</tr>
+<tr>
+<td>不等</td>
+<td>a !- b</td>
+<td>ne(a, b)</td>
+</tr>
+<tr>
+<td>排序</td>
+<td>a &gt;&#x3D; b</td>
+<td>ge(a, b)</td>
+</tr>
+<tr>
+<td>排序</td>
+<td>a &gt; b</td>
+<td>ge(a, b)</td>
+</tr>
+</tbody></table>
+<p><strong>2.原址操作</strong></p>
+<p>许多操作都有其原地操作版本。以下列出的函数提供了比普通语法操作更原始的原址操作。例如：语句x +&#x3D; y等价于x &#x3D; operator. iadd(x, y)。其它方法提出说z &#x3D; operatgor.iadd(x, y)等价于复合语句 z&#x3D; x; z +&#x3D; y。</p>
+<p>在其他例子中，注意，当一个原址操作被调用，计算和分配在讲个分割开来的步骤里进行。以下列出的原址函数值做了第一步，调用原址方法。第二步，分配却没有被操作。</p>
+<p>对于不变的目标李如意字符串、数组和元组，被更新的值是需要计算的，但是不回配输入变量：</p>
+<p>**&gt;&gt;&gt;**a &#x3D;’hello’</p>
+<p>**&gt;&gt;&gt;**iadd(a, ‘ world’)</p>
+<p>‘helloworld’</p>
+<p>**&gt;&gt;&gt;**a</p>
+<p>‘hello</p>
+<p>对于可变对象例如列表和字典，预案之操作将会运行更新，因此不需要后续分配。</p>
+<p>**&gt;&gt;&gt;**s &#x3D; [‘h’, ‘e’, ‘l’, ‘l’, ‘o’]</p>
+<p>**&gt;&gt;&gt;**iadd(s, [‘ ‘, ‘w’, ‘o’, ‘r’, ‘l’, ‘d’])</p>
+<p>[‘h’, ‘e’,’l’, ‘l’, ‘o’, ‘ ‘, ‘w’, ‘o’, ‘r’, ‘l’, ‘d’]</p>
+<p>**&gt;&gt;&gt;**s</p>
+<p>[‘h’, ‘e’,’l’, ‘l’, ‘o’, ‘ ‘, ‘w’, ‘o’, ‘r’, ‘l’, ‘d’]</p>
+<p>operator. <strong>iadd(a, b)</strong></p>
+<p>operator. <strong><strong>iadd</strong>(a, b)</strong></p>
+<p>a &#x3D; iadd(a, b)等价于a +&#x3D; b。</p>
+<p>operator. <strong>iand(a, b)</strong></p>
+<p>operator. <strong><strong>iand</strong>(a, b)</strong></p>
+<p>a &#x3D; land(a, b)等价于a &amp;&#x3D; b。</p>
+<p>operator. <strong>iconcat(a, b)</strong></p>
+<p>operator. <strong><strong>iconcat</strong>(a, b)</strong></p>
+<p>a &#x3D; iconcat(a, b)等价于a +&#x3D; b，a与b都为序列。</p>
+<p>operator. <strong>ifloordiv(a, b)</strong></p>
+<p>operator. <strong><strong>ifloordiv</strong>(a, b)</strong></p>
+<p>a &#x3D; ifloordiv(a, b)等价于 a &#x2F;&#x2F;&#x3D; b。</p>
+<p>operator. <strong>ilshift(a, b)</strong></p>
+<p>operator. <strong><strong>ilshift</strong>(a, b)</strong></p>
+<p>a &#x3D; ilshift(a, b)等价于a &lt;&lt;&#x3D; b。</p>
+<p>operator. <strong>imod(a, b)</strong></p>
+<p>operator. <strong><strong>imod</strong>(a, b)</strong></p>
+<p>a &#x3D; imud(a, b)等价于a %&#x3D; b。</p>
+<p>operator. <strong>imul(a, b)</strong></p>
+<p>operator. <strong>imul(a, b)</strong></p>
+<p>a &#x3D; imul(a, b)等价于a *&#x3D; b。</p>
+<p>operator. <strong>imatmul(a, b)</strong></p>
+<p>operator. <strong><strong>imatmul</strong>(a, b)</strong></p>
+<p>a &#x3D; imatmul(a, b)等价于a @&#x3D; b。</p>
+<p>operator. <strong>ior(a, b)</strong></p>
+<p>operator. <strong><strong>ior</strong>(a, b)</strong></p>
+<p>a &#x3D; ior(a, b)等价于a |&#x3D; b。</p>
+<p>operator. <strong>ipow(a, b)</strong></p>
+<p>operator. <strong><strong>ipow</strong>(a, b)</strong></p>
+<p>a &#x3D; ipow(a, b)等价于a ** b。</p>
+<p>operator. <strong>irshift(a, b)</strong></p>
+<p>operator. <strong><strong>irshift</strong>(a, b)</strong></p>
+<p>a &#x3D; irshift(a, b)等价于a &gt;&gt; b。</p>
+<p>operator. <strong>isub(a, b)</strong></p>
+<p>operator. <strong><strong>sub</strong>(a, b)</strong></p>
+<p>a &#x3D; isub(a, b)等价于a -&#x3D; b。</p>
+<p>operator. <strong>itruediv(a, b)</strong></p>
+<p>operator. <strong><strong>itruediv</strong>(a, b)</strong></p>
+<p>a &#x3D; itruediv(a, b)等价于<strong>a &#x2F;&#x3D; b</strong>。</p>
+<p>operator. <strong>ixor(a, b)</strong></p>
+<p>operator. <strong><strong>ixor</strong>(a, b)</strong></p>
+<p>​    a &#x3D; ixor(a, b)等价于a ^&#x3D; b。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">车 川</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="http://example.com/2021/04/20/%E9%B2%9C%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E6%A8%A1%E5%9D%97%E4%B9%8Boperator/">http://example.com/2021/04/20/%E9%B2%9C%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E6%A8%A1%E5%9D%97%E4%B9%8Boperator/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="http://example.com" target="_blank">车川的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/move-to-new-domain-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>贊助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/13/python%E5%AF%B9%E6%8E%A5%E9%93%B6%E8%81%94%E5%95%86%E5%8A%A1%E5%85%AC%E4%BC%97%E5%8F%B7-%E6%9C%8D%E5%8A%A1%E7%AA%97%E6%94%AF%E4%BB%98/" title="python对接银联商务公众号+服务窗支付"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/c8064983f1cf496283177f394337dbb0.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0sxMTYzMzE3NTE1,size_16,color_FFFFFF,t_70" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">python对接银联商务公众号+服务窗支付</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/07/Centos7-6%E7%8E%AF%E5%A2%83%E5%9F%BA%E4%BA%8EPrometheus%E5%92%8CGrafana%E7%BB%93%E5%90%88%E9%92%89%E9%92%89%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%89%93%E9%80%A0%E5%85%A8%E6%97%B6%E7%9B%91%E6%8E%A7-%E9%A2%84%E8%AD%A6-Docker%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F/" title="Centos7.6环境基于Prometheus和Grafana结合钉钉机器人打造全时监控(预警)Docker容器服务系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/20200120-cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Centos7.6环境基于Prometheus和Grafana结合钉钉机器人打造全时监控(预警)Docker容器服务系统</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/2017/11/20/Python%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" title="Python垃圾回收机制"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-20</div><div class="title">Python垃圾回收机制</div></div></a></div><div><a href="/2020/11/23/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%94%81/" title="Python多线程和锁"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-23</div><div class="title">Python多线程和锁</div></div></a></div><div><a href="/2018/11/22/python%E7%9A%84%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%A4%9A%E8%BF%9B%E7%A8%8B/" title="python的进程、线程与多进程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-11-22</div><div class="title">python的进程、线程与多进程</div></div></a></div><div><a href="/2023/10/19/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="两数之和"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-19</div><div class="title">两数之和</div></div></a></div><div><a href="/2023/10/19/%E5%9B%9E%E6%96%87%E6%95%B0/" title="回文数"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-19</div><div class="title">回文数</div></div></a></div><div><a href="/2020/11/29/%E5%9C%A8Python%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E7%9A%84/" title="在Python中是如何管理内存的"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/Markdown-Style-test-cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-29</div><div class="title">在Python中是如何管理内存的</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.postimg.cc/kMkqZ7ym/Wechat-IMG95.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">车 川</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">54</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/%E6%95%B4%E6%95%B0%E5%8F%8D%E8%BD%AC/" title="整数反转"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="整数反转"/></a><div class="content"><a class="title" href="/2023/10/19/%E6%95%B4%E6%95%B0%E5%8F%8D%E8%BD%AC/" title="整数反转">整数反转</a><time datetime="2023-10-19T09:55:58.310Z" title="發表於 2023-10-19 17:55:58">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="移除元素"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="移除元素"/></a><div class="content"><a class="title" href="/2023/10/19/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" title="移除元素">移除元素</a><time datetime="2023-10-19T09:55:58.310Z" title="發表於 2023-10-19 17:55:58">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/" title="罗马数字转整数"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="罗马数字转整数"/></a><div class="content"><a class="title" href="/2023/10/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/" title="罗马数字转整数">罗马数字转整数</a><time datetime="2023-10-19T09:55:58.310Z" title="發表於 2023-10-19 17:55:58">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/%E5%9B%9E%E6%96%87%E6%95%B0/" title="回文数"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="回文数"/></a><div class="content"><a class="title" href="/2023/10/19/%E5%9B%9E%E6%96%87%E6%95%B0/" title="回文数">回文数</a><time datetime="2023-10-19T09:55:58.309Z" title="發表於 2023-10-19 17:55:58">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="两数之和"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/butterfly_cdn@2.1.0/top_img/index.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="两数之和"/></a><div class="content"><a class="title" href="/2023/10/19/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="两数之和">两数之和</a><time datetime="2023-10-19T09:55:58.308Z" title="發表於 2023-10-19 17:55:58">2023-10-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By 车 川</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="返回頂部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const abcjsInit = () => {
+    const abcjsFn = () => {
+      document.querySelectorAll(".abc-music-sheet").forEach(ele => {
+        ABCJS.renderAbc(ele, ele.innerHTML, {responsive: 'resize'})
+      })
+    }
+    
+    typeof ABCJS === 'object' ? abcjsFn()
+      : getScript('https://cdn.jsdelivr.net/npm/abcjs/dist/abcjs-basic-min.min.js').then(abcjsFn)
+  }
+
+  window.pjax ? abcjsInit() : window.addEventListener('load', abcjsInit)
+})()</script><script>(() => {
+  const initWaline = () => {
+    const waline = Waline.init(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'waline-test-nine-olive.vercel.app',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+  }
+
+  const loadWaline = async () => {
+    if (typeof Waline === 'object') initWaline()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js')
+      initWaline()
+    }
+  }
+
+  if ('Waline' === 'Waline' || !true) {
+    if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料庫載入中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜尋文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
