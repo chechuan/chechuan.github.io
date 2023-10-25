@@ -473,6 +473,72 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker的安装和简单使用</title>
+    <url>/2020/11/19/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="介绍一下docker"><a href="#介绍一下docker" class="headerlink" title="介绍一下docker"></a>介绍一下docker</h3><p>2013年发布至今， <a href="https://www.docker.com/">Docker</a> 一直广受瞩目，被认为可能会改变软件行业。但是，许多人并不清楚 Docker 到底是什么，要解决什么问题，好处又在哪里？本文就来详细解释，帮助大家理解它，还带有简单易懂的实例，教你如何将它用于日常开发。</p>
+<h4 id="Docker核心概念"><a href="#Docker核心概念" class="headerlink" title="Docker核心概念"></a>Docker核心概念</h4><span id="more"></span>
+<p>镜像(image) Docker 镜像（Image）就是一个只读的模板。例如：一个镜像可以包含一个完整的操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。</p>
+<p>仓库(repository) 仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
+<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。国内的公开仓库包括 时速云 、网易云 等，可以提供大陆用户更稳定快速的访问。当然，用户也可以在本地网络内创建一个私有仓库。</p>
+<p>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。</p>
+<p>Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。</p>
+<p>容器(container) Docker 利用容器（Container）来运行应用。容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
+<p>容器的定义和镜像几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。</p>
+<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>首先是我们的windows10版本下安装docker ,如果你的电脑是家庭教育版建议您下载docker tool box,专业版的下载docker desktop也就是桌面版。</p>
+<p>在下载过程中，我们也遇到了一些错误。</p>
+<p>比如安装之后出来了三个图标，当我们点击其中一个软件Docker Quickstart Terminal，你会发现它是打不开的 ，这里我们注意一下,docker本身是基于git的。</p>
+<p>这里我们这样解决，先找到git的文件位置，找到git下面的bin目录的位置，然后复制它的地址放到Docker Quickstart Terminal的位置前面,然后再双击运行，就可以打开了。</p>
+<h3 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h3><p>Docker CE 的安装请参考官方文档。</p>
+<blockquote>
+<ul>
+<li><a href="https://docs.docker.com/docker-for-mac/install/">Mac</a></li>
+<li><a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/binaries/">其他 Linux 发行版</a></li>
+</ul>
+</blockquote>
+<p>安装完成后，运行下面的命令，验证是否安装成功。</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker version</span><br><span class="line"># 或者</span><br><span class="line">$ docker info</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>我们常用的镜像有redis,mysql</p>
+<p>运行redis镜像</p>
+<blockquote>
+<p><code>$ docker run -it -p 80:80 a580a</code></p>
+</blockquote>
+<p>开启守护进程</p>
+<blockquote>
+<p><code>$ docker run -itd -p 80:80 a580a</code></p>
+</blockquote>
+<p>列出本地镜像</p>
+<blockquote>
+<p><code>$ docker images</code></p>
+</blockquote>
+<p>列出容器</p>
+<blockquote>
+<p><code>$ docker ps</code></p>
+</blockquote>
+<p>关闭服务(返回一个ID)</p>
+<blockquote>
+<p><code>$ docker stop 96f60</code></p>
+</blockquote>
+<p>强制删除</p>
+<blockquote>
+<p><code>$ docker rmi -f a580a</code></p>
+</blockquote>
+<p>docker就像是一个精灵球,我们的项目就是精灵球里面的精灵，当我们开发完毕就可以利用Docker把项目制作成镜像,部署时就可以理解为小精灵被释放出来，进行战斗，而Docker的仓库则提高了镜像的便捷性，可以让我们随时随地只要联网就可以使用自己的镜像。</p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker部署web应用(django)</title>
     <url>/2020/11/22/Docker%E9%83%A8%E7%BD%B2web%E5%BA%94%E7%94%A8-django/</url>
     <content><![CDATA[<h2 id="Docker的简介"><a href="#Docker的简介" class="headerlink" title="Docker的简介"></a>Docker的简介</h2><p>1.docker定义:docker是一个用来装应用的容器，就像杯子可以装水，笔筒可以装笔，书包可以放书一样。你可以把“Hello World！”放到docker中，也可以把网站放到docker中，你可以把任何你想到的程序放到docker中。</p>
@@ -567,72 +633,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker的安装和简单使用</title>
-    <url>/2020/11/19/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="介绍一下docker"><a href="#介绍一下docker" class="headerlink" title="介绍一下docker"></a>介绍一下docker</h3><p>2013年发布至今， <a href="https://www.docker.com/">Docker</a> 一直广受瞩目，被认为可能会改变软件行业。但是，许多人并不清楚 Docker 到底是什么，要解决什么问题，好处又在哪里？本文就来详细解释，帮助大家理解它，还带有简单易懂的实例，教你如何将它用于日常开发。</p>
-<h4 id="Docker核心概念"><a href="#Docker核心概念" class="headerlink" title="Docker核心概念"></a>Docker核心概念</h4><span id="more"></span>
-<p>镜像(image) Docker 镜像（Image）就是一个只读的模板。例如：一个镜像可以包含一个完整的操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。</p>
-<p>仓库(repository) 仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
-<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。国内的公开仓库包括 时速云 、网易云 等，可以提供大陆用户更稳定快速的访问。当然，用户也可以在本地网络内创建一个私有仓库。</p>
-<p>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。</p>
-<p>Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。</p>
-<p>容器(container) Docker 利用容器（Container）来运行应用。容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
-<p>容器的定义和镜像几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。</p>
-<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>首先是我们的windows10版本下安装docker ,如果你的电脑是家庭教育版建议您下载docker tool box,专业版的下载docker desktop也就是桌面版。</p>
-<p>在下载过程中，我们也遇到了一些错误。</p>
-<p>比如安装之后出来了三个图标，当我们点击其中一个软件Docker Quickstart Terminal，你会发现它是打不开的 ，这里我们注意一下,docker本身是基于git的。</p>
-<p>这里我们这样解决，先找到git的文件位置，找到git下面的bin目录的位置，然后复制它的地址放到Docker Quickstart Terminal的位置前面,然后再双击运行，就可以打开了。</p>
-<h3 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h3><p>Docker CE 的安装请参考官方文档。</p>
-<blockquote>
-<ul>
-<li><a href="https://docs.docker.com/docker-for-mac/install/">Mac</a></li>
-<li><a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/binaries/">其他 Linux 发行版</a></li>
-</ul>
-</blockquote>
-<p>安装完成后，运行下面的命令，验证是否安装成功。</p>
-<blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker version</span><br><span class="line"># 或者</span><br><span class="line">$ docker info</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>我们常用的镜像有redis,mysql</p>
-<p>运行redis镜像</p>
-<blockquote>
-<p><code>$ docker run -it -p 80:80 a580a</code></p>
-</blockquote>
-<p>开启守护进程</p>
-<blockquote>
-<p><code>$ docker run -itd -p 80:80 a580a</code></p>
-</blockquote>
-<p>列出本地镜像</p>
-<blockquote>
-<p><code>$ docker images</code></p>
-</blockquote>
-<p>列出容器</p>
-<blockquote>
-<p><code>$ docker ps</code></p>
-</blockquote>
-<p>关闭服务(返回一个ID)</p>
-<blockquote>
-<p><code>$ docker stop 96f60</code></p>
-</blockquote>
-<p>强制删除</p>
-<blockquote>
-<p><code>$ docker rmi -f a580a</code></p>
-</blockquote>
-<p>docker就像是一个精灵球,我们的项目就是精灵球里面的精灵，当我们开发完毕就可以利用Docker把项目制作成镜像,部署时就可以理解为小精灵被释放出来，进行战斗，而Docker的仓库则提高了镜像的便捷性，可以让我们随时随地只要联网就可以使用自己的镜像。</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>EChart.js（前端数据可视化）实现外汇实时走势</title>
     <url>/2020/11/26/EChart-js%EF%BC%88%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%89%E5%AE%9E%E7%8E%B0%E5%A4%96%E6%B1%87%E5%AE%9E%E6%97%B6%E8%B5%B0%E5%8A%BF/</url>
     <content><![CDATA[<p>你可以通过以下几种方式获取 Apache ECharts (incubating)TM。</p>
@@ -673,49 +673,6 @@
       </categories>
       <tags>
         <tag>Javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python匿名函数与递归函数</title>
-    <url>/2017/10/24/Python%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%B8%8E%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h4 id="1-什么是递归函数"><a href="#1-什么是递归函数" class="headerlink" title="1.什么是递归函数"></a><strong>1.什么是递归函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> <span class="keyword">if</span> n &lt; <span class="number">2</span> <span class="keyword">else</span> fib(n-<span class="number">1</span>) + fib(n-<span class="number">2</span>)</span><br><span class="line">n = <span class="number">20</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="built_in">print</span>(fib(i), end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出：1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 </span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>调用自己本身的函数叫递归函数；<span id="more"></span></li>
-</ul>
-<h4 id="2-斐波那契数列"><a href="#2-斐波那契数列" class="headerlink" title="2.斐波那契数列"></a><strong>2.斐波那契数列</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pre = <span class="number">1</span></span><br><span class="line"><span class="built_in">next</span> = <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(pre, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    pre, <span class="built_in">next</span> = <span class="built_in">next</span>, pre+<span class="built_in">next</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出：1 1 2 3 5 8 13 21 34 55 89 144 </span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>类似：1, 1, 2, 3, 5, 8, 13, 21, 34, 55…..的一个数列；</li>
-<li>数列的前两项都是1，第三项开始，每一项都是前两项之和；</li>
-<li>F1 &#x3D; 1， F2 &#x3D; 1， F(n) &#x3D; F(n-1) + F(n-2), 且递归一定需要有结束条件；</li>
-</ul>
-<h4 id="3-递归函数的特性"><a href="#3-递归函数的特性" class="headerlink" title="3.递归函数的特性"></a><strong>3.递归函数的特性</strong></h4><ul>
-<li>递归一定需要有结束条件；</li>
-<li>每次进入更深一层递归时，问题规模比上一次递归都应有所减少；</li>
-<li>通常前一次递归的输出就作为后一次递归的输入；</li>
-<li>递归效率不高，递归层次过多会导致栈溢出；</li>
-</ul>
-<h4 id="4-匿名函数"><a href="#4-匿名函数" class="headerlink" title="4.匿名函数"></a><strong>4.匿名函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#定义匿名函数</span></span><br><span class="line">fn = <span class="keyword">lambda</span> x: x+<span class="number">1</span></span><br><span class="line">y = fn(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"><span class="comment"># 输出：4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#匿名函数自调用</span></span><br><span class="line">(<span class="keyword">lambda</span> x: <span class="built_in">print</span>(x+<span class="number">2</span>))(<span class="number">4</span>)</span><br><span class="line"><span class="comment">#输出：6</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>没有名字的函数就是匿名函数，并且因为匿名函数没有名字，所以不必担心函数名冲突；</li>
-<li>在Python中，借助lambda表达式构建匿名函数，关键字lambda表示匿名函数，冒号前面的变量名表示函数参数；</li>
-<li>匿名函数可以实现自调用（也就是自己调用自己）；</li>
-<li>如何简化匿名函数的代码；</li>
-</ul>
-<h4 id="5-高阶函数"><a href="#5-高阶函数" class="headerlink" title="5.高阶函数"></a><strong>5.高阶函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匿名函数在高阶函数中的使用</span></span><br><span class="line">y = [x <span class="keyword">for</span> x <span class="keyword">in</span> (<span class="keyword">lambda</span> *args: <span class="built_in">map</span>(<span class="keyword">lambda</span> x: x + <span class="number">10</span>, args))(*<span class="built_in">range</span>(<span class="number">10</span>))]</span><br><span class="line"><span class="built_in">print</span>(y)  <span class="comment">#输出：[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将上面的列表解析式进行拆分</span></span><br><span class="line">fn = <span class="keyword">lambda</span> x: x + <span class="number">10</span></span><br><span class="line">w = (<span class="keyword">lambda</span> *args: <span class="built_in">map</span>(fn, args))(*<span class="built_in">range</span>(<span class="number">10</span>))</span><br><span class="line">y = [x <span class="keyword">for</span> x <span class="keyword">in</span> w]</span><br><span class="line"><span class="built_in">print</span>(y)  <span class="comment">#输出：[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>高阶函数就是把函数当成参数传递的一种函数；</li>
-<li>现在的课程还没有讲到，以后的课程会系统讲解；</li>
-<li>需要特别注意一下匿名函数在高阶函数map( )函数中的使用场景；</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -881,6 +838,49 @@
       </tags>
   </entry>
   <entry>
+    <title>Python匿名函数与递归函数</title>
+    <url>/2017/10/24/Python%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%B8%8E%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h4 id="1-什么是递归函数"><a href="#1-什么是递归函数" class="headerlink" title="1.什么是递归函数"></a><strong>1.什么是递归函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> <span class="keyword">if</span> n &lt; <span class="number">2</span> <span class="keyword">else</span> fib(n-<span class="number">1</span>) + fib(n-<span class="number">2</span>)</span><br><span class="line">n = <span class="number">20</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="built_in">print</span>(fib(i), end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出：1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 </span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>调用自己本身的函数叫递归函数；<span id="more"></span></li>
+</ul>
+<h4 id="2-斐波那契数列"><a href="#2-斐波那契数列" class="headerlink" title="2.斐波那契数列"></a><strong>2.斐波那契数列</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pre = <span class="number">1</span></span><br><span class="line"><span class="built_in">next</span> = <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(pre, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">next</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    pre, <span class="built_in">next</span> = <span class="built_in">next</span>, pre+<span class="built_in">next</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出：1 1 2 3 5 8 13 21 34 55 89 144 </span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>类似：1, 1, 2, 3, 5, 8, 13, 21, 34, 55…..的一个数列；</li>
+<li>数列的前两项都是1，第三项开始，每一项都是前两项之和；</li>
+<li>F1 &#x3D; 1， F2 &#x3D; 1， F(n) &#x3D; F(n-1) + F(n-2), 且递归一定需要有结束条件；</li>
+</ul>
+<h4 id="3-递归函数的特性"><a href="#3-递归函数的特性" class="headerlink" title="3.递归函数的特性"></a><strong>3.递归函数的特性</strong></h4><ul>
+<li>递归一定需要有结束条件；</li>
+<li>每次进入更深一层递归时，问题规模比上一次递归都应有所减少；</li>
+<li>通常前一次递归的输出就作为后一次递归的输入；</li>
+<li>递归效率不高，递归层次过多会导致栈溢出；</li>
+</ul>
+<h4 id="4-匿名函数"><a href="#4-匿名函数" class="headerlink" title="4.匿名函数"></a><strong>4.匿名函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#定义匿名函数</span></span><br><span class="line">fn = <span class="keyword">lambda</span> x: x+<span class="number">1</span></span><br><span class="line">y = fn(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"><span class="comment"># 输出：4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#匿名函数自调用</span></span><br><span class="line">(<span class="keyword">lambda</span> x: <span class="built_in">print</span>(x+<span class="number">2</span>))(<span class="number">4</span>)</span><br><span class="line"><span class="comment">#输出：6</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>没有名字的函数就是匿名函数，并且因为匿名函数没有名字，所以不必担心函数名冲突；</li>
+<li>在Python中，借助lambda表达式构建匿名函数，关键字lambda表示匿名函数，冒号前面的变量名表示函数参数；</li>
+<li>匿名函数可以实现自调用（也就是自己调用自己）；</li>
+<li>如何简化匿名函数的代码；</li>
+</ul>
+<h4 id="5-高阶函数"><a href="#5-高阶函数" class="headerlink" title="5.高阶函数"></a><strong>5.高阶函数</strong></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 匿名函数在高阶函数中的使用</span></span><br><span class="line">y = [x <span class="keyword">for</span> x <span class="keyword">in</span> (<span class="keyword">lambda</span> *args: <span class="built_in">map</span>(<span class="keyword">lambda</span> x: x + <span class="number">10</span>, args))(*<span class="built_in">range</span>(<span class="number">10</span>))]</span><br><span class="line"><span class="built_in">print</span>(y)  <span class="comment">#输出：[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将上面的列表解析式进行拆分</span></span><br><span class="line">fn = <span class="keyword">lambda</span> x: x + <span class="number">10</span></span><br><span class="line">w = (<span class="keyword">lambda</span> *args: <span class="built_in">map</span>(fn, args))(*<span class="built_in">range</span>(<span class="number">10</span>))</span><br><span class="line">y = [x <span class="keyword">for</span> x <span class="keyword">in</span> w]</span><br><span class="line"><span class="built_in">print</span>(y)  <span class="comment">#输出：[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>高阶函数就是把函数当成参数传递的一种函数；</li>
+<li>现在的课程还没有讲到，以后的课程会系统讲解；</li>
+<li>需要特别注意一下匿名函数在高阶函数map( )函数中的使用场景；</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python学习路线分享实现快速排序算法</title>
     <url>/2018/11/24/Python%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E5%88%86%E4%BA%AB%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="Python学习路线分享实现快速排序算法"><a href="#Python学习路线分享实现快速排序算法" class="headerlink" title="Python学习路线分享实现快速排序算法"></a>Python学习路线分享实现快速排序算法</h1><p>　　好程序员Python学习路线分享实现快速排序算法快速排序算法是一种基于交换的高效的排序算法，由C.R.A.Hoare于1962年提出，是一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide and conquer algorithm)。</p>
@@ -902,49 +902,6 @@
       </categories>
       <tags>
         <tag>排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RBAC权限模型</title>
-    <url>/2019/11/19/RBAC%E6%9D%83%E9%99%90%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h3 id="RBAC–基于角色的权限管理系统"><a href="#RBAC–基于角色的权限管理系统" class="headerlink" title="RBAC–基于角色的权限管理系统"></a>RBAC–基于角色的权限管理系统</h3><p>优势:</p>
-<p>1.简化了用户和权限的关系</p>
-<p>2.易扩展，易于维护</p>
-<p>3.RBAC不用给用户单个分配权限，只用指向对应的角色就会有对应的权限，而且分配权限和收回权限都很方便</p>
-<p>组成部分：用户，角色，权限，用户角色关系，角色权限关系</p>
-<p>如下图所示</p>
-<span id="more"></span>
-<p><img src="https://img-blog.csdnimg.cn/20201104075112532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0sxMTYzMzE3NTE1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="相关对象及其关系"><a href="#相关对象及其关系" class="headerlink" title="相关对象及其关系:"></a>相关对象及其关系:</h3><p>1.<strong>权限</strong></p>
-<p>系统的所有权限信息。权限具有上下级关系，是一个树状的结构。</p>
-<p>系统管理</p>
-<p>​        用户管理</p>
-<p>​               查看用户</p>
-<p>​                新增用户</p>
-<p>​                     修改用户</p>
-<p>​                     删除用户</p>
-<p>  对于上面的每个权限，又存在两种情况，一个是只是可访问，另一种是可授权，例如对于“查看用户”这个权限，如果用户只被授予“可访问”，那么他就不能将他所具有的这个权限分配给其他人。 </p>
-<p>2.<strong>用户</strong></p>
-<p>应用系统的具体操作，用户可以自己拥有权限信息 、所属的各角色具有的权限、所属的各组具有的权限的合集。 </p>
-<p>3.<strong>角色</strong></p>
-<p>为了对许多拥有相似权限的用户进行分类管理，定义了角色的概念，例如系统管理员、管理员、用户等角色。角色具有上下级关系，可以形成树状视图，父级角色的权限是自身及它的所有子角色的权限的综合。父级角色的用户、父级角色的组同理可推。 </p>
-<p>4.<strong>组</strong></p>
-<p>为了更好地管理用户，对用户进行分组归类，简称为用户分组。组也具有上下级关系，可以形成树状视图。在实际情况中，我们知道，组也可以具有自己的角色信息、权限信息。这让我想到我们的QQ用户群，一个群可以有多个用户，一个用户也可以加入多个群。每个群具有自己的权限信息。例如查看群共享。QQ群也可以具有自己的角色信息，例如普通群、高级群等。</p>
-<h3 id="django-权限设计实例"><a href="#django-权限设计实例" class="headerlink" title="django 权限设计实例"></a>django 权限设计实例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment">#导入时间域</span></span><br><span class="line"><span class="keyword">from</span> django.utils <span class="keyword">import</span> timezone</span><br><span class="line"></span><br><span class="line"><span class="comment">#基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>(models.Model):</span><br><span class="line"></span><br><span class="line">	<span class="comment">#创建时间</span></span><br><span class="line">	create_time = models.DateTimeField(default=timezone.now,null=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 角色表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Role</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	rolename = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;role&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>(<span class="title class_ inherited__">Base</span>):</span><br><span class="line"></span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	username = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">	password = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">	phone = models.CharField(max_length=<span class="number">11</span>)</span><br><span class="line">	email = models.EmailField(max_length=<span class="number">55</span>)</span><br><span class="line">	ding_id = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">&#x27;钉钉ID&#x27;</span>,null=<span class="literal">True</span>)</span><br><span class="line">	gitee_id = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">&#x27;码云ID&#x27;</span>,null=<span class="literal">True</span>)</span><br><span class="line">	role_id = models.CharField(max_length=<span class="number">200</span>,null=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;user&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 节点表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	nodename = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;node&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 权限表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Access</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	role_id = models.ForeignKey(User, on_delete=models.CASCADE)</span><br><span class="line">	node_id = models.ForeignKey(Node,on_delete=models.CASCADE)</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;access&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="利用中间件或装饰器对请求进行合法拦截"><a href="#利用中间件或装饰器对请求进行合法拦截" class="headerlink" title="利用中间件或装饰器对请求进行合法拦截"></a>利用中间件或装饰器对请求进行合法拦截</h2><h4 id="首先在视图里自定义中间件"><a href="#首先在视图里自定义中间件" class="headerlink" title="首先在视图里自定义中间件"></a>首先在视图里自定义中间件</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在test_mongo里</span></span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_time</span>(<span class="params">role_id</span>):</span><br><span class="line">    mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>,port=<span class="number">27017</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 实例化对象</span></span><br><span class="line">    db = mongo_client.abac</span><br><span class="line">    table = db.myabac</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 查询某个角色组是否有属性权限的限制</span></span><br><span class="line">    res = table.find_one(&#123;<span class="string">&quot;role_id&quot;</span>:role_id&#125;)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(check_time(2)[&#x27;time&#x27;].split(&#x27;-&#x27;)[0])</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mydjango.test_mongo <span class="keyword">import</span> check_time</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        </span><br><span class="line">        url = request.META.get(<span class="string">&#x27;PATH_INFO&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(url)</span><br><span class="line">        token = request.META.get(<span class="string">&#x27;HTTP_JWT&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> url == <span class="string">&#x27;/user_view/&#x27;</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="built_in">id</span> = jwt.decode(token,settings.SECRET_KEY,algorithm=[<span class="string">&#x27;HS256&#x27;</span>])[<span class="string">&#x27;user_id&#x27;</span>]</span><br><span class="line">                r = get_access(<span class="built_in">id</span>)[<span class="number">0</span>]</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;r------&#x27;</span>,r)</span><br><span class="line">                <span class="keyword">if</span> r[<span class="string">&#x27;nodename&#x27;</span>] == <span class="string">&#x27;用户管理&#x27;</span>:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">                <span class="keyword">elif</span> r[<span class="string">&#x27;rolename&#x27;</span>] == <span class="string">&#x27;普通用户&#x27;</span>:</span><br><span class="line">                    res = check_time(role_id=<span class="number">2</span>)[<span class="string">&#x27;time&#x27;</span>].split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">                    <span class="built_in">print</span>(res)</span><br><span class="line">                    <span class="comment"># 当前时间</span></span><br><span class="line">                    n_time = time.localtime(time.time())</span><br><span class="line">                    d_time = time.strftime(<span class="string">&#x27;%H&#x27;</span>,n_time)</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">int</span>(res)&gt;<span class="built_in">int</span>(res[<span class="number">0</span>]) <span class="keyword">and</span> <span class="built_in">int</span>(d_time) &lt; <span class="built_in">int</span>(res[<span class="number">1</span>]) :</span><br><span class="line">                        <span class="keyword">pass</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;你没有权限访问在这个区段内&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;))</span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>:<span class="string">&#x27;你没有权限访问&#x27;</span>,<span class="string">&#x27;code&#x27;</span>:<span class="number">400</span>&#125;))</span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;错误信息为:&#x27;</span>,e)</span><br><span class="line">                <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;你没有权限访问&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_view</span>(<span class="params">self, request, view_func, view_args, view_kwargs</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_exception</span>(<span class="params">self, request, exception</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_response</span>(<span class="params">self, request, response</span>):</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="在setting中间件-MIDDLEWARE-里加入自定义的中间件"><a href="#在setting中间件-MIDDLEWARE-里加入自定义的中间件" class="headerlink" title="在setting中间件(MIDDLEWARE)里加入自定义的中间件"></a>在setting中间件(MIDDLEWARE)里加入自定义的中间件</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;corsheaders.middleware.CorsMiddleware&#x27;</span>, <span class="comment">#这里是新增的中间件</span></span><br><span class="line">    <span class="string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,</span><br><span class="line">    <span class="comment">#&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;,</span></span><br><span class="line">    <span class="string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,</span><br><span class="line">    <span class="comment">#加载自定义中间件   文件夹名.文件名.类名</span></span><br><span class="line">    <span class="string">&#x27;myapp.md_user.MyMiddleware&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<h4 id="此时再次运行项目-当用户进入首页-发现自己不能进行用户的增删改查-说明中间件已经生效-用户请求已经被拦截"><a href="#此时再次运行项目-当用户进入首页-发现自己不能进行用户的增删改查-说明中间件已经生效-用户请求已经被拦截" class="headerlink" title="此时再次运行项目,当用户进入首页,发现自己不能进行用户的增删改查,说明中间件已经生效,用户请求已经被拦截"></a>此时再次运行项目,当用户进入首页,发现自己不能进行用户的增删改查,说明中间件已经生效,用户请求已经被拦截</h4><h2 id="Mysql错误：-1054-Unknown-column-‘id’-in-‘field-list’-解决办法"><a href="#Mysql错误：-1054-Unknown-column-‘id’-in-‘field-list’-解决办法" class="headerlink" title="Mysql错误：#1054 - Unknown column ‘id’ in ‘field list’ 解决办法"></a>Mysql错误：#1054 - Unknown column ‘id’ in ‘field list’ 解决办法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">今天用mysql，在插入数据时，竟然报这样的错误，</span><br><span class="line"></span><br><span class="line">#1054 - Unknown column &#x27;id&#x27; in &#x27;field list&#x27;nown column &#x27;id&#x27; in &#x27;field list&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>看似字段id不存在于表中，于是找了好一会原因，结果是字段id前面多了一个空格，去掉空格就可以正常运行了。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1032,21 +989,40 @@
       </tags>
   </entry>
   <entry>
-    <title>base64图片展示</title>
-    <url>/2020/11/19/base64%E5%9B%BE%E7%89%87%E5%B1%95%E7%A4%BA/</url>
-    <content><![CDATA[<h1 id="base64图片展示（后端给base64数据，前端展示图片）"><a href="#base64图片展示（后端给base64数据，前端展示图片）" class="headerlink" title="base64图片展示（后端给base64数据，前端展示图片）"></a>base64图片展示（后端给base64数据，前端展示图片）</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">-- coding: utf-<span class="number">8</span> --</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;C:\Users\user\Desktop\20170508134213.png&quot;</span>,<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line"></span><br><span class="line">b64encode是编码，b64decode是解码</span><br><span class="line"></span><br><span class="line">    base64_data = base64.b64encode(f.read())</span><br><span class="line"></span><br><span class="line">base64.b64decode(base64data)</span><br><span class="line"> <span class="built_in">print</span>(base64_data)</span><br></pre></td></tr></table></figure>
+    <title>RBAC权限模型</title>
+    <url>/2019/11/19/RBAC%E6%9D%83%E9%99%90%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h3 id="RBAC–基于角色的权限管理系统"><a href="#RBAC–基于角色的权限管理系统" class="headerlink" title="RBAC–基于角色的权限管理系统"></a>RBAC–基于角色的权限管理系统</h3><p>优势:</p>
+<p>1.简化了用户和权限的关系</p>
+<p>2.易扩展，易于维护</p>
+<p>3.RBAC不用给用户单个分配权限，只用指向对应的角色就会有对应的权限，而且分配权限和收回权限都很方便</p>
+<p>组成部分：用户，角色，权限，用户角色关系，角色权限关系</p>
+<p>如下图所示</p>
 <span id="more"></span>
+<p><img src="https://img-blog.csdnimg.cn/20201104075112532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0sxMTYzMzE3NTE1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="相关对象及其关系"><a href="#相关对象及其关系" class="headerlink" title="相关对象及其关系:"></a>相关对象及其关系:</h3><p>1.<strong>权限</strong></p>
+<p>系统的所有权限信息。权限具有上下级关系，是一个树状的结构。</p>
+<p>系统管理</p>
+<p>​        用户管理</p>
+<p>​               查看用户</p>
+<p>​                新增用户</p>
+<p>​                     修改用户</p>
+<p>​                     删除用户</p>
+<p>  对于上面的每个权限，又存在两种情况，一个是只是可访问，另一种是可授权，例如对于“查看用户”这个权限，如果用户只被授予“可访问”，那么他就不能将他所具有的这个权限分配给其他人。 </p>
+<p>2.<strong>用户</strong></p>
+<p>应用系统的具体操作，用户可以自己拥有权限信息 、所属的各角色具有的权限、所属的各组具有的权限的合集。 </p>
+<p>3.<strong>角色</strong></p>
+<p>为了对许多拥有相似权限的用户进行分类管理，定义了角色的概念，例如系统管理员、管理员、用户等角色。角色具有上下级关系，可以形成树状视图，父级角色的权限是自身及它的所有子角色的权限的综合。父级角色的用户、父级角色的组同理可推。 </p>
+<p>4.<strong>组</strong></p>
+<p>为了更好地管理用户，对用户进行分组归类，简称为用户分组。组也具有上下级关系，可以形成树状视图。在实际情况中，我们知道，组也可以具有自己的角色信息、权限信息。这让我想到我们的QQ用户群，一个群可以有多个用户，一个用户也可以加入多个群。每个群具有自己的权限信息。例如查看群共享。QQ群也可以具有自己的角色信息，例如普通群、高级群等。</p>
+<h3 id="django-权限设计实例"><a href="#django-权限设计实例" class="headerlink" title="django 权限设计实例"></a>django 权限设计实例</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment">#导入时间域</span></span><br><span class="line"><span class="keyword">from</span> django.utils <span class="keyword">import</span> timezone</span><br><span class="line"></span><br><span class="line"><span class="comment">#基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>(models.Model):</span><br><span class="line"></span><br><span class="line">	<span class="comment">#创建时间</span></span><br><span class="line">	create_time = models.DateTimeField(default=timezone.now,null=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 角色表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Role</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	rolename = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;role&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">User</span>(<span class="title class_ inherited__">Base</span>):</span><br><span class="line"></span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	username = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">	password = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">	phone = models.CharField(max_length=<span class="number">11</span>)</span><br><span class="line">	email = models.EmailField(max_length=<span class="number">55</span>)</span><br><span class="line">	ding_id = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">&#x27;钉钉ID&#x27;</span>,null=<span class="literal">True</span>)</span><br><span class="line">	gitee_id = models.CharField(max_length=<span class="number">200</span>,verbose_name=<span class="string">&#x27;码云ID&#x27;</span>,null=<span class="literal">True</span>)</span><br><span class="line">	role_id = models.CharField(max_length=<span class="number">200</span>,null=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;user&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 节点表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	nodename = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;node&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 权限表</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Access</span>(models.Model):</span><br><span class="line">	<span class="built_in">id</span> = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">	role_id = models.ForeignKey(User, on_delete=models.CASCADE)</span><br><span class="line">	node_id = models.ForeignKey(Node,on_delete=models.CASCADE)</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Meta</span>:</span><br><span class="line">		db_table = <span class="string">&#x27;access&#x27;</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="利用中间件或装饰器对请求进行合法拦截"><a href="#利用中间件或装饰器对请求进行合法拦截" class="headerlink" title="利用中间件或装饰器对请求进行合法拦截"></a>利用中间件或装饰器对请求进行合法拦截</h2><h4 id="首先在视图里自定义中间件"><a href="#首先在视图里自定义中间件" class="headerlink" title="首先在视图里自定义中间件"></a>首先在视图里自定义中间件</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在test_mongo里</span></span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 链接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_time</span>(<span class="params">role_id</span>):</span><br><span class="line">    mongo_client = pymongo.MongoClient(host=<span class="string">&quot;localhost&quot;</span>,port=<span class="number">27017</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 实例化对象</span></span><br><span class="line">    db = mongo_client.abac</span><br><span class="line">    table = db.myabac</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 查询某个角色组是否有属性权限的限制</span></span><br><span class="line">    res = table.find_one(&#123;<span class="string">&quot;role_id&quot;</span>:role_id&#125;)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(check_time(2)[&#x27;time&#x27;].split(&#x27;-&#x27;)[0])</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mydjango.test_mongo <span class="keyword">import</span> check_time</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        </span><br><span class="line">        url = request.META.get(<span class="string">&#x27;PATH_INFO&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(url)</span><br><span class="line">        token = request.META.get(<span class="string">&#x27;HTTP_JWT&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> url == <span class="string">&#x27;/user_view/&#x27;</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="built_in">id</span> = jwt.decode(token,settings.SECRET_KEY,algorithm=[<span class="string">&#x27;HS256&#x27;</span>])[<span class="string">&#x27;user_id&#x27;</span>]</span><br><span class="line">                r = get_access(<span class="built_in">id</span>)[<span class="number">0</span>]</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;r------&#x27;</span>,r)</span><br><span class="line">                <span class="keyword">if</span> r[<span class="string">&#x27;nodename&#x27;</span>] == <span class="string">&#x27;用户管理&#x27;</span>:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">                <span class="keyword">elif</span> r[<span class="string">&#x27;rolename&#x27;</span>] == <span class="string">&#x27;普通用户&#x27;</span>:</span><br><span class="line">                    res = check_time(role_id=<span class="number">2</span>)[<span class="string">&#x27;time&#x27;</span>].split(<span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">                    <span class="built_in">print</span>(res)</span><br><span class="line">                    <span class="comment"># 当前时间</span></span><br><span class="line">                    n_time = time.localtime(time.time())</span><br><span class="line">                    d_time = time.strftime(<span class="string">&#x27;%H&#x27;</span>,n_time)</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">int</span>(res)&gt;<span class="built_in">int</span>(res[<span class="number">0</span>]) <span class="keyword">and</span> <span class="built_in">int</span>(d_time) &lt; <span class="built_in">int</span>(res[<span class="number">1</span>]) :</span><br><span class="line">                        <span class="keyword">pass</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;你没有权限访问在这个区段内&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;))</span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>:<span class="string">&#x27;你没有权限访问&#x27;</span>,<span class="string">&#x27;code&#x27;</span>:<span class="number">400</span>&#125;))</span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;错误信息为:&#x27;</span>,e)</span><br><span class="line">                <span class="keyword">return</span> HttpResponse(json.dumps(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;你没有权限访问&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_view</span>(<span class="params">self, request, view_func, view_args, view_kwargs</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_exception</span>(<span class="params">self, request, exception</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_response</span>(<span class="params">self, request, response</span>):</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>前端html中如何直接调用base64编码呢？</p>
-<p>使用</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;data:image/jpg;base64,这里是base64的编码&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="在setting中间件-MIDDLEWARE-里加入自定义的中间件"><a href="#在setting中间件-MIDDLEWARE-里加入自定义的中间件" class="headerlink" title="在setting中间件(MIDDLEWARE)里加入自定义的中间件"></a>在setting中间件(MIDDLEWARE)里加入自定义的中间件</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MIDDLEWARE = [</span><br><span class="line">    <span class="string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;corsheaders.middleware.CorsMiddleware&#x27;</span>, <span class="comment">#这里是新增的中间件</span></span><br><span class="line">    <span class="string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,</span><br><span class="line">    <span class="comment">#&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;,</span></span><br><span class="line">    <span class="string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,</span><br><span class="line">    <span class="comment">#加载自定义中间件   文件夹名.文件名.类名</span></span><br><span class="line">    <span class="string">&#x27;myapp.md_user.MyMiddleware&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
+<h4 id="此时再次运行项目-当用户进入首页-发现自己不能进行用户的增删改查-说明中间件已经生效-用户请求已经被拦截"><a href="#此时再次运行项目-当用户进入首页-发现自己不能进行用户的增删改查-说明中间件已经生效-用户请求已经被拦截" class="headerlink" title="此时再次运行项目,当用户进入首页,发现自己不能进行用户的增删改查,说明中间件已经生效,用户请求已经被拦截"></a>此时再次运行项目,当用户进入首页,发现自己不能进行用户的增删改查,说明中间件已经生效,用户请求已经被拦截</h4><h2 id="Mysql错误：-1054-Unknown-column-‘id’-in-‘field-list’-解决办法"><a href="#Mysql错误：-1054-Unknown-column-‘id’-in-‘field-list’-解决办法" class="headerlink" title="Mysql错误：#1054 - Unknown column ‘id’ in ‘field list’ 解决办法"></a>Mysql错误：#1054 - Unknown column ‘id’ in ‘field list’ 解决办法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">今天用mysql，在插入数据时，竟然报这样的错误，</span><br><span class="line"></span><br><span class="line">#1054 - Unknown column &#x27;id&#x27; in &#x27;field list&#x27;nown column &#x27;id&#x27; in &#x27;field list&#x27;</span><br></pre></td></tr></table></figure>
 
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line"></span><br><span class="line">   <span class="attr">data</span>: &#123;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> &#123;</span><br><span class="line"></span><br><span class="line">                 <span class="attr">imageData</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">   <span class="title function_">created</span>(<span class="params"></span>) &#123;&#125;,</span><br><span class="line"></span><br><span class="line">   <span class="attr">methods</span>:&#123;</span><br><span class="line"></span><br><span class="line">      <span class="title function_">imgShow</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">let</span> imageData = <span class="string">&#x27;data:image/png;base64,&#x27;</span> + resp.<span class="property">data</span>.<span class="title function_">imageByte</span>(后端传来数据)</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果base64位图片没有带前面的头：&#x27;data:image/png;base64,&#x27;，需要添加，才可以展示图片</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">   &#125;,</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="几种常见的格式"><a href="#几种常见的格式" class="headerlink" title="几种常见的格式"></a>几种常见的格式</h2><p>1.png格式：this.src &#x3D; ‘data:image&#x2F;png;base64,’ + this.baseImg （this.baseImg为base64编码的png图片数据） 2.jpeg格式：this.src &#x3D; ‘data:image&#x2F;jpeg;base64,’ + this.baseImg （this.baseImg为base64编码的jpeg图片数据） 3.gif格式 ： this.src &#x3D; ‘data:image&#x2F;gif;base64,’ + this.baseImg （this.baseImg为base64编码的gif图片数据） 4.pdf格式 ： this.src &#x3D; ‘data:application&#x2F;pdf;base64,${res}’ （res为base64编码的pdf图片数据） </p>
+<p>看似字段id不存在于表中，于是找了好一会原因，结果是字段id前面多了一个空格，去掉空格就可以正常运行了。</p>
 ]]></content>
       <categories>
         <category>智能高并发审批流系统</category>
@@ -1328,6 +1304,135 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>websocket实时推送通知</title>
+    <url>/2020/10/19/websocket%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81%E9%80%9A%E7%9F%A5/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在解释 WebSocket 之前，先来看个生活中的小例子。</p>
+<p>比如外汇股票，由多人组成的公司,上市就有股份，每人一个股份10块钱，随着公司盈利,股票升值，如果亏损，股票贬值,  股市中只能买张不能买跌,在股票交易时间内，股票的价格变化十分迅速，股票网站需要向正在浏览页面的用户实时更新股价 ,所以k线图每分钟都要绘制,用户可以根据k线图预测是涨还是跌，如果张就买入，跌就不买，我们要把每分钟的点连起来。</p>
+<span id="more"></span>
+<p>还有心电图,心电图每秒都要绘制,把每个点连起来，就形成了曲线图。</p>
+<p>websocket的特点是持久化链接，实时化，一次强链接，实时，主动推送数据,websocket前后端可以同时推送,而http是一次请求。websocket长连接不是一对一的。</p>
+<p>在我们发送请求时，要监控newtwork，网页newtwork中websocket304 200 意味着这次链接结束 500在这里表示成功，也意味着结束。websocket 101 表示链接成功。</p>
+<p>下面我们来完成一个websocket测试。</p>
+<h2 id="写一个websocket接口"><a href="#写一个websocket接口" class="headerlink" title="写一个websocket接口"></a>写一个websocket接口</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#webscoket接口</span></span><br><span class="line"></span><br><span class="line">clients = &#123;&#125;</span><br><span class="line"><span class="meta">@accept_websocket</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">webscoketlink</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.is_websocket():</span><br><span class="line">        token = request.GET.get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        userid = jwt.decode(token,settings.SECRET_KEY,algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----------------------------------------------------------------------userid&#x27;</span>,userid)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">            message = request.websocket.wait()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;webscoket链接成功&#x27;</span> + <span class="built_in">str</span>(message))   <span class="comment"># 也可以用format</span></span><br><span class="line"></span><br><span class="line">                clients[userid] = request.websocket</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> redis.get(userid):</span><br><span class="line">                    msg = redis.get(userid).decode()</span><br><span class="line">                    request.is_websocket.send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">                    redis.delete(userid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送消息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sendmessage</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取消息</span></span><br><span class="line">    msg = request.GET.get(<span class="string">&quot;msg&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> client <span class="keyword">in</span> clients:</span><br><span class="line">        clients[client].send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;OK&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这里不需要return,我们平时写接口return表示结束返回数据,断开连接,而websocket不用断开连接，但是没有网也不行，偶尔网络波动,连上网之后，它可以立刻连上，有持久化可能性，继续回去找userid,而http断开之后，回去不找userid。</p>
+<h2 id="前端如何操作"><a href="#前端如何操作" class="headerlink" title="前端如何操作"></a>前端如何操作</h2><p>在home首页实现长连接，可以实时通知用户，每个网页写入组件，在页面加载之前连接websocket,判断浏览器是否支持websocket。为什么有的响应在前端打印，有的在后端打印,我们的链接的请求或关闭，不需要让客户知道，只要在后台默默的操作就好了，可是如果审核通过或者拒绝就需要让客户知道。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mounted</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    判断浏览器是否支持webscoket</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="variable language_">window</span>)&#123;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;支持&#x27;</span>);</span><br><span class="line">      <span class="keyword">var</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&quot;ws://localhost:8000/webscoketlink/&quot;</span>)</span><br><span class="line"></span><br><span class="line">      ws.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        ws.<span class="title function_">send</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">              </span><br><span class="line">          <span class="comment">//发送消息</span></span><br><span class="line">          ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">evt</span>)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//将获取信息打印 那个是提示 通知提醒</span></span><br><span class="line">      <span class="keyword">var</span> received_msg = evt.<span class="property">data</span></span><br><span class="line"></span><br><span class="line">      <span class="title function_">alert</span>(received_msg);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//捕获关闭链接</span></span><br><span class="line">        ws.<span class="property">onclose</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;链接已经关闭&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>所有的实时通信都是基于websocket。</p>
+<p>这块我们为什么用http协议，因为这是一个接收消息的接口，请求这个接口，然后去调用websocket然后返回给前端。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">path(<span class="string">&#x27;webscoketlink/&#x27;</span>, webscoketlink),</span><br><span class="line">  path(<span class="string">&#x27;sendmessage/&#x27;</span>, sendmessage),</span><br></pre></td></tr></table></figure>
+
+<p>然后重启项目，状态码101 请求连接成功。</p>
+<h4 id="我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"><a href="#我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。" class="headerlink" title="我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"></a>我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。</h4><ul>
+<li>如果申请人在线（客户端与服务器正常链接）直接将消息推送即可。如果不在线（客户端与服务端没有链接）将数据在redis中以集合类型储存</li>
+</ul>
+<ul>
+<li><p>当每个用户首次与服务端链接时首先判断该用户在redis中有没有数据，如果有数据，直接遍历发送，客户端以弹窗形式提醒用户</p>
+<blockquote>
+<p>使用redis时需要注意：用这种消息推送，只需要用户作为键，不需要别的数据作为标识。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="十种方式拼接Python字符串"><a href="#十种方式拼接Python字符串" class="headerlink" title="十种方式拼接Python字符串"></a>十种方式拼接Python字符串</h2><p>字符串是所有编程语言中都有的基本变量的类型，程序员基本每天都在和字符串打交道。 </p>
+<p>本篇文章的最后我们一起细数Python中的各种字符串拼接方法。每种字符串拼接方式的使用场景各不相同，我们可以在开发过程中灵活运用。</p>
+<p><strong>一、用逗号，拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_a = <span class="string">&#x27;python&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>, str_a, <span class="string">&#x27;!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">hello python !</span><br></pre></td></tr></table></figure>
+
+<p>用逗号拼接的结果中，相邻的两个字符串之间会有空格。</p>
+<p><strong>二、空格自动拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_b = <span class="string">&#x27;It is summer &#x27;</span> <span class="string">&#x27;of 2019!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_b)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">It <span class="keyword">is</span> summer of <span class="number">2019</span>!</span><br></pre></td></tr></table></figure>
+
+<p>空格自动拼接后，两个字符串之间的空格不会保留，两个字符串会直接连在一起，不能通过多个变量名来拼接。</p>
+<p><strong>三、多行字符串自动拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_c = <span class="string">&#x27;Love makes &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;man grow up &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;or sink down!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_c)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Love makes man grow up <span class="keyword">or</span> sink down!</span><br></pre></td></tr></table></figure>
+
+<p>多行字符串之间会有反斜杠\作为连接，自动拼接后，多行字符串会直接连在一起，中间没有空格，不能通过多个变量名来拼接。</p>
+<p>所以我们在编程中，一行写不完的字符串可以换行，最后的结果是一样的。</p>
+<p><strong>四、通过加号+拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_d = <span class="string">&#x27;string&#x27;</span></span><br><span class="line"></span><br><span class="line">str_e = <span class="string">&#x27;demo&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_d + str_e)</span><br><span class="line"></span><br><span class="line">str_e += str_d</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_e)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">stringdemo</span><br><span class="line"></span><br><span class="line">demostring</span><br></pre></td></tr></table></figure>
+
+<p>加号拼接的结果也是两个字符串直接拼接在一起，中间没有空格。</p>
+<p><strong>五、通过乘法*进行拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_f = <span class="string">&#x27;a-&#x27;</span> * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_f)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a-a-a-a-a-a-a-a-a-a-</span><br></pre></td></tr></table></figure>
+
+<p>Python中一个字符串与整数相乘的结果为字符串拼接整数次。</p>
+<p><strong>六、字符串格式化操作符%拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_g = <span class="string">&#x27;aaaaaaaaaaaa%saaaaaaaaa&#x27;</span> % <span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_g)</span><br><span class="line"></span><br><span class="line">str_h = <span class="string">&#x27;aaaaaaaaaaaa%06daaaaaaaaa&#x27;</span> % <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_h)</span><br><span class="line"></span><br><span class="line">str_i = <span class="string">&#x27;aaaaaaaaaaaa%.03faaaaaaaaa&#x27;</span> % <span class="number">0.77</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_i)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aaaaaaaaaaaaAaaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa000010aaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa0<span class="number">.770</span>aaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+<p>%s,%d,%f的作用是占位作用，然后在字符串后面跟一个%，再在后面写拼到占位位置的内容。</p>
+<p>%s:将一个字符串拼接到前面的字符串中</p>
+<p>%d:将一个整型数字转换成字符串拼接到前面的字符串中，可以设置整数的位数，前面补0</p>
+<p>%f:将一个浮点型数字转换成字符串拼接到前面的字符串中，可以设置小数点后的位数，后面补0</p>
+<p><strong>七、通过str.format()方法拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_j = <span class="string">&#x27;python &#123;&#125;! format &#123;&#125;!&#x27;</span>.<span class="built_in">format</span>(<span class="number">666</span>, <span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_j)</span><br><span class="line"></span><br><span class="line">str_k = <span class="string">&#x27;生如夏花之&#123;a&#125;，死如秋叶之&#123;b&#125;！&#x27;</span>.<span class="built_in">format</span>(b=<span class="string">&#x27;静美&#x27;</span>, a=<span class="string">&#x27;绚烂&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_k)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python <span class="number">666</span>! <span class="built_in">format</span> <span class="number">999</span>!</span><br><span class="line"></span><br><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br></pre></td></tr></table></figure>
+
+<p><strong>format()方法可以说是最通用（基本是万能的）的拼接方法了，不管后面拼接的数据是字符串还是数字，甚至元组、列表、字典、集合等数据类型，format统统都可以拼接到字符串中。</strong></p>
+<p>在要拼接的字符串中使用大括号{}来给拼接内容占位，后面按顺序依次传入对应的内容即可，也可以给每个占位的{}起一个变量名，然后通过关键字参数传递给format().</p>
+<p><strong>八、通过str.join()方法拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list_l = [<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>]</span><br><span class="line"></span><br><span class="line">str_l = <span class="string">&#x27;&#x27;</span>.join(list_l)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_l)</span><br><span class="line"></span><br><span class="line">tuple_m = (<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_m = <span class="string">&#x27;-&#x27;</span>.join(tuple_m)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_m)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br><span class="line"></span><br><span class="line">生-如-夏-花-之-绚-烂-，-死-如-秋-叶-之-静-美-！</span><br></pre></td></tr></table></figure>
+
+<p>str.join()最常用来将一个列表内的字符串拼接成一个大的字符串，列表中的每个元素都需要是字符串类型。</p>
+<p>前面的str是拼接时用于连接的字符串，列表的每两个元素之间使用str来连接。</p>
+<p><strong>九、通过string模块中的Template对象拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">t = Template(<span class="string">&#x27;$&#123;s1&#125; $&#123;s2&#125;!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_n = t.safe_substitute(s1=<span class="string">&#x27;Hello&#x27;</span>, s2=<span class="string">&#x27;Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_n)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Hello Python!</span><br></pre></td></tr></table></figure>
+
+<p>Template的实现方式是首先通过Template初始化一个字符串对象t，在创建对象t时，在字符串中使用 <strong>${变量名}</strong> 的方式来给拼接内容占位。</p>
+<p>也可以省略{}，直接 <strong>$变量名，</strong>只是没有{}时变量名后面一定要有空格，且可读性不如有{}的好。</p>
+<p>通过调用t对象的substitute或safe_subsititute方法，将拼接内容通过关键字参数的方式依次传递进去，实现在指定的位置拼接字符串。</p>
+<p>这种方法与上面的format()方法一样，不管传入的拼接内容是什么数据类型，统统都可以拼接。</p>
+<p><strong>十、通过F-strings拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">o = <span class="number">6666666666</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">7777777777</span></span><br><span class="line"></span><br><span class="line">str_o = <span class="string">f&#x27;Python <span class="subst">&#123;o&#125;</span> hello <span class="subst">&#123;p&#125;</span> !&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_o)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Python <span class="number">6666666666</span> hello <span class="number">7777777777</span> !</span><br></pre></td></tr></table></figure>
+
+<p>在Python3.6版本中，提出了一种新型字符串格式化机制，被称为“字符串插值”或者<strong>F-strings，</strong>F-strings提供了一种明确且方便的方式将python表达式嵌入到字符串中来进行格式化。而且F-strings的运行速度很快，比%和format()这两种格式化方法都快得多。</p>
+<p>上面的代码中直接在f后面跟字符串，然后在字符串中用{}传入拼接内容。</p>
+<p>厉害的是，在F-strings中我们可以执行函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_string</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>.upper()</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;a k q j 10&#x27;</span></span><br><span class="line"></span><br><span class="line">str_p = <span class="string">f&#x27;顺子! <span class="subst">&#123;add_string(<span class="built_in">str</span>)&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_p)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">顺子! A K Q J 10</span><br></pre></td></tr></table></figure>
+
+<p>将函数传入{}中，最后拼接到字符串中的内容是函数执行的结果！</p>
+<p>现在我们已经细数了十种Python字符串的拼接方式，希望您可以在使用中融会贯通，灵活运用。</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
   <entry>
@@ -2303,6 +2408,30 @@
       </tags>
   </entry>
   <entry>
+    <title>base64图片展示</title>
+    <url>/2020/11/19/base64%E5%9B%BE%E7%89%87%E5%B1%95%E7%A4%BA/</url>
+    <content><![CDATA[<h1 id="base64图片展示（后端给base64数据，前端展示图片）"><a href="#base64图片展示（后端给base64数据，前端展示图片）" class="headerlink" title="base64图片展示（后端给base64数据，前端展示图片）"></a>base64图片展示（后端给base64数据，前端展示图片）</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">-- coding: utf-<span class="number">8</span> --</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;C:\Users\user\Desktop\20170508134213.png&quot;</span>,<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line"></span><br><span class="line">b64encode是编码，b64decode是解码</span><br><span class="line"></span><br><span class="line">    base64_data = base64.b64encode(f.read())</span><br><span class="line"></span><br><span class="line">base64.b64decode(base64data)</span><br><span class="line"> <span class="built_in">print</span>(base64_data)</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+
+<p>前端html中如何直接调用base64编码呢？</p>
+<p>使用</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;data:image/jpg;base64,这里是base64的编码&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line"></span><br><span class="line">   <span class="attr">data</span>: &#123;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> &#123;</span><br><span class="line"></span><br><span class="line">                 <span class="attr">imageData</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">   <span class="title function_">created</span>(<span class="params"></span>) &#123;&#125;,</span><br><span class="line"></span><br><span class="line">   <span class="attr">methods</span>:&#123;</span><br><span class="line"></span><br><span class="line">      <span class="title function_">imgShow</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">let</span> imageData = <span class="string">&#x27;data:image/png;base64,&#x27;</span> + resp.<span class="property">data</span>.<span class="title function_">imageByte</span>(后端传来数据)</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果base64位图片没有带前面的头：&#x27;data:image/png;base64,&#x27;，需要添加，才可以展示图片</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">   &#125;,</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="几种常见的格式"><a href="#几种常见的格式" class="headerlink" title="几种常见的格式"></a>几种常见的格式</h2><p>1.png格式：this.src &#x3D; ‘data:image&#x2F;png;base64,’ + this.baseImg （this.baseImg为base64编码的png图片数据） 2.jpeg格式：this.src &#x3D; ‘data:image&#x2F;jpeg;base64,’ + this.baseImg （this.baseImg为base64编码的jpeg图片数据） 3.gif格式 ： this.src &#x3D; ‘data:image&#x2F;gif;base64,’ + this.baseImg （this.baseImg为base64编码的gif图片数据） 4.pdf格式 ： this.src &#x3D; ‘data:application&#x2F;pdf;base64,${res}’ （res为base64编码的pdf图片数据） </p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>消息盒子</title>
     <url>/2020/11/19/%E6%B6%88%E6%81%AF%E7%9B%92%E5%AD%90/</url>
     <content><![CDATA[<h1 id="redis的基本操作"><a href="#redis的基本操作" class="headerlink" title="redis的基本操作"></a>redis的基本操作</h1><ul>
@@ -2692,19 +2821,6 @@
       </tags>
   </entry>
   <entry>
-    <title>移除元素</title>
-    <url>/2023/10/19/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<h3 id="给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。"><a href="#给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。" class="headerlink" title="给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。"></a>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</h3><h3 id="不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。"><a href="#不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。" class="headerlink" title="不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。"></a>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</h3><h3 id="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"><a href="#元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。" class="headerlink" title="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"></a>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</h3><h3 id="如下解法-执行时间12ms。"><a href="#如下解法-执行时间12ms。" class="headerlink" title="如下解法,执行时间12ms。"></a>如下解法,执行时间12ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">removeElement</span>(<span class="params">self, nums, val</span>):</span><br><span class="line">        <span class="keyword">while</span> (val <span class="keyword">in</span> nums):</span><br><span class="line">            nums.remove(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>皮肤知识</title>
     <url>/2021/10/14/%E7%9A%AE%E8%82%A4%E7%9F%A5%E8%AF%86/</url>
     <content><![CDATA[<h1 id="皮肤知识"><a href="#皮肤知识" class="headerlink" title="皮肤知识"></a>皮肤知识</h1><h4 id="皮肤结构由外到内："><a href="#皮肤结构由外到内：" class="headerlink" title="皮肤结构由外到内："></a>皮肤结构由外到内：</h4><p>表皮层、真皮层、皮下组织层，以及皮肤附属器：毛发、汗腺、皮脂腺</p>
@@ -2844,6 +2960,19 @@
     <title>罗马数字转整数</title>
     <url>/2023/10/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/</url>
     <content><![CDATA[<h3 id="罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。"><a href="#罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。" class="headerlink" title="罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。"></a>罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。</h3><h3 id="字符-数值"><a href="#字符-数值" class="headerlink" title="字符          数值"></a>字符          数值</h3><h3 id="I-1"><a href="#I-1" class="headerlink" title="I             1"></a>I             1</h3><h3 id="V-5"><a href="#V-5" class="headerlink" title="V             5"></a>V             5</h3><h3 id="X-10"><a href="#X-10" class="headerlink" title="X             10"></a>X             10</h3><h3 id="L-50"><a href="#L-50" class="headerlink" title="L             50"></a>L             50</h3><h3 id="C-100"><a href="#C-100" class="headerlink" title="C             100"></a>C             100</h3><h3 id="D-500"><a href="#D-500" class="headerlink" title="D             500"></a>D             500</h3><h3 id="M-1000"><a href="#M-1000" class="headerlink" title="M             1000"></a>M             1000</h3><h3 id="例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。"><a href="#例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。" class="headerlink" title="例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。"></a>例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。</h3><h3 id="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况："><a href="#通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况：" class="headerlink" title="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况："></a>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：</h3><h3 id="I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。"><a href="#I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。" class="headerlink" title="I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。"></a>I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。</h3><h3 id="X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。"><a href="#X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。" class="headerlink" title="X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。"></a>X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。</h3><h3 id="C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。"><a href="#C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。" class="headerlink" title="C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。"></a>C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。</h3><h3 id="给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。"><a href="#给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。" class="headerlink" title="给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。"></a>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</h3><h3 id="python解法-执行用时44ms。"><a href="#python解法-执行用时44ms。" class="headerlink" title="python解法,执行用时44ms。"></a>python解法,执行用时44ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;IV&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;IX&#x27;</span>,<span class="string">&#x27;W&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XL&#x27;</span>,<span class="string">&#x27;E&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XC&#x27;</span>,<span class="string">&#x27;R&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CM&#x27;</span>,<span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CD&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        keys = &#123;</span><br><span class="line">            <span class="string">&#x27;Q&#x27;</span>:<span class="number">4</span>,</span><br><span class="line">            <span class="string">&#x27;W&#x27;</span>:<span class="number">9</span>,</span><br><span class="line">            <span class="string">&#x27;E&#x27;</span>:<span class="number">40</span>,</span><br><span class="line">            <span class="string">&#x27;R&#x27;</span>:<span class="number">90</span>,</span><br><span class="line">            <span class="string">&#x27;T&#x27;</span>:<span class="number">900</span>,</span><br><span class="line">            <span class="string">&#x27;Y&#x27;</span>:<span class="number">400</span>,</span><br><span class="line">            <span class="string">&#x27;I&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">            <span class="string">&#x27;V&#x27;</span>:<span class="number">5</span>,</span><br><span class="line">            <span class="string">&#x27;X&#x27;</span>:<span class="number">10</span>,</span><br><span class="line">            <span class="string">&#x27;L&#x27;</span>:<span class="number">50</span>,</span><br><span class="line">            <span class="string">&#x27;C&#x27;</span>:<span class="number">100</span>,</span><br><span class="line">            <span class="string">&#x27;D&#x27;</span>:<span class="number">500</span>,</span><br><span class="line">            <span class="string">&#x27;M&#x27;</span>:<span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            ans += keys[ch]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移除元素</title>
+    <url>/2023/10/19/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<h3 id="给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。"><a href="#给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。" class="headerlink" title="给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。"></a>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</h3><h3 id="不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。"><a href="#不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。" class="headerlink" title="不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。"></a>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</h3><h3 id="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"><a href="#元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。" class="headerlink" title="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"></a>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</h3><h3 id="如下解法-执行时间12ms。"><a href="#如下解法-执行时间12ms。" class="headerlink" title="如下解法,执行时间12ms。"></a>如下解法,执行时间12ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">removeElement</span>(<span class="params">self, nums, val</span>):</span><br><span class="line">        <span class="keyword">while</span> (val <span class="keyword">in</span> nums):</span><br><span class="line">            nums.remove(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -3293,135 +3422,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>websocket实时推送通知</title>
-    <url>/2020/10/19/websocket%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81%E9%80%9A%E7%9F%A5/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在解释 WebSocket 之前，先来看个生活中的小例子。</p>
-<p>比如外汇股票，由多人组成的公司,上市就有股份，每人一个股份10块钱，随着公司盈利,股票升值，如果亏损，股票贬值,  股市中只能买张不能买跌,在股票交易时间内，股票的价格变化十分迅速，股票网站需要向正在浏览页面的用户实时更新股价 ,所以k线图每分钟都要绘制,用户可以根据k线图预测是涨还是跌，如果张就买入，跌就不买，我们要把每分钟的点连起来。</p>
-<span id="more"></span>
-<p>还有心电图,心电图每秒都要绘制,把每个点连起来，就形成了曲线图。</p>
-<p>websocket的特点是持久化链接，实时化，一次强链接，实时，主动推送数据,websocket前后端可以同时推送,而http是一次请求。websocket长连接不是一对一的。</p>
-<p>在我们发送请求时，要监控newtwork，网页newtwork中websocket304 200 意味着这次链接结束 500在这里表示成功，也意味着结束。websocket 101 表示链接成功。</p>
-<p>下面我们来完成一个websocket测试。</p>
-<h2 id="写一个websocket接口"><a href="#写一个websocket接口" class="headerlink" title="写一个websocket接口"></a>写一个websocket接口</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#webscoket接口</span></span><br><span class="line"></span><br><span class="line">clients = &#123;&#125;</span><br><span class="line"><span class="meta">@accept_websocket</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">webscoketlink</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.is_websocket():</span><br><span class="line">        token = request.GET.get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        userid = jwt.decode(token,settings.SECRET_KEY,algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----------------------------------------------------------------------userid&#x27;</span>,userid)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">            message = request.websocket.wait()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;webscoket链接成功&#x27;</span> + <span class="built_in">str</span>(message))   <span class="comment"># 也可以用format</span></span><br><span class="line"></span><br><span class="line">                clients[userid] = request.websocket</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> redis.get(userid):</span><br><span class="line">                    msg = redis.get(userid).decode()</span><br><span class="line">                    request.is_websocket.send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">                    redis.delete(userid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送消息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sendmessage</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取消息</span></span><br><span class="line">    msg = request.GET.get(<span class="string">&quot;msg&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> client <span class="keyword">in</span> clients:</span><br><span class="line">        clients[client].send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;OK&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在这里不需要return,我们平时写接口return表示结束返回数据,断开连接,而websocket不用断开连接，但是没有网也不行，偶尔网络波动,连上网之后，它可以立刻连上，有持久化可能性，继续回去找userid,而http断开之后，回去不找userid。</p>
-<h2 id="前端如何操作"><a href="#前端如何操作" class="headerlink" title="前端如何操作"></a>前端如何操作</h2><p>在home首页实现长连接，可以实时通知用户，每个网页写入组件，在页面加载之前连接websocket,判断浏览器是否支持websocket。为什么有的响应在前端打印，有的在后端打印,我们的链接的请求或关闭，不需要让客户知道，只要在后台默默的操作就好了，可是如果审核通过或者拒绝就需要让客户知道。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mounted</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    判断浏览器是否支持webscoket</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="variable language_">window</span>)&#123;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;支持&#x27;</span>);</span><br><span class="line">      <span class="keyword">var</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&quot;ws://localhost:8000/webscoketlink/&quot;</span>)</span><br><span class="line"></span><br><span class="line">      ws.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        ws.<span class="title function_">send</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">              </span><br><span class="line">          <span class="comment">//发送消息</span></span><br><span class="line">          ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">evt</span>)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//将获取信息打印 那个是提示 通知提醒</span></span><br><span class="line">      <span class="keyword">var</span> received_msg = evt.<span class="property">data</span></span><br><span class="line"></span><br><span class="line">      <span class="title function_">alert</span>(received_msg);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//捕获关闭链接</span></span><br><span class="line">        ws.<span class="property">onclose</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;链接已经关闭&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>所有的实时通信都是基于websocket。</p>
-<p>这块我们为什么用http协议，因为这是一个接收消息的接口，请求这个接口，然后去调用websocket然后返回给前端。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">path(<span class="string">&#x27;webscoketlink/&#x27;</span>, webscoketlink),</span><br><span class="line">  path(<span class="string">&#x27;sendmessage/&#x27;</span>, sendmessage),</span><br></pre></td></tr></table></figure>
-
-<p>然后重启项目，状态码101 请求连接成功。</p>
-<h4 id="我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"><a href="#我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。" class="headerlink" title="我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"></a>我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。</h4><ul>
-<li>如果申请人在线（客户端与服务器正常链接）直接将消息推送即可。如果不在线（客户端与服务端没有链接）将数据在redis中以集合类型储存</li>
-</ul>
-<ul>
-<li><p>当每个用户首次与服务端链接时首先判断该用户在redis中有没有数据，如果有数据，直接遍历发送，客户端以弹窗形式提醒用户</p>
-<blockquote>
-<p>使用redis时需要注意：用这种消息推送，只需要用户作为键，不需要别的数据作为标识。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="十种方式拼接Python字符串"><a href="#十种方式拼接Python字符串" class="headerlink" title="十种方式拼接Python字符串"></a>十种方式拼接Python字符串</h2><p>字符串是所有编程语言中都有的基本变量的类型，程序员基本每天都在和字符串打交道。 </p>
-<p>本篇文章的最后我们一起细数Python中的各种字符串拼接方法。每种字符串拼接方式的使用场景各不相同，我们可以在开发过程中灵活运用。</p>
-<p><strong>一、用逗号，拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_a = <span class="string">&#x27;python&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>, str_a, <span class="string">&#x27;!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">hello python !</span><br></pre></td></tr></table></figure>
-
-<p>用逗号拼接的结果中，相邻的两个字符串之间会有空格。</p>
-<p><strong>二、空格自动拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_b = <span class="string">&#x27;It is summer &#x27;</span> <span class="string">&#x27;of 2019!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_b)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">It <span class="keyword">is</span> summer of <span class="number">2019</span>!</span><br></pre></td></tr></table></figure>
-
-<p>空格自动拼接后，两个字符串之间的空格不会保留，两个字符串会直接连在一起，不能通过多个变量名来拼接。</p>
-<p><strong>三、多行字符串自动拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_c = <span class="string">&#x27;Love makes &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;man grow up &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;or sink down!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_c)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Love makes man grow up <span class="keyword">or</span> sink down!</span><br></pre></td></tr></table></figure>
-
-<p>多行字符串之间会有反斜杠\作为连接，自动拼接后，多行字符串会直接连在一起，中间没有空格，不能通过多个变量名来拼接。</p>
-<p>所以我们在编程中，一行写不完的字符串可以换行，最后的结果是一样的。</p>
-<p><strong>四、通过加号+拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_d = <span class="string">&#x27;string&#x27;</span></span><br><span class="line"></span><br><span class="line">str_e = <span class="string">&#x27;demo&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_d + str_e)</span><br><span class="line"></span><br><span class="line">str_e += str_d</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_e)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">stringdemo</span><br><span class="line"></span><br><span class="line">demostring</span><br></pre></td></tr></table></figure>
-
-<p>加号拼接的结果也是两个字符串直接拼接在一起，中间没有空格。</p>
-<p><strong>五、通过乘法*进行拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_f = <span class="string">&#x27;a-&#x27;</span> * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_f)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a-a-a-a-a-a-a-a-a-a-</span><br></pre></td></tr></table></figure>
-
-<p>Python中一个字符串与整数相乘的结果为字符串拼接整数次。</p>
-<p><strong>六、字符串格式化操作符%拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_g = <span class="string">&#x27;aaaaaaaaaaaa%saaaaaaaaa&#x27;</span> % <span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_g)</span><br><span class="line"></span><br><span class="line">str_h = <span class="string">&#x27;aaaaaaaaaaaa%06daaaaaaaaa&#x27;</span> % <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_h)</span><br><span class="line"></span><br><span class="line">str_i = <span class="string">&#x27;aaaaaaaaaaaa%.03faaaaaaaaa&#x27;</span> % <span class="number">0.77</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_i)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aaaaaaaaaaaaAaaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa000010aaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa0<span class="number">.770</span>aaaaaaaaa</span><br></pre></td></tr></table></figure>
-
-<p>%s,%d,%f的作用是占位作用，然后在字符串后面跟一个%，再在后面写拼到占位位置的内容。</p>
-<p>%s:将一个字符串拼接到前面的字符串中</p>
-<p>%d:将一个整型数字转换成字符串拼接到前面的字符串中，可以设置整数的位数，前面补0</p>
-<p>%f:将一个浮点型数字转换成字符串拼接到前面的字符串中，可以设置小数点后的位数，后面补0</p>
-<p><strong>七、通过str.format()方法拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_j = <span class="string">&#x27;python &#123;&#125;! format &#123;&#125;!&#x27;</span>.<span class="built_in">format</span>(<span class="number">666</span>, <span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_j)</span><br><span class="line"></span><br><span class="line">str_k = <span class="string">&#x27;生如夏花之&#123;a&#125;，死如秋叶之&#123;b&#125;！&#x27;</span>.<span class="built_in">format</span>(b=<span class="string">&#x27;静美&#x27;</span>, a=<span class="string">&#x27;绚烂&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_k)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python <span class="number">666</span>! <span class="built_in">format</span> <span class="number">999</span>!</span><br><span class="line"></span><br><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br></pre></td></tr></table></figure>
-
-<p><strong>format()方法可以说是最通用（基本是万能的）的拼接方法了，不管后面拼接的数据是字符串还是数字，甚至元组、列表、字典、集合等数据类型，format统统都可以拼接到字符串中。</strong></p>
-<p>在要拼接的字符串中使用大括号{}来给拼接内容占位，后面按顺序依次传入对应的内容即可，也可以给每个占位的{}起一个变量名，然后通过关键字参数传递给format().</p>
-<p><strong>八、通过str.join()方法拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list_l = [<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>]</span><br><span class="line"></span><br><span class="line">str_l = <span class="string">&#x27;&#x27;</span>.join(list_l)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_l)</span><br><span class="line"></span><br><span class="line">tuple_m = (<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_m = <span class="string">&#x27;-&#x27;</span>.join(tuple_m)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_m)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br><span class="line"></span><br><span class="line">生-如-夏-花-之-绚-烂-，-死-如-秋-叶-之-静-美-！</span><br></pre></td></tr></table></figure>
-
-<p>str.join()最常用来将一个列表内的字符串拼接成一个大的字符串，列表中的每个元素都需要是字符串类型。</p>
-<p>前面的str是拼接时用于连接的字符串，列表的每两个元素之间使用str来连接。</p>
-<p><strong>九、通过string模块中的Template对象拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">t = Template(<span class="string">&#x27;$&#123;s1&#125; $&#123;s2&#125;!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_n = t.safe_substitute(s1=<span class="string">&#x27;Hello&#x27;</span>, s2=<span class="string">&#x27;Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_n)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Hello Python!</span><br></pre></td></tr></table></figure>
-
-<p>Template的实现方式是首先通过Template初始化一个字符串对象t，在创建对象t时，在字符串中使用 <strong>${变量名}</strong> 的方式来给拼接内容占位。</p>
-<p>也可以省略{}，直接 <strong>$变量名，</strong>只是没有{}时变量名后面一定要有空格，且可读性不如有{}的好。</p>
-<p>通过调用t对象的substitute或safe_subsititute方法，将拼接内容通过关键字参数的方式依次传递进去，实现在指定的位置拼接字符串。</p>
-<p>这种方法与上面的format()方法一样，不管传入的拼接内容是什么数据类型，统统都可以拼接。</p>
-<p><strong>十、通过F-strings拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">o = <span class="number">6666666666</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">7777777777</span></span><br><span class="line"></span><br><span class="line">str_o = <span class="string">f&#x27;Python <span class="subst">&#123;o&#125;</span> hello <span class="subst">&#123;p&#125;</span> !&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_o)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Python <span class="number">6666666666</span> hello <span class="number">7777777777</span> !</span><br></pre></td></tr></table></figure>
-
-<p>在Python3.6版本中，提出了一种新型字符串格式化机制，被称为“字符串插值”或者<strong>F-strings，</strong>F-strings提供了一种明确且方便的方式将python表达式嵌入到字符串中来进行格式化。而且F-strings的运行速度很快，比%和format()这两种格式化方法都快得多。</p>
-<p>上面的代码中直接在f后面跟字符串，然后在字符串中用{}传入拼接内容。</p>
-<p>厉害的是，在F-strings中我们可以执行函数：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_string</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>.upper()</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;a k q j 10&#x27;</span></span><br><span class="line"></span><br><span class="line">str_p = <span class="string">f&#x27;顺子! <span class="subst">&#123;add_string(<span class="built_in">str</span>)&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_p)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">顺子! A K Q J 10</span><br></pre></td></tr></table></figure>
-
-<p>将函数传入{}中，最后拼接到字符串中的内容是函数执行的结果！</p>
-<p>现在我们已经细数了十种Python字符串的拼接方式，希望您可以在使用中融会贯通，灵活运用。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
 </search>
