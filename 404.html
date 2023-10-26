@@ -51,7 +51,7 @@
   isHome: false,
   isHighlightShrink: true,
   isToc: false,
-  postUpdate: '2023-10-26 10:57:01'
+  postUpdate: '2023-10-26 11:20:17'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -239,7 +239,7 @@
           'date': e.time || e.insertedAt
         }
       })
-      saveToLocal.set('waline-newest-comments', JSON.stringify(walineArray), 10/(60*24))
+      saveToLocal.set('waline-newest-comments', JSON.stringify(walineArray), 1.66666666667e-7/(60*24))
       generateHtml(walineArray)
     } catch (err) {
       console.error(err)
