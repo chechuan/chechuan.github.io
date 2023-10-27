@@ -303,43 +303,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker常用命令大全</title>
-    <url>/2020/11/19/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作:"></a>基础操作:</h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
-<p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
-<p>3 **docker pull  [images]:[version]**从dockerhub拉取指定镜像</p>
-<p>4 <strong>docker run -p 8000:80 -tdi –privileged [imageID][command]</strong>  后台启动docker,并指定宿主机端口和docker映射端口。</p>
-<span id="more"></span>
-<p> **-i:**以交互模式运行容器，通常与 -t 同时使用；</p>
-<p> **-d:**后台运行容器，并返回容器ID；</p>
-<p>**-t:**为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
-<p><strong>–privileged</strong> 容器将拥有访问主机所有设备的权限</p>
-<p>通常情况下 [command] 填下 <strong>&#x2F;bin&#x2F;bash</strong> 即可。</p>
-<p>特殊情况下，如需要在centos镜像中使用<strong>systemctl</strong> . 则应添加**–privileged** 并设置[command ]为 <strong>init</strong>。</p>
-<p>5 当镜像通过run 启动后，便会载入到一个动态的container(容器)中运行，此时若需要进入终端交互模式：</p>
-<p><strong>sudo docker exec -it [containerID] &#x2F;bin&#x2F;bash</strong></p>
-<p>交互模式中，使用  ctrl+p+q退出交互 保持运行,使用 exit命令退出并停止容器。</p>
-<p>6 在容器非交互模式下，通过docker  start&#x2F;stop 命令来启动&#x2F;停止已部署的容器服务。</p>
-<p>7 <strong>docker rm [containerID]</strong> 删除容器</p>
-<p>8 <strong>docker rmi [imageID]</strong> 删除镜像</p>
-<p>9 <strong>docker cp [YourHostFilePath][containerID]:[DockerPath]</strong>  将宿主机内的指定文件传输至容器内部的指定地址。</p>
-<h2 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作:"></a>镜像制作:</h2><p>1  <strong>docker commit [containerID] [ImageName]:[Version]</strong> 将修改后的容器重新打包成镜像</p>
-<p>2 <strong>docker commit -a “runoob.com” -m “my apache” a404c6c174a2 mymysql:v1</strong> 将容器a404c6c174a2 保存为新的镜像,并添加提交人信息和说明信息。</p>
-<p><strong>-a</strong> :提交的镜像作者；</p>
-<p> <strong>-c</strong> :使用Dockerfile指令来创建镜像；</p>
-<p> <strong>-m</strong> :提交时的说明文字；</p>
-<p> <strong>-p</strong> :在commit时，将容器暂停。</p>
-<p>3 **docker push [ImageID][repertory_address]**提交镜像到云仓库</p>
-<p>（暂时先记录这些，后续再更新）</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dockerfile文件详解</title>
     <url>/2020/11/22/Dockerfile%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="什么是dockerfile"><a href="#什么是dockerfile" class="headerlink" title="什么是dockerfile?"></a>什么是dockerfile?</h2><p>Dockerfile是一个包含用于组合映像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取<code>Dockerfile</code>中的指令自动生成映像。</p>
@@ -403,6 +366,43 @@
 <p><strong>最后用一张图解释常用指令的意义^-^</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/ebcca944fbba19df0269a02d8e9110d9.png" alt="img"></p>
 <p>“一劳永逸” 的话，有是有的，而 “一劳永逸” 的事却极少</p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker常用命令大全</title>
+    <url>/2020/11/19/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作:"></a>基础操作:</h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
+<p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
+<p>3 **docker pull  [images]:[version]**从dockerhub拉取指定镜像</p>
+<p>4 <strong>docker run -p 8000:80 -tdi –privileged [imageID][command]</strong>  后台启动docker,并指定宿主机端口和docker映射端口。</p>
+<span id="more"></span>
+<p> **-i:**以交互模式运行容器，通常与 -t 同时使用；</p>
+<p> **-d:**后台运行容器，并返回容器ID；</p>
+<p>**-t:**为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
+<p><strong>–privileged</strong> 容器将拥有访问主机所有设备的权限</p>
+<p>通常情况下 [command] 填下 <strong>&#x2F;bin&#x2F;bash</strong> 即可。</p>
+<p>特殊情况下，如需要在centos镜像中使用<strong>systemctl</strong> . 则应添加**–privileged** 并设置[command ]为 <strong>init</strong>。</p>
+<p>5 当镜像通过run 启动后，便会载入到一个动态的container(容器)中运行，此时若需要进入终端交互模式：</p>
+<p><strong>sudo docker exec -it [containerID] &#x2F;bin&#x2F;bash</strong></p>
+<p>交互模式中，使用  ctrl+p+q退出交互 保持运行,使用 exit命令退出并停止容器。</p>
+<p>6 在容器非交互模式下，通过docker  start&#x2F;stop 命令来启动&#x2F;停止已部署的容器服务。</p>
+<p>7 <strong>docker rm [containerID]</strong> 删除容器</p>
+<p>8 <strong>docker rmi [imageID]</strong> 删除镜像</p>
+<p>9 <strong>docker cp [YourHostFilePath][containerID]:[DockerPath]</strong>  将宿主机内的指定文件传输至容器内部的指定地址。</p>
+<h2 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作:"></a>镜像制作:</h2><p>1  <strong>docker commit [containerID] [ImageName]:[Version]</strong> 将修改后的容器重新打包成镜像</p>
+<p>2 <strong>docker commit -a “runoob.com” -m “my apache” a404c6c174a2 mymysql:v1</strong> 将容器a404c6c174a2 保存为新的镜像,并添加提交人信息和说明信息。</p>
+<p><strong>-a</strong> :提交的镜像作者；</p>
+<p> <strong>-c</strong> :使用Dockerfile指令来创建镜像；</p>
+<p> <strong>-m</strong> :提交时的说明文字；</p>
+<p> <strong>-p</strong> :在commit时，将容器暂停。</p>
+<p>3 **docker push [ImageID][repertory_address]**提交镜像到云仓库</p>
+<p>（暂时先记录这些，后续再更新）</p>
 ]]></content>
       <categories>
         <category>Docker</category>
@@ -820,30 +820,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python学习路线分享实现快速排序算法</title>
-    <url>/2018/11/24/Python%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E5%88%86%E4%BA%AB%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Python学习路线分享实现快速排序算法"><a href="#Python学习路线分享实现快速排序算法" class="headerlink" title="Python学习路线分享实现快速排序算法"></a>Python学习路线分享实现快速排序算法</h1><p>　　好程序员Python学习路线分享实现快速排序算法快速排序算法是一种基于交换的高效的排序算法，由C.R.A.Hoare于1962年提出，是一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide and conquer algorithm)。</p>
-<span id="more"></span>
-<p>分治法的基本思想</p>
-<p>将原问题分解为若干个规模更小但结构与原问题相似的子问题。递归地解这些子问题，然后将这些子问题的解组合为原问题的解。</p>
-<p>快速排序的基本思想</p>
-<ul>
-<li>先找到一个基准点（一般指数组的中部），然后数组被该基准点分为两部分，依次与该基准点数据比较，如果比它小，放左边；反之，放右边。</li>
-<li>左右分别用一个空数组去存储比较后的数据。</li>
-<li>最后递归执行上述操作，直到数组长度 &lt;&#x3D; 1;</li>
-</ul>
-<p>代码实现</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">quick_sort</span>(<span class="params">lists, left, right</span>):</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;快速排序&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 跳出递归判断</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> left &gt;= right:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> lists</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择参考点，该调整范围的第1个值</span></span><br><span class="line"></span><br><span class="line">    key = lists[left]</span><br><span class="line"></span><br><span class="line">    low = left  </span><br><span class="line"></span><br><span class="line">    high = right</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 循环判断直到遍历全部</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 从右边开始查找大于参考点的值</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> lists[right] &gt;= key:</span><br><span class="line"></span><br><span class="line">            right -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        lists[left] = lists[right]  <span class="comment"># 这个位置的值先挪到左边</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        <span class="comment"># 从左边开始查找小于参考点的值</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> lists[left] &lt;= key:</span><br><span class="line"></span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        lists[right] = lists[left]  <span class="comment"># 这个位置的值挪到右边</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写回改成的值</span></span><br><span class="line"></span><br><span class="line">    lists[left] = key</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 递归，并返回结果</span></span><br><span class="line"></span><br><span class="line">    quick_sort(lists, low, left - <span class="number">1</span>)    <span class="comment"># 递归左边部分</span></span><br><span class="line"></span><br><span class="line">    quick_sort(lists, left + <span class="number">1</span>, high)   <span class="comment"># 递归右边部分</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> lists</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">numbers = [<span class="number">4</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">quick_sort(numbers，<span class="number">0</span>，<span class="built_in">len</span>(numbers)-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> numbers == [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>排序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis备份、容灾及高可用实战</title>
     <url>/2020/11/26/Redis%E5%A4%87%E4%BB%BD%E3%80%81%E5%AE%B9%E7%81%BE%E5%8F%8A%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote>
@@ -925,6 +901,30 @@
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python学习路线分享实现快速排序算法</title>
+    <url>/2018/11/24/Python%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E5%88%86%E4%BA%AB%E5%AE%9E%E7%8E%B0%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Python学习路线分享实现快速排序算法"><a href="#Python学习路线分享实现快速排序算法" class="headerlink" title="Python学习路线分享实现快速排序算法"></a>Python学习路线分享实现快速排序算法</h1><p>　　好程序员Python学习路线分享实现快速排序算法快速排序算法是一种基于交换的高效的排序算法，由C.R.A.Hoare于1962年提出，是一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide and conquer algorithm)。</p>
+<span id="more"></span>
+<p>分治法的基本思想</p>
+<p>将原问题分解为若干个规模更小但结构与原问题相似的子问题。递归地解这些子问题，然后将这些子问题的解组合为原问题的解。</p>
+<p>快速排序的基本思想</p>
+<ul>
+<li>先找到一个基准点（一般指数组的中部），然后数组被该基准点分为两部分，依次与该基准点数据比较，如果比它小，放左边；反之，放右边。</li>
+<li>左右分别用一个空数组去存储比较后的数据。</li>
+<li>最后递归执行上述操作，直到数组长度 &lt;&#x3D; 1;</li>
+</ul>
+<p>代码实现</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">quick_sort</span>(<span class="params">lists, left, right</span>):</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;快速排序&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 跳出递归判断</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> left &gt;= right:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> lists</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择参考点，该调整范围的第1个值</span></span><br><span class="line"></span><br><span class="line">    key = lists[left]</span><br><span class="line"></span><br><span class="line">    low = left  </span><br><span class="line"></span><br><span class="line">    high = right</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 循环判断直到遍历全部</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 从右边开始查找大于参考点的值</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> lists[right] &gt;= key:</span><br><span class="line"></span><br><span class="line">            right -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        lists[left] = lists[right]  <span class="comment"># 这个位置的值先挪到左边</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        <span class="comment"># 从左边开始查找小于参考点的值</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> lists[left] &lt;= key:</span><br><span class="line"></span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        lists[right] = lists[left]  <span class="comment"># 这个位置的值挪到右边</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写回改成的值</span></span><br><span class="line"></span><br><span class="line">    lists[left] = key</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 递归，并返回结果</span></span><br><span class="line"></span><br><span class="line">    quick_sort(lists, low, left - <span class="number">1</span>)    <span class="comment"># 递归左边部分</span></span><br><span class="line"></span><br><span class="line">    quick_sort(lists, left + <span class="number">1</span>, high)   <span class="comment"># 递归右边部分</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> lists</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">numbers = [<span class="number">4</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">quick_sort(numbers，<span class="number">0</span>，<span class="built_in">len</span>(numbers)-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> numbers == [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1068,6 +1068,25 @@
       </tags>
   </entry>
   <entry>
+    <title>redis限流</title>
+    <url>/2020/11/19/redis%E9%99%90%E6%B5%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="redis限流"><a href="#redis限流" class="headerlink" title="redis限流"></a>redis限流</h1><p>限流是对系统的出入流量进行控制，防止大流量出入，导致资源不足，系统不稳定。</p>
+<p>限流系统是对资源访问的控制组件，控制主要的两个功能：限流策略和熔断策略，对于熔断策略，不同的系统有不同的熔断策略诉求，有的系统希望直接拒绝、有的系统希望排队等待、有的系统希望服务降级、有的系统会定制自己的熔断策略，很难一一列举，所以本文只针对限流策略这个功能做详细的设计。</p>
+<span id="more"></span>
+<p>针对找出超出速率阈值的请求这个功能，限流系统中有两个基础概念：资源和策略。</p>
+<p>资源 ：或者叫稀缺资源，被流量控制的对象；比如写接口、外部商户接口、大流量下的读接口 策略 ：限流策略由限流算法和可调节的参数两部分组成</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">can_pass_fixed_window</span>(<span class="params">user, action, time_zone=<span class="number">60</span>, times=<span class="number">30</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param user: 用户唯一标识</span></span><br><span class="line"><span class="string">    :param action: 用户访问的接口标识(即用户在客户端进行的动作)</span></span><br><span class="line"><span class="string">    :param time_zone: 接口限制的时间段</span></span><br><span class="line"><span class="string">    :param time_zone: 限制的时间段内允许多少请求通过</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    key = <span class="string">&#x27;&#123;&#125;:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(user, action)</span><br><span class="line">    <span class="comment"># redis_conn 表示redis连接对象</span></span><br><span class="line">    count = redis_conn.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> count:</span><br><span class="line">        count = <span class="number">1</span></span><br><span class="line">        redis_conn.setex(key, time_zone, count)</span><br><span class="line">    <span class="keyword">if</span> count &lt; times:</span><br><span class="line">        redis_conn.incr(key)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>这个方法虽然简单，但有个大问题是无法应对两个时间边界内的突发流量。如上图所示，如果在计数器清零的前1秒以及清零的后1秒都进来了100个请求，那么在短时间内服务器就接收到了两倍的(200个)请求，这样就有可能压垮系统。会导致上面的问题是因为我们的统计精度还不够，为了将临界问题的影响降低，我们可以使用滑动窗口法。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">can_pass_slide_window</span>(<span class="params">user, action, time_zone=<span class="number">60</span>, times=<span class="number">30</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param user: 用户唯一标识</span></span><br><span class="line"><span class="string">    :param action: 用户访问的接口标识(即用户在客户端进行的动作)</span></span><br><span class="line"><span class="string">    :param time_zone: 接口限制的时间段</span></span><br><span class="line"><span class="string">    :param time_zone: 限制的时间段内允许多少请求通过</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    key = <span class="string">&#x27;&#123;&#125;:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(user, action)</span><br><span class="line">    now_ts = time.time() * <span class="number">1000</span></span><br><span class="line">    <span class="comment"># value是什么在这里并不重要，只要保证value的唯一性即可，这里使用毫秒时间戳作为唯一值</span></span><br><span class="line">    value = now_ts </span><br><span class="line">    <span class="comment"># 时间窗口左边界</span></span><br><span class="line">    old_ts = now_ts - (time_zone * <span class="number">1000</span>)</span><br><span class="line">    <span class="comment"># 记录行为</span></span><br><span class="line">    redis_conn.zadd(key, value, now_ts)</span><br><span class="line">    <span class="comment"># 删除时间窗口之前的数据</span></span><br><span class="line">    redis_conn.zremrangebyscore(key, <span class="number">0</span>, old_ts)</span><br><span class="line">    <span class="comment"># 获取窗口内的行为数量</span></span><br><span class="line">    count = redis_conn.zcard(key)</span><br><span class="line">    <span class="comment"># 设置一个过期时间免得占空间</span></span><br><span class="line">    redis_conn.expire(key, time_zone + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> count <span class="keyword">or</span> count &lt; times:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redis主从模式,哨兵模式,cluster(集群)模式</title>
     <url>/2020/11/19/redis%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F-%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F-cluster-%E9%9B%86%E7%BE%A4-%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>详细可以参看<a href="https://redis.io/topics/cluster-tutorial">《redis官网文档》</a>或者<a href="http://www.redis.cn/topics/cluster-tutorial.html">《redis中文网》</a></p>
@@ -1169,25 +1188,6 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis限流</title>
-    <url>/2020/11/19/redis%E9%99%90%E6%B5%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="redis限流"><a href="#redis限流" class="headerlink" title="redis限流"></a>redis限流</h1><p>限流是对系统的出入流量进行控制，防止大流量出入，导致资源不足，系统不稳定。</p>
-<p>限流系统是对资源访问的控制组件，控制主要的两个功能：限流策略和熔断策略，对于熔断策略，不同的系统有不同的熔断策略诉求，有的系统希望直接拒绝、有的系统希望排队等待、有的系统希望服务降级、有的系统会定制自己的熔断策略，很难一一列举，所以本文只针对限流策略这个功能做详细的设计。</p>
-<span id="more"></span>
-<p>针对找出超出速率阈值的请求这个功能，限流系统中有两个基础概念：资源和策略。</p>
-<p>资源 ：或者叫稀缺资源，被流量控制的对象；比如写接口、外部商户接口、大流量下的读接口 策略 ：限流策略由限流算法和可调节的参数两部分组成</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">can_pass_fixed_window</span>(<span class="params">user, action, time_zone=<span class="number">60</span>, times=<span class="number">30</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param user: 用户唯一标识</span></span><br><span class="line"><span class="string">    :param action: 用户访问的接口标识(即用户在客户端进行的动作)</span></span><br><span class="line"><span class="string">    :param time_zone: 接口限制的时间段</span></span><br><span class="line"><span class="string">    :param time_zone: 限制的时间段内允许多少请求通过</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    key = <span class="string">&#x27;&#123;&#125;:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(user, action)</span><br><span class="line">    <span class="comment"># redis_conn 表示redis连接对象</span></span><br><span class="line">    count = redis_conn.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> count:</span><br><span class="line">        count = <span class="number">1</span></span><br><span class="line">        redis_conn.setex(key, time_zone, count)</span><br><span class="line">    <span class="keyword">if</span> count &lt; times:</span><br><span class="line">        redis_conn.incr(key)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-<p>这个方法虽然简单，但有个大问题是无法应对两个时间边界内的突发流量。如上图所示，如果在计数器清零的前1秒以及清零的后1秒都进来了100个请求，那么在短时间内服务器就接收到了两倍的(200个)请求，这样就有可能压垮系统。会导致上面的问题是因为我们的统计精度还不够，为了将临界问题的影响降低，我们可以使用滑动窗口法。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">can_pass_slide_window</span>(<span class="params">user, action, time_zone=<span class="number">60</span>, times=<span class="number">30</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param user: 用户唯一标识</span></span><br><span class="line"><span class="string">    :param action: 用户访问的接口标识(即用户在客户端进行的动作)</span></span><br><span class="line"><span class="string">    :param time_zone: 接口限制的时间段</span></span><br><span class="line"><span class="string">    :param time_zone: 限制的时间段内允许多少请求通过</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    key = <span class="string">&#x27;&#123;&#125;:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(user, action)</span><br><span class="line">    now_ts = time.time() * <span class="number">1000</span></span><br><span class="line">    <span class="comment"># value是什么在这里并不重要，只要保证value的唯一性即可，这里使用毫秒时间戳作为唯一值</span></span><br><span class="line">    value = now_ts </span><br><span class="line">    <span class="comment"># 时间窗口左边界</span></span><br><span class="line">    old_ts = now_ts - (time_zone * <span class="number">1000</span>)</span><br><span class="line">    <span class="comment"># 记录行为</span></span><br><span class="line">    redis_conn.zadd(key, value, now_ts)</span><br><span class="line">    <span class="comment"># 删除时间窗口之前的数据</span></span><br><span class="line">    redis_conn.zremrangebyscore(key, <span class="number">0</span>, old_ts)</span><br><span class="line">    <span class="comment"># 获取窗口内的行为数量</span></span><br><span class="line">    count = redis_conn.zcard(key)</span><br><span class="line">    <span class="comment"># 设置一个过期时间免得占空间</span></span><br><span class="line">    redis_conn.expire(key, time_zone + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> count <span class="keyword">or</span> count &lt; times:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -1366,47 +1366,6 @@
       </tags>
   </entry>
   <entry>
-    <title>发布订阅模式与观察者模式</title>
-    <url>/2020/11/16/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>设计模式并非是软件开发的专业术语，实际上，“模式”最早诞生于建筑学。</p>
-<p>设计模式的定义是：在面向对象软件设计过程中针对特定问题的简洁而优雅的解决方案。通俗一点说，设计模式是在某种场合下对某个问题的一种解决方案。如果再通俗一点说，设计模式就是给面向对象软件开发中的一些好的设计取个名字。</p>
-<span id="more"></span>
-
-<p>这些“好的设计”并不是谁发明的，而是早已存在于软件开发中。一个稍有经验的程序员也许在不知不觉中数次使用过这些设计模式。GoF（Gang of Four–四人组，《设计模式》几位作者）最大的功绩是把这些“好的设计”从浩瀚的面向对象世界中挑选出来，并且给予它们一个好听又好记的名字。</p>
-<p>设计模式并不直接用来完成代码的编写，而是描述在各种不同情况下，要怎么解决问题的一种方案，他不是一个死的机制，他是一种思想，一种写代码的形式。每种语言对于各种设计模式都有他们自己的实现方式，对于某些设计模式来说，可能在某些语言下并不适用，比如工厂方法模式对于javascript。模式应该用在正确的地方。而哪些才算正确的地方，只有在我们深刻理解了模式的意图之后，再结合项目的实际场景才会知道。。</p>
-<p>模式的社区一直在发展。GoF在1995年提出了23种设计模式，但模式不仅仅局限于这23种，后面增加到了24种。在这20多年的时间里，也许有更多的模式已经被人发现并总结了出来，比如一些JavaScript 图书中会提到模块模式、沙箱模式等。这些“模式”能否被世人公认并流传下来，还有待时间验证。</p>
-<h2 id="观察者模式（Observer-Pattern）"><a href="#观察者模式（Observer-Pattern）" class="headerlink" title="观察者模式（Observer Pattern）"></a>观察者模式（Observer Pattern）</h2><p>观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新。观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯。</p>
-<p>观察者模式有一个别名叫“发布-订阅模式”，或者说是“订阅-发布模式”，订阅者和订阅目标是联系在一起的，当订阅目标发生改变时，逐个通知订阅者。我们可以用报纸期刊的订阅来形象的说明，当你订阅了一份报纸，每天都会有一份最新的报纸送到你手上，有多少人订阅报纸，报社就会发多少份报纸，报社和订报纸的客户就是上面文章开头所说的“一对多”的依赖关系。</p>
-<h2 id="发布订阅模式（Pub-Sub-Pattern）"><a href="#发布订阅模式（Pub-Sub-Pattern）" class="headerlink" title="发布订阅模式（Pub-Sub Pattern）"></a>发布订阅模式（Pub-Sub Pattern）</h2><p>其实24种基本的设计模式中并没有发布订阅模式，上面也说了，他只是观察者模式的一个别称。</p>
-<p>但是经过时间的沉淀，似乎他已经强大了起来，已经独立于观察者模式，成为另外一种不同的设计模式。</p>
-<p>在现在的发布订阅模式中，称为发布者的消息发送者不会将消息直接发送给订阅者，这意味着发布者和订阅者不知道彼此的存在。在发布者和订阅者之间存在第三个组件，称为消息代理或调度中心或中间件，它维持着发布者和订阅者之间的联系，过滤所有发布者传入的消息并相应地分发它们给订阅者。</p>
-<p>举一个例子，你在微博上关注了A，同时其他很多人也关注了A，那么当A发布动态的时候，微博就会为你们推送这条动态。A就是发布者，你是订阅者，微博就是调度中心，你和A是没有直接的消息往来的，全是通过微博来协调的（你的关注，A的发布动态）。</p>
-<h2 id="观察者模式和发布订阅模式有什么区别？"><a href="#观察者模式和发布订阅模式有什么区别？" class="headerlink" title="观察者模式和发布订阅模式有什么区别？"></a>观察者模式和发布订阅模式有什么区别？</h2><p>我们先来看下这两个模式的实现结构：<br><img src="https://img-blog.csdnimg.cn/20190329182209470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hmODcyOTE0MzM0,size_16,color_FFFFFF,t_70" alt="模式结构"></p>
-<p><strong>观察者模式：</strong> 观察者（Observer）直接订阅（Subscribe）主题（Subject），而当主题被激活的时候，会触发（Fire Event）观察者里的事件。</p>
-<p><strong>发布订阅模式：</strong> 订阅者（Subscriber）把自己想订阅的事件注册（Subscribe）到调度中心（Topic），当发布者（Publisher）发布该事件（Publish topic）到调度中心，也就是该事件触发时，由调度中心统一调度（Fire Event）订阅者注册到调度中心的处理代码。</p>
-<p>我们再来看下这两个模式的代码案例：（猎人发布与订阅任务）</p>
-<p><strong>观察者模式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//有一家猎人工会，其中每个猎人都具有发布任务(publish)，订阅任务(subscribe)的功能</span></span><br><span class="line"><span class="comment">//他们都有一个订阅列表来记录谁订阅了自己</span></span><br><span class="line"><span class="comment">//定义一个猎人类</span></span><br><span class="line"><span class="comment">//包括姓名，级别，订阅列表</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Hunter</span>(<span class="params">name, level</span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">level</span> = level</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">list</span> = []</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">publish</span> = <span class="keyword">function</span> (<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;寻求帮助&#x27;</span>)</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">item, index</span>)&#123;</span><br><span class="line">    	<span class="title function_">item</span>(money)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">subscribe</span> = <span class="keyword">function</span> (<span class="params">targrt, fn</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;订阅了&#x27;</span> + targrt.<span class="property">name</span>)</span><br><span class="line">    targrt.<span class="property">list</span>.<span class="title function_">push</span>(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人工会走来了几个猎人</span></span><br><span class="line"><span class="keyword">let</span> hunterMing = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterJin = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小金&#x27;</span>, <span class="string">&#x27;白银&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterZhang = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小张&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterPeter = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;Peter&#x27;</span>, <span class="string">&#x27;青铜&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter等级较低，可能需要帮助，所以小明，小金，小张都订阅了Peter</span></span><br><span class="line">hunterMing.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小明表示：&#x27;</span> + (money &gt; <span class="number">200</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;暂时很忙，不能&#x27;</span>) + <span class="string">&#x27;给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter遇到困难，赏金198寻求帮助</span></span><br><span class="line">hunterPeter.<span class="title function_">publish</span>(<span class="number">198</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人们(观察者)关联他们感兴趣的猎人(目标对象)，如Peter，当Peter有困难时，会自动通知给他们（观察者）</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>发布订阅模式：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//定义一家猎人工会</span></span><br><span class="line"><span class="comment">//主要功能包括任务发布大厅(topics)，以及订阅任务(subscribe)，发布任务(publish)</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">HunterUnion</span> = &#123;</span><br><span class="line">	<span class="attr">type</span>: <span class="string">&#x27;hunt&#x27;</span>,</span><br><span class="line">	<span class="attr">topics</span>: <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>),</span><br><span class="line">	<span class="attr">subscribe</span>: <span class="keyword">function</span> (<span class="params">topic, fn</span>)&#123;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">topics</span>[topic])&#123;</span><br><span class="line">	      	<span class="variable language_">this</span>.<span class="property">topics</span>[topic] = [];  </span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="variable language_">this</span>.<span class="property">topics</span>[topic].<span class="title function_">push</span>(fn);</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">publish</span>: <span class="keyword">function</span> (<span class="params">topic, money</span>)&#123;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">topics</span>[topic])</span><br><span class="line">	      	<span class="keyword">return</span>;</span><br><span class="line">	    <span class="keyword">for</span>(<span class="keyword">let</span> fn <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">topics</span>[topic])&#123;</span><br><span class="line">	    	<span class="title function_">fn</span>(money)</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义一个猎人类</span></span><br><span class="line"><span class="comment">//包括姓名，级别</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Hunter</span>(<span class="params">name, level</span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">level</span> = level</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//猎人可在猎人工会发布订阅任务</span></span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">subscribe</span> = <span class="keyword">function</span> (<span class="params">topic, fn</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;订阅了狩猎&#x27;</span> + topic + <span class="string">&#x27;的任务&#x27;</span>)</span><br><span class="line">    <span class="title class_">HunterUnion</span>.<span class="title function_">subscribe</span>(topic, fn)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">publish</span> = <span class="keyword">function</span> (<span class="params">topic, money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;发布了狩猎&#x27;</span> + topic + <span class="string">&#x27;的任务&#x27;</span>)</span><br><span class="line">    <span class="title class_">HunterUnion</span>.<span class="title function_">publish</span>(topic, money)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人工会走来了几个猎人</span></span><br><span class="line"><span class="keyword">let</span> hunterMing = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterJin = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小金&#x27;</span>, <span class="string">&#x27;白银&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterZhang = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小张&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterPeter = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;Peter&#x27;</span>, <span class="string">&#x27;青铜&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//小明，小金，小张分别订阅了狩猎tiger的任务</span></span><br><span class="line">hunterMing.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小明表示：&#x27;</span> + (money &gt; <span class="number">200</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;不&#x27;</span>) + <span class="string">&#x27;接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小张表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//Peter订阅了狩猎sheep的任务</span></span><br><span class="line">hunterPeter.<span class="title function_">subscribe</span>(<span class="string">&#x27;sheep&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Peter表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter发布了狩猎tiger的任务</span></span><br><span class="line">hunterPeter.<span class="title function_">publish</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="number">198</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人们发布(发布者)或订阅(观察者/订阅者)任务都是通过猎人工会(调度中心)关联起来的，他们没有直接的交流。</span></span><br></pre></td></tr></table></figure>
-
-<p>观察者模式和发布订阅模式最大的区别就是发布订阅模式有个事件调度中心。</p>
-<p>观察者模式由具体目标调度，每个被订阅的目标里面都需要有对观察者的处理，这种处理方式比较直接粗暴，但是会造成代码的冗余。</p>
-<p>而发布订阅模式中统一由调度中心进行处理，订阅者和发布者互不干扰，消除了发布者和订阅者之间的依赖。这样一方面实现了解耦，还有就是可以实现更细粒度的一些控制。比如发布者发布了很多消息，但是不想所有的订阅者都接收到，就可以在调度中心做一些处理，类似于权限控制之类的。还可以做一些节流操作。</p>
-<h2 id="观察者模式是不是发布订阅模式"><a href="#观察者模式是不是发布订阅模式" class="headerlink" title="观察者模式是不是发布订阅模式"></a>观察者模式是不是发布订阅模式</h2><p>网上关于这个问题的回答，出现了两极分化，有认为发布订阅模式就是观察者模式的，也有认为观察者模式和发布订阅模式是真不一样的。</p>
-<p>其实我不知道发布订阅模式是不是观察者模式，就像我不知道辨别模式的关键是设计意图还是设计结构（理念），虽然《JavaScript设计模式与开发实践》一书中说了<code>分辨模式的关键是意图而不是结构</code>。</p>
-<p>如果以结构来分辨模式，发布订阅模式相比观察者模式多了一个中间件订阅器，所以发布订阅模式是不同于观察者模式的；如果以意图来分辨模式，他们都是<code>实现了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新</code>，那么他们就是同一种模式，发布订阅模式是在观察者模式的基础上做的优化升级。</p>
-<p>不过，不管他们是不是同一个设计模式，他们的实现方式确实有差别，我们在使用的时候应该根据场景来判断选择哪个。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>利用docker实现Elasticsearch全文检索部署</title>
     <url>/2020/12/01/%E5%88%A9%E7%94%A8docker%E5%AE%9E%E7%8E%B0Elasticsearch%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Elasticsearch是什么？"><a href="#Elasticsearch是什么？" class="headerlink" title="Elasticsearch是什么？"></a>Elasticsearch是什么？</h1><p>Elasticsearch 是一个分布式可扩展的实时搜索和分析引擎,一个建立在全文搜索引擎 Apache Lucene(TM) 基础上的搜索引擎.当然 Elasticsearch 并不仅仅是 Lucene 那么简单，它不仅包括了全文搜索功能，还可以进行以下工作:</p>
@@ -1495,6 +1454,47 @@
       </tags>
   </entry>
   <entry>
+    <title>发布订阅模式与观察者模式</title>
+    <url>/2020/11/16/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>设计模式并非是软件开发的专业术语，实际上，“模式”最早诞生于建筑学。</p>
+<p>设计模式的定义是：在面向对象软件设计过程中针对特定问题的简洁而优雅的解决方案。通俗一点说，设计模式是在某种场合下对某个问题的一种解决方案。如果再通俗一点说，设计模式就是给面向对象软件开发中的一些好的设计取个名字。</p>
+<span id="more"></span>
+
+<p>这些“好的设计”并不是谁发明的，而是早已存在于软件开发中。一个稍有经验的程序员也许在不知不觉中数次使用过这些设计模式。GoF（Gang of Four–四人组，《设计模式》几位作者）最大的功绩是把这些“好的设计”从浩瀚的面向对象世界中挑选出来，并且给予它们一个好听又好记的名字。</p>
+<p>设计模式并不直接用来完成代码的编写，而是描述在各种不同情况下，要怎么解决问题的一种方案，他不是一个死的机制，他是一种思想，一种写代码的形式。每种语言对于各种设计模式都有他们自己的实现方式，对于某些设计模式来说，可能在某些语言下并不适用，比如工厂方法模式对于javascript。模式应该用在正确的地方。而哪些才算正确的地方，只有在我们深刻理解了模式的意图之后，再结合项目的实际场景才会知道。。</p>
+<p>模式的社区一直在发展。GoF在1995年提出了23种设计模式，但模式不仅仅局限于这23种，后面增加到了24种。在这20多年的时间里，也许有更多的模式已经被人发现并总结了出来，比如一些JavaScript 图书中会提到模块模式、沙箱模式等。这些“模式”能否被世人公认并流传下来，还有待时间验证。</p>
+<h2 id="观察者模式（Observer-Pattern）"><a href="#观察者模式（Observer-Pattern）" class="headerlink" title="观察者模式（Observer Pattern）"></a>观察者模式（Observer Pattern）</h2><p>观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新。观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯。</p>
+<p>观察者模式有一个别名叫“发布-订阅模式”，或者说是“订阅-发布模式”，订阅者和订阅目标是联系在一起的，当订阅目标发生改变时，逐个通知订阅者。我们可以用报纸期刊的订阅来形象的说明，当你订阅了一份报纸，每天都会有一份最新的报纸送到你手上，有多少人订阅报纸，报社就会发多少份报纸，报社和订报纸的客户就是上面文章开头所说的“一对多”的依赖关系。</p>
+<h2 id="发布订阅模式（Pub-Sub-Pattern）"><a href="#发布订阅模式（Pub-Sub-Pattern）" class="headerlink" title="发布订阅模式（Pub-Sub Pattern）"></a>发布订阅模式（Pub-Sub Pattern）</h2><p>其实24种基本的设计模式中并没有发布订阅模式，上面也说了，他只是观察者模式的一个别称。</p>
+<p>但是经过时间的沉淀，似乎他已经强大了起来，已经独立于观察者模式，成为另外一种不同的设计模式。</p>
+<p>在现在的发布订阅模式中，称为发布者的消息发送者不会将消息直接发送给订阅者，这意味着发布者和订阅者不知道彼此的存在。在发布者和订阅者之间存在第三个组件，称为消息代理或调度中心或中间件，它维持着发布者和订阅者之间的联系，过滤所有发布者传入的消息并相应地分发它们给订阅者。</p>
+<p>举一个例子，你在微博上关注了A，同时其他很多人也关注了A，那么当A发布动态的时候，微博就会为你们推送这条动态。A就是发布者，你是订阅者，微博就是调度中心，你和A是没有直接的消息往来的，全是通过微博来协调的（你的关注，A的发布动态）。</p>
+<h2 id="观察者模式和发布订阅模式有什么区别？"><a href="#观察者模式和发布订阅模式有什么区别？" class="headerlink" title="观察者模式和发布订阅模式有什么区别？"></a>观察者模式和发布订阅模式有什么区别？</h2><p>我们先来看下这两个模式的实现结构：<br><img src="https://img-blog.csdnimg.cn/20190329182209470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hmODcyOTE0MzM0,size_16,color_FFFFFF,t_70" alt="模式结构"></p>
+<p><strong>观察者模式：</strong> 观察者（Observer）直接订阅（Subscribe）主题（Subject），而当主题被激活的时候，会触发（Fire Event）观察者里的事件。</p>
+<p><strong>发布订阅模式：</strong> 订阅者（Subscriber）把自己想订阅的事件注册（Subscribe）到调度中心（Topic），当发布者（Publisher）发布该事件（Publish topic）到调度中心，也就是该事件触发时，由调度中心统一调度（Fire Event）订阅者注册到调度中心的处理代码。</p>
+<p>我们再来看下这两个模式的代码案例：（猎人发布与订阅任务）</p>
+<p><strong>观察者模式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//有一家猎人工会，其中每个猎人都具有发布任务(publish)，订阅任务(subscribe)的功能</span></span><br><span class="line"><span class="comment">//他们都有一个订阅列表来记录谁订阅了自己</span></span><br><span class="line"><span class="comment">//定义一个猎人类</span></span><br><span class="line"><span class="comment">//包括姓名，级别，订阅列表</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Hunter</span>(<span class="params">name, level</span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">level</span> = level</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">list</span> = []</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">publish</span> = <span class="keyword">function</span> (<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;寻求帮助&#x27;</span>)</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">list</span>.<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">item, index</span>)&#123;</span><br><span class="line">    	<span class="title function_">item</span>(money)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">subscribe</span> = <span class="keyword">function</span> (<span class="params">targrt, fn</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;订阅了&#x27;</span> + targrt.<span class="property">name</span>)</span><br><span class="line">    targrt.<span class="property">list</span>.<span class="title function_">push</span>(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人工会走来了几个猎人</span></span><br><span class="line"><span class="keyword">let</span> hunterMing = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterJin = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小金&#x27;</span>, <span class="string">&#x27;白银&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterZhang = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小张&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterPeter = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;Peter&#x27;</span>, <span class="string">&#x27;青铜&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter等级较低，可能需要帮助，所以小明，小金，小张都订阅了Peter</span></span><br><span class="line">hunterMing.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小明表示：&#x27;</span> + (money &gt; <span class="number">200</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;暂时很忙，不能&#x27;</span>) + <span class="string">&#x27;给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.<span class="title function_">subscribe</span>(hunterPeter, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：给予帮助&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter遇到困难，赏金198寻求帮助</span></span><br><span class="line">hunterPeter.<span class="title function_">publish</span>(<span class="number">198</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人们(观察者)关联他们感兴趣的猎人(目标对象)，如Peter，当Peter有困难时，会自动通知给他们（观察者）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>发布订阅模式：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//定义一家猎人工会</span></span><br><span class="line"><span class="comment">//主要功能包括任务发布大厅(topics)，以及订阅任务(subscribe)，发布任务(publish)</span></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">HunterUnion</span> = &#123;</span><br><span class="line">	<span class="attr">type</span>: <span class="string">&#x27;hunt&#x27;</span>,</span><br><span class="line">	<span class="attr">topics</span>: <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>),</span><br><span class="line">	<span class="attr">subscribe</span>: <span class="keyword">function</span> (<span class="params">topic, fn</span>)&#123;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">topics</span>[topic])&#123;</span><br><span class="line">	      	<span class="variable language_">this</span>.<span class="property">topics</span>[topic] = [];  </span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="variable language_">this</span>.<span class="property">topics</span>[topic].<span class="title function_">push</span>(fn);</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">publish</span>: <span class="keyword">function</span> (<span class="params">topic, money</span>)&#123;</span><br><span class="line">	    <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">topics</span>[topic])</span><br><span class="line">	      	<span class="keyword">return</span>;</span><br><span class="line">	    <span class="keyword">for</span>(<span class="keyword">let</span> fn <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="property">topics</span>[topic])&#123;</span><br><span class="line">	    	<span class="title function_">fn</span>(money)</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义一个猎人类</span></span><br><span class="line"><span class="comment">//包括姓名，级别</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Hunter</span>(<span class="params">name, level</span>)&#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">level</span> = level</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//猎人可在猎人工会发布订阅任务</span></span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">subscribe</span> = <span class="keyword">function</span> (<span class="params">topic, fn</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;订阅了狩猎&#x27;</span> + topic + <span class="string">&#x27;的任务&#x27;</span>)</span><br><span class="line">    <span class="title class_">HunterUnion</span>.<span class="title function_">subscribe</span>(topic, fn)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Hunter</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">publish</span> = <span class="keyword">function</span> (<span class="params">topic, money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">level</span> + <span class="string">&#x27;猎人&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span> + <span class="string">&#x27;发布了狩猎&#x27;</span> + topic + <span class="string">&#x27;的任务&#x27;</span>)</span><br><span class="line">    <span class="title class_">HunterUnion</span>.<span class="title function_">publish</span>(topic, money)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人工会走来了几个猎人</span></span><br><span class="line"><span class="keyword">let</span> hunterMing = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterJin = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小金&#x27;</span>, <span class="string">&#x27;白银&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterZhang = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;小张&#x27;</span>, <span class="string">&#x27;黄金&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> hunterPeter = <span class="keyword">new</span> <span class="title class_">Hunter</span>(<span class="string">&#x27;Peter&#x27;</span>, <span class="string">&#x27;青铜&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//小明，小金，小张分别订阅了狩猎tiger的任务</span></span><br><span class="line">hunterMing.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小明表示：&#x27;</span> + (money &gt; <span class="number">200</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;不&#x27;</span>) + <span class="string">&#x27;接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小金表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.<span class="title function_">subscribe</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;小张表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//Peter订阅了狩猎sheep的任务</span></span><br><span class="line">hunterPeter.<span class="title function_">subscribe</span>(<span class="string">&#x27;sheep&#x27;</span>, <span class="keyword">function</span>(<span class="params">money</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Peter表示：接取任务&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Peter发布了狩猎tiger的任务</span></span><br><span class="line">hunterPeter.<span class="title function_">publish</span>(<span class="string">&#x27;tiger&#x27;</span>, <span class="number">198</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//猎人们发布(发布者)或订阅(观察者/订阅者)任务都是通过猎人工会(调度中心)关联起来的，他们没有直接的交流。</span></span><br></pre></td></tr></table></figure>
+
+<p>观察者模式和发布订阅模式最大的区别就是发布订阅模式有个事件调度中心。</p>
+<p>观察者模式由具体目标调度，每个被订阅的目标里面都需要有对观察者的处理，这种处理方式比较直接粗暴，但是会造成代码的冗余。</p>
+<p>而发布订阅模式中统一由调度中心进行处理，订阅者和发布者互不干扰，消除了发布者和订阅者之间的依赖。这样一方面实现了解耦，还有就是可以实现更细粒度的一些控制。比如发布者发布了很多消息，但是不想所有的订阅者都接收到，就可以在调度中心做一些处理，类似于权限控制之类的。还可以做一些节流操作。</p>
+<h2 id="观察者模式是不是发布订阅模式"><a href="#观察者模式是不是发布订阅模式" class="headerlink" title="观察者模式是不是发布订阅模式"></a>观察者模式是不是发布订阅模式</h2><p>网上关于这个问题的回答，出现了两极分化，有认为发布订阅模式就是观察者模式的，也有认为观察者模式和发布订阅模式是真不一样的。</p>
+<p>其实我不知道发布订阅模式是不是观察者模式，就像我不知道辨别模式的关键是设计意图还是设计结构（理念），虽然《JavaScript设计模式与开发实践》一书中说了<code>分辨模式的关键是意图而不是结构</code>。</p>
+<p>如果以结构来分辨模式，发布订阅模式相比观察者模式多了一个中间件订阅器，所以发布订阅模式是不同于观察者模式的；如果以意图来分辨模式，他们都是<code>实现了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新</code>，那么他们就是同一种模式，发布订阅模式是在观察者模式的基础上做的优化升级。</p>
+<p>不过，不管他们是不是同一个设计模式，他们的实现方式确实有差别，我们在使用的时候应该根据场景来判断选择哪个。</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>回文数</title>
     <url>/2023/10/19/%E5%9B%9E%E6%96%87%E6%95%B0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="给你一个整数-x-，如果-x-是一个回文整数，返回-true-；否则，返回-false-。"><a href="#给你一个整数-x-，如果-x-是一个回文整数，返回-true-；否则，返回-false-。" class="headerlink" title="给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。"></a>给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。</h3><h3 id="回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121-是回文，而-123-不是。"><a href="#回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121-是回文，而-123-不是。" class="headerlink" title="回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121 是回文，而 123 不是。"></a>回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121 是回文，而 123 不是。</h3><h3 id="python两种解法"><a href="#python两种解法" class="headerlink" title="python两种解法:"></a>python两种解法:</h3><h3 id="第一种执行用时64ms。"><a href="#第一种执行用时64ms。" class="headerlink" title="第一种执行用时64ms。"></a>第一种执行用时64ms。</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def reverse(x):</span><br><span class="line">    if str(x)[::-1] == str(x):</span><br><span class="line">        return True</span><br><span class="line">    else:</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
@@ -1513,54 +1513,37 @@
       </tags>
   </entry>
   <entry>
-    <title>在Python中是如何管理内存的</title>
-    <url>/2020/11/29/%E5%9C%A8Python%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E7%9A%84/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>Python有一个私有堆空间来保存所有的对象和数据结构。作为开发者，我们无法访问它，是解释器在管理它。但是有了核心API后，我们可以访问一些工具。Python内存管理器控制内存分配。<br>另外，内置垃圾回收器会回收使用所有的未使用内存，所以使其适用于堆空间。</p>
+    <title>在线人数</title>
+    <url>/2020/11/19/%E5%9C%A8%E7%BA%BF%E4%BA%BA%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="在线人数"><a href="#在线人数" class="headerlink" title="在线人数"></a>在线人数</h1><p>实现逻辑是，当一个用户访问，把用户的ip作为key放到cache中，然后设置online_ips 作为key来存放所有的ip,每次请求会先取出online_ips 的所有值，任何在根据这个list 来从cache中取出依然存在的ip，再次存入online_ips。</p>
 <span id="more"></span>
-<h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>Python采用了类似Windows内核对象一样的方式来对内存进行管理。每一个对象，都维护这一个对指向该对对象的引用的计数。当变量被绑定在一个对象上的时候，该变量的引用计数就是1，(还有另外一些情况也会导致变量引用计数的增加),系统会自动维护这些标签，并定时扫描，当某标签的引用计数变为0的时候，该对就会被回收。</p>
-<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>python不像C++，Java等语言一样，他们可以不用事先声明变量类型而直接对变量进行赋值。对Python语言来讲，对象的类型和内存都是在运行时确定的。这也是为什么我们称Python语言为动态类型的原因(这里我们把动态类型可以简单的归结为对变量内存地址的分配是在运行时自动判断变量类型并对变量进行赋值)。</p>
-<h2 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h2><ol>
-<li>分代回收是建立在标记清除技术基础之上的，是一种以空间换时间的操作方式。</li>
-<li>Python将内存分为了3“代”，分别为年轻代（第0代）、中年代（第1代）、老年代（第2代）</li>
-<li>他们对应的是3个链表，它们的垃圾收集频率与对象的存活时间的增大而减小。</li>
-<li>新创建的对象都会分配在年轻代，年轻代链表的总数达到上限时，Python垃圾收集机制就会被触发</li>
-<li>把那些可以被回收的对象回收掉，而那些不会回收的对象就会被移到中年代去，依此类推</li>
-<li>老年代中的对象是存活时间最久的对象，甚至是存活于整个系统的生命周期内。</li>
-</ol>
-<h2 id="对象存储"><a href="#对象存储" class="headerlink" title="对象存储"></a>对象存储</h2><p>在Python中万物皆对象</p>
-<p>不存在基本数据类型，<code>0, 1.2, True, False, &quot;abc&quot;</code>等，这些全都是对象</p>
-<p>所有对象, 都会在内存中开辟一块空间进行存储</p>
-<p>2.1 会根据不同的类型以及内容, 开辟不同的空间大小进行存储 2.2 返回该空间的地址给外界接收(称为”引用”), 用于后续对这个对象的操作 2.3 可通过 id() 函数获取内存地址(10进制) 2.4 通过 hex() 函数可以查看对应的16进制地址</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">print(p)</span><br><span class="line">print(id(p))</span><br><span class="line">print(hex(id(p)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">&lt;__main__.Person object at 0x107030470&gt;</span><br><span class="line">4412605552</span><br><span class="line">0x107030470</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这个过程要放到中间层中的 </span></span><br><span class="line"><span class="comment"># PV_middleware.py</span></span><br><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin</span><br><span class="line"></span><br><span class="line"><span class="comment"># EXLCLE_URL 这个是排除一些路由不进行统计的 比如</span></span><br><span class="line"><span class="comment"># EXLCLE_URL = [&#x27;/admin/&#x27;]</span></span><br><span class="line"><span class="keyword">from</span> HuberyBlog.settings <span class="keyword">import</span> EXCLUDE_URL </span><br><span class="line"></span><br><span class="line"><span class="comment"># 主要在settings 中添加这个中间件</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PvVisitViewMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;统计在线人数和用户访问&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">if</span> request.path <span class="keyword">not</span> <span class="keyword">in</span> EXCLUDE_URL:</span><br><span class="line">            ip = get_ip(request)</span><br><span class="line">            online_ips = cache.get(<span class="string">&quot;online_ips&quot;</span>, [])</span><br><span class="line">            <span class="keyword">if</span> online_ips:</span><br><span class="line">              <span class="comment"># 根据取出的ip list获取缓存中仍然存在的ip</span></span><br><span class="line">              <span class="comment"># 这里要加个list py2 中是直接获取的list python3中获取的是一个对象 网上很多都没加</span></span><br><span class="line">                online_ips = <span class="built_in">list</span>(cache.get_many(online_ips).keys())</span><br><span class="line">            cache.<span class="built_in">set</span>(ip, <span class="number">0</span>, <span class="number">1</span> * <span class="number">60</span>)</span><br><span class="line">            <span class="keyword">if</span> ip <span class="keyword">not</span> <span class="keyword">in</span> online_ips:</span><br><span class="line">                online_ips.append(ip)</span><br><span class="line">            cache.<span class="built_in">set</span>(<span class="string">&quot;online_ips&quot;</span>, online_ips)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ip</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    获取ip</span></span><br><span class="line"><span class="string">    :param request:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;REMOTE_ADDR&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
 
-<p>对于整数和短小的字符, Python会进行缓存; 不会创建多个相同对象</p>
-<p>此时, 被多次赋值, 只会有多份引用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">num1 = 2</span><br><span class="line">num2 = 2</span><br><span class="line">print(id(num1), id(num2))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">4366584464 4366584464</span><br></pre></td></tr></table></figure>
-
-<p>容器对象, 存储的其他对象, 仅仅是其他对象的引用, 并不是其他对象本身</p>
-<p>4.1 比如字典, 列表, 元组这些”容器对象” 4.2 全局变量是由一个大字典进行引用 4.3 可通过 global() 查看</p>
-<p>2 对象回收 2.1 引用计数器 2.1.1概念</p>
-<p>一个对象, 会记录着自身被引用的个数 每增加一个引用, 这个对象的引用计数会自动+1 每减少一个引用, 这个对象的引用计数会自动-1</p>
-<p>引用计数+1场景</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、对象被创建</span><br><span class="line">    p1 = Person()</span><br><span class="line">2、对象被引用</span><br><span class="line">    p2 = p1</span><br><span class="line">3、对象被作为参数，传入到一个函数中</span><br><span class="line">    log(p1)</span><br><span class="line">    这里注意会+2, 因为内部有两个属性引用着这个参数</span><br><span class="line">4、对象作为一个元素，存储在容器中</span><br><span class="line">    l = [p1]</span><br></pre></td></tr></table></figure>
-
-<p>引用计数-1场景</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、对象的别名被显式销毁</span><br><span class="line">    del p1</span><br><span class="line">2、对象的别名被赋予新的对象</span><br><span class="line">    p1 = 123</span><br><span class="line">3、一个对象离开它的作用域</span><br><span class="line">    一个函数执行完毕时</span><br><span class="line">    内部的局部变量关联的对象, 它的引用计数就会-1</span><br><span class="line">4、对象所在的容器被销毁，或从容器中删除对象</span><br></pre></td></tr></table></figure>
-
-<p>查看引用计数</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p1 = Person() # 1</span><br><span class="line"></span><br><span class="line">print(sys.getrefcount(p1)) # 2</span><br><span class="line"></span><br><span class="line">p2 = p1 # 2</span><br><span class="line"></span><br><span class="line">print(sys.getrefcount(p1)) # 3</span><br><span class="line"></span><br><span class="line">del p2 # 1</span><br><span class="line">print(sys.getrefcount(p1)) # 2</span><br><span class="line"></span><br><span class="line">del p1</span><br><span class="line"># print(sys.getrefcount(p1)) #error，因为上一行代码执行类p1对象已经销毁</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p>循环引用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 循环引用</span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">class Dog:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person() </span><br><span class="line">d = Dog()   </span><br><span class="line"></span><br><span class="line">p.pet = d </span><br><span class="line">d.master = p</span><br></pre></td></tr></table></figure>
-
-<p>对象间互相引用，导致对象不能通过引用计数器进行销毁</p>
-<p>手动触发垃圾回收，挥手循环引用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import objgraph</span><br><span class="line">import gc</span><br><span class="line"></span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">class Dog:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">d = Dog()</span><br><span class="line"></span><br><span class="line">p.pet = d</span><br><span class="line">d.master = p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">del p</span><br><span class="line">del d</span><br><span class="line"></span><br><span class="line">gc.collect() #手动触发垃圾回收</span><br><span class="line"></span><br><span class="line">print(objgraph.count(&quot;Person&quot;))</span><br><span class="line">print(objgraph.count(&quot;Dog&quot;))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line">0</span><br><span class="line">0</span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="什么是-utf8mb4"><a href="#什么是-utf8mb4" class="headerlink" title="什么是 utf8mb4"></a>什么是 utf8mb4</h1><p>utf8mb4 是 utf8 的超集，理论上原来使用 utf8，然后将字符集修改为 utf8mb4，也不会对已有的utf8 编码读取产生任何问题。</p>
+]]></content>
       <categories>
-        <category>python</category>
+        <category>智能高并发审批流系统</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>工单处理逻辑</title>
+    <url>/2020/11/19/%E5%B7%A5%E5%8D%95%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1、在新建工单的页面中，用户选择工单类型，后台根据“工单类型与工作流关联”的表来确定使用的工作流</p>
+<p>2、根据确定的工作流弹出工单信息输入界面（内容包括标题、详细信息、附件等等，具体表单字段通过改工作流的初始状态来确定），根据工作流的初始状态查找状态表来确定可以执行的操作（提交、保存，修改，审批等），将这些操作作为该界面的按钮，用户填写完工单基本信息后点击相应的操作按钮，来实现状态的流转。后台结合前端提交的数据并生成工单必备的字段信息（工单创建时间、创建人、工单类型、自定义字段等），将这些信息写到工单表里。其中当前状态、当前处理人通过工单流转表和状态表来确定 用户执行相应操作后导致的属性变化</p>
+<span id="more"></span>
+<p>3、通过创建工单页面插入到工单表中的数据“审批人”、“当前审批人”来确定哪些人有权限处理这些工单。 如果处理人类型不是“个人”,那就根据这条数据中的“当前状态“来确定接单方式，主动接单（有权限的人先执行接单操作将当前处理人变更为自己再处理），系统随机分配（后台在执行状态流转时随机设置工单当前处理人为符合条件的某一个人）</p>
+<p>4、查看工单的界面通过 “工单查看页面表单的展现表”来确定 显示哪些字段</p>
+<p>5、处理工单的界面通过“工单处理页面表单的展现表” 来确定显示哪些字段，以及哪些字段可以在处理过程中再次修改</p>
+<p>6、工单在流转过程中会变更工单的状态。 系统根据流转表来确定当前状态可以执行的操作(同意、拒绝、等等)。 工单新建的时候需要有个初始状态， 这样工单新建时，系统才能判断新建页面用户可以执行的操作(如 提交、保存 等等)。 </p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1614,40 +1597,6 @@
       </tags>
   </entry>
   <entry>
-    <title>工单处理逻辑</title>
-    <url>/2020/11/19/%E5%B7%A5%E5%8D%95%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1、在新建工单的页面中，用户选择工单类型，后台根据“工单类型与工作流关联”的表来确定使用的工作流</p>
-<p>2、根据确定的工作流弹出工单信息输入界面（内容包括标题、详细信息、附件等等，具体表单字段通过改工作流的初始状态来确定），根据工作流的初始状态查找状态表来确定可以执行的操作（提交、保存，修改，审批等），将这些操作作为该界面的按钮，用户填写完工单基本信息后点击相应的操作按钮，来实现状态的流转。后台结合前端提交的数据并生成工单必备的字段信息（工单创建时间、创建人、工单类型、自定义字段等），将这些信息写到工单表里。其中当前状态、当前处理人通过工单流转表和状态表来确定 用户执行相应操作后导致的属性变化</p>
-<span id="more"></span>
-<p>3、通过创建工单页面插入到工单表中的数据“审批人”、“当前审批人”来确定哪些人有权限处理这些工单。 如果处理人类型不是“个人”,那就根据这条数据中的“当前状态“来确定接单方式，主动接单（有权限的人先执行接单操作将当前处理人变更为自己再处理），系统随机分配（后台在执行状态流转时随机设置工单当前处理人为符合条件的某一个人）</p>
-<p>4、查看工单的界面通过 “工单查看页面表单的展现表”来确定 显示哪些字段</p>
-<p>5、处理工单的界面通过“工单处理页面表单的展现表” 来确定显示哪些字段，以及哪些字段可以在处理过程中再次修改</p>
-<p>6、工单在流转过程中会变更工单的状态。 系统根据流转表来确定当前状态可以执行的操作(同意、拒绝、等等)。 工单新建的时候需要有个初始状态， 这样工单新建时，系统才能判断新建页面用户可以执行的操作(如 提交、保存 等等)。 </p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在线人数</title>
-    <url>/2020/11/19/%E5%9C%A8%E7%BA%BF%E4%BA%BA%E6%95%B0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="在线人数"><a href="#在线人数" class="headerlink" title="在线人数"></a>在线人数</h1><p>实现逻辑是，当一个用户访问，把用户的ip作为key放到cache中，然后设置online_ips 作为key来存放所有的ip,每次请求会先取出online_ips 的所有值，任何在根据这个list 来从cache中取出依然存在的ip，再次存入online_ips。</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这个过程要放到中间层中的 </span></span><br><span class="line"><span class="comment"># PV_middleware.py</span></span><br><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin</span><br><span class="line"></span><br><span class="line"><span class="comment"># EXLCLE_URL 这个是排除一些路由不进行统计的 比如</span></span><br><span class="line"><span class="comment"># EXLCLE_URL = [&#x27;/admin/&#x27;]</span></span><br><span class="line"><span class="keyword">from</span> HuberyBlog.settings <span class="keyword">import</span> EXCLUDE_URL </span><br><span class="line"></span><br><span class="line"><span class="comment"># 主要在settings 中添加这个中间件</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PvVisitViewMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;统计在线人数和用户访问&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">if</span> request.path <span class="keyword">not</span> <span class="keyword">in</span> EXCLUDE_URL:</span><br><span class="line">            ip = get_ip(request)</span><br><span class="line">            online_ips = cache.get(<span class="string">&quot;online_ips&quot;</span>, [])</span><br><span class="line">            <span class="keyword">if</span> online_ips:</span><br><span class="line">              <span class="comment"># 根据取出的ip list获取缓存中仍然存在的ip</span></span><br><span class="line">              <span class="comment"># 这里要加个list py2 中是直接获取的list python3中获取的是一个对象 网上很多都没加</span></span><br><span class="line">                online_ips = <span class="built_in">list</span>(cache.get_many(online_ips).keys())</span><br><span class="line">            cache.<span class="built_in">set</span>(ip, <span class="number">0</span>, <span class="number">1</span> * <span class="number">60</span>)</span><br><span class="line">            <span class="keyword">if</span> ip <span class="keyword">not</span> <span class="keyword">in</span> online_ips:</span><br><span class="line">                online_ips.append(ip)</span><br><span class="line">            cache.<span class="built_in">set</span>(<span class="string">&quot;online_ips&quot;</span>, online_ips)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ip</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    获取ip</span></span><br><span class="line"><span class="string">    :param request:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;REMOTE_ADDR&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
-
-<h1 id="什么是-utf8mb4"><a href="#什么是-utf8mb4" class="headerlink" title="什么是 utf8mb4"></a>什么是 utf8mb4</h1><p>utf8mb4 是 utf8 的超集，理论上原来使用 utf8，然后将字符集修改为 utf8mb4，也不会对已有的utf8 编码读取产生任何问题。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>带你弄懂Jwt</title>
     <url>/2020/11/19/%E5%B8%A6%E4%BD%A0%E5%BC%84%E6%87%82Jwt/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="1-JWT介绍"><a href="#1-JWT介绍" class="headerlink" title="1.JWT介绍"></a>1.JWT介绍</h2><h3 id="2-1-jwt原则"><a href="#2-1-jwt原则" class="headerlink" title="2.1 jwt原则"></a>2.1 jwt原则</h3><ul>
@@ -1695,20 +1644,6 @@
     <title>整数反转</title>
     <url>/2023/10/19/%E6%95%B4%E6%95%B0%E5%8F%8D%E8%BD%AC/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="给你一个-32-位的有符号整数-x-，返回将-x-中的数字部分反转后的结果。"><a href="#给你一个-32-位的有符号整数-x-，返回将-x-中的数字部分反转后的结果。" class="headerlink" title="给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。"></a>给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。</h3><h3 id="如果反转后整数超过-32-位的有符号整数的范围-−231-231-−-1-，就返回-0。"><a href="#如果反转后整数超过-32-位的有符号整数的范围-−231-231-−-1-，就返回-0。" class="headerlink" title="如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。"></a>如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。</h3><h3 id="假设环境不允许存储-64-位整数（有符号或无符号）。"><a href="#假设环境不允许存储-64-位整数（有符号或无符号）。" class="headerlink" title="假设环境不允许存储 64 位整数（有符号或无符号）。"></a>假设环境不允许存储 64 位整数（有符号或无符号）。</h3><h3 id="Python3-两行代码解决，28ms。"><a href="#Python3-两行代码解决，28ms。" class="headerlink" title="Python3 两行代码解决，28ms。"></a>Python3 两行代码解决，28ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">reverse</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type x: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        y = [<span class="number">1</span>,-<span class="number">1</span>][x&lt;<span class="number">0</span>] * <span class="built_in">int</span>(<span class="built_in">str</span>(<span class="built_in">abs</span>(x))[::-<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> y <span class="keyword">if</span> y.bit_length() &lt; <span class="number">32</span> <span class="keyword">else</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>最长公共前缀</title>
-    <url>/2021/09/03/%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。"><a href="#leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。" class="headerlink" title="leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。"></a>leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。</h3><h3 id="如果不存在公共前缀，返回空字符串-。"><a href="#如果不存在公共前缀，返回空字符串-。" class="headerlink" title="如果不存在公共前缀，返回空字符串 &quot;&quot;。"></a>如果不存在公共前缀，返回空字符串 <code>&quot;&quot;</code>。</h3><h3 id="利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"><a href="#利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀" class="headerlink" title="利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"></a>利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def longestCommonPrefix(self, strs):</span><br><span class="line">    if not strs: return &quot;&quot;</span><br><span class="line">    s1 = min(strs)</span><br><span class="line">    s2 = max(strs)</span><br><span class="line">    for i,x in enumerate(s1):</span><br><span class="line">        if x != s2[i]:</span><br><span class="line">            return s2[:i]</span><br><span class="line">    return s1</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/3d5c6f3527a242e89a405db305928c9a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASzExNjMzMTc1MTU=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-]]></content>
       <categories>
         <category>python</category>
       </categories>
@@ -1772,6 +1707,20 @@
       </categories>
       <tags>
         <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最长公共前缀</title>
+    <url>/2021/09/03/%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。"><a href="#leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。" class="headerlink" title="leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。"></a>leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。</h3><h3 id="如果不存在公共前缀，返回空字符串-。"><a href="#如果不存在公共前缀，返回空字符串-。" class="headerlink" title="如果不存在公共前缀，返回空字符串 &quot;&quot;。"></a>如果不存在公共前缀，返回空字符串 <code>&quot;&quot;</code>。</h3><h3 id="利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"><a href="#利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀" class="headerlink" title="利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"></a>利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def longestCommonPrefix(self, strs):</span><br><span class="line">    if not strs: return &quot;&quot;</span><br><span class="line">    s1 = min(strs)</span><br><span class="line">    s2 = max(strs)</span><br><span class="line">    for i,x in enumerate(s1):</span><br><span class="line">        if x != s2[i]:</span><br><span class="line">            return s2[:i]</span><br><span class="line">    return s1</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/3d5c6f3527a242e89a405db305928c9a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASzExNjMzMTc1MTU=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -2371,6 +2320,57 @@
 <p>operator. <strong><strong>ixor</strong>(a, b)</strong></p>
 <p>​    a &#x3D; ixor(a, b)等价于a ^&#x3D; b。</p>
 ]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在Python中是如何管理内存的</title>
+    <url>/2020/11/29/%E5%9C%A8Python%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E7%9A%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>Python有一个私有堆空间来保存所有的对象和数据结构。作为开发者，我们无法访问它，是解释器在管理它。但是有了核心API后，我们可以访问一些工具。Python内存管理器控制内存分配。<br>另外，内置垃圾回收器会回收使用所有的未使用内存，所以使其适用于堆空间。</p>
+<span id="more"></span>
+<h2 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h2><p>Python采用了类似Windows内核对象一样的方式来对内存进行管理。每一个对象，都维护这一个对指向该对对象的引用的计数。当变量被绑定在一个对象上的时候，该变量的引用计数就是1，(还有另外一些情况也会导致变量引用计数的增加),系统会自动维护这些标签，并定时扫描，当某标签的引用计数变为0的时候，该对就会被回收。</p>
+<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>python不像C++，Java等语言一样，他们可以不用事先声明变量类型而直接对变量进行赋值。对Python语言来讲，对象的类型和内存都是在运行时确定的。这也是为什么我们称Python语言为动态类型的原因(这里我们把动态类型可以简单的归结为对变量内存地址的分配是在运行时自动判断变量类型并对变量进行赋值)。</p>
+<h2 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h2><ol>
+<li>分代回收是建立在标记清除技术基础之上的，是一种以空间换时间的操作方式。</li>
+<li>Python将内存分为了3“代”，分别为年轻代（第0代）、中年代（第1代）、老年代（第2代）</li>
+<li>他们对应的是3个链表，它们的垃圾收集频率与对象的存活时间的增大而减小。</li>
+<li>新创建的对象都会分配在年轻代，年轻代链表的总数达到上限时，Python垃圾收集机制就会被触发</li>
+<li>把那些可以被回收的对象回收掉，而那些不会回收的对象就会被移到中年代去，依此类推</li>
+<li>老年代中的对象是存活时间最久的对象，甚至是存活于整个系统的生命周期内。</li>
+</ol>
+<h2 id="对象存储"><a href="#对象存储" class="headerlink" title="对象存储"></a>对象存储</h2><p>在Python中万物皆对象</p>
+<p>不存在基本数据类型，<code>0, 1.2, True, False, &quot;abc&quot;</code>等，这些全都是对象</p>
+<p>所有对象, 都会在内存中开辟一块空间进行存储</p>
+<p>2.1 会根据不同的类型以及内容, 开辟不同的空间大小进行存储 2.2 返回该空间的地址给外界接收(称为”引用”), 用于后续对这个对象的操作 2.3 可通过 id() 函数获取内存地址(10进制) 2.4 通过 hex() 函数可以查看对应的16进制地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">print(p)</span><br><span class="line">print(id(p))</span><br><span class="line">print(hex(id(p)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">&lt;__main__.Person object at 0x107030470&gt;</span><br><span class="line">4412605552</span><br><span class="line">0x107030470</span><br></pre></td></tr></table></figure>
+
+<p>对于整数和短小的字符, Python会进行缓存; 不会创建多个相同对象</p>
+<p>此时, 被多次赋值, 只会有多份引用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">num1 = 2</span><br><span class="line">num2 = 2</span><br><span class="line">print(id(num1), id(num2))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">4366584464 4366584464</span><br></pre></td></tr></table></figure>
+
+<p>容器对象, 存储的其他对象, 仅仅是其他对象的引用, 并不是其他对象本身</p>
+<p>4.1 比如字典, 列表, 元组这些”容器对象” 4.2 全局变量是由一个大字典进行引用 4.3 可通过 global() 查看</p>
+<p>2 对象回收 2.1 引用计数器 2.1.1概念</p>
+<p>一个对象, 会记录着自身被引用的个数 每增加一个引用, 这个对象的引用计数会自动+1 每减少一个引用, 这个对象的引用计数会自动-1</p>
+<p>引用计数+1场景</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、对象被创建</span><br><span class="line">    p1 = Person()</span><br><span class="line">2、对象被引用</span><br><span class="line">    p2 = p1</span><br><span class="line">3、对象被作为参数，传入到一个函数中</span><br><span class="line">    log(p1)</span><br><span class="line">    这里注意会+2, 因为内部有两个属性引用着这个参数</span><br><span class="line">4、对象作为一个元素，存储在容器中</span><br><span class="line">    l = [p1]</span><br></pre></td></tr></table></figure>
+
+<p>引用计数-1场景</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1、对象的别名被显式销毁</span><br><span class="line">    del p1</span><br><span class="line">2、对象的别名被赋予新的对象</span><br><span class="line">    p1 = 123</span><br><span class="line">3、一个对象离开它的作用域</span><br><span class="line">    一个函数执行完毕时</span><br><span class="line">    内部的局部变量关联的对象, 它的引用计数就会-1</span><br><span class="line">4、对象所在的容器被销毁，或从容器中删除对象</span><br></pre></td></tr></table></figure>
+
+<p>查看引用计数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p1 = Person() # 1</span><br><span class="line"></span><br><span class="line">print(sys.getrefcount(p1)) # 2</span><br><span class="line"></span><br><span class="line">p2 = p1 # 2</span><br><span class="line"></span><br><span class="line">print(sys.getrefcount(p1)) # 3</span><br><span class="line"></span><br><span class="line">del p2 # 1</span><br><span class="line">print(sys.getrefcount(p1)) # 2</span><br><span class="line"></span><br><span class="line">del p1</span><br><span class="line"># print(sys.getrefcount(p1)) #error，因为上一行代码执行类p1对象已经销毁</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p>循环引用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 循环引用</span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">class Dog:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person() </span><br><span class="line">d = Dog()   </span><br><span class="line"></span><br><span class="line">p.pet = d </span><br><span class="line">d.master = p</span><br></pre></td></tr></table></figure>
+
+<p>对象间互相引用，导致对象不能通过引用计数器进行销毁</p>
+<p>手动触发垃圾回收，挥手循环引用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import objgraph</span><br><span class="line">import gc</span><br><span class="line"></span><br><span class="line">class Person:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">class Dog:</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">d = Dog()</span><br><span class="line"></span><br><span class="line">p.pet = d</span><br><span class="line">d.master = p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">del p</span><br><span class="line">del d</span><br><span class="line"></span><br><span class="line">gc.collect() #手动触发垃圾回收</span><br><span class="line"></span><br><span class="line">print(objgraph.count(&quot;Person&quot;))</span><br><span class="line">print(objgraph.count(&quot;Dog&quot;))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;&gt; 打印结果</span><br><span class="line">0</span><br><span class="line">0</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>python</category>
       </categories>
