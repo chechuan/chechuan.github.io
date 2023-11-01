@@ -302,6 +302,115 @@
       </tags>
   </entry>
   <entry>
+    <title>Dockerfile文件详解</title>
+    <url>/2020/11/22/Dockerfile%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="什么是dockerfile"><a href="#什么是dockerfile" class="headerlink" title="什么是dockerfile?"></a>什么是dockerfile?</h2><p>Dockerfile是一个包含用于组合映像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取<code>Dockerfile</code>中的指令自动生成映像。</p>
+<p><code>docker build</code>命令用于从Dockerfile构建映像。可以在<code>docker build</code>命令中使用<code>-f</code>标志指向文件系统中任何位置的Dockerfile。</p>
+<span id="more"></span>
+<p>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker build -f /path/to/a/Dockerfile</span><br></pre></td></tr></table></figure>
+<h2 id="Dockerfile的基本结构"><a href="#Dockerfile的基本结构" class="headerlink" title="Dockerfile的基本结构"></a>Dockerfile的基本结构</h2><p>Dockerfile 一般分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令，’#’ 为 Dockerfile 中的注释。</p>
+<h2 id="Dockerfile文件说明"><a href="#Dockerfile文件说明" class="headerlink" title="Dockerfile文件说明"></a>Dockerfile文件说明</h2><p>Docker以从上到下的顺序运行Dockerfile的指令。为了指定基本映像，第一条指令必须是<em>FROM</em>。一个声明以<code>＃</code>字符开头则被视为注释。可以在Docker文件中使用<code>RUN</code>，<code>CMD</code>，<code>FROM</code>，<code>EXPOSE</code>，<code>ENV</code>等指令。</p>
+<p><strong>在这里列出了一些常用的指令。</strong></p>
+<p><strong>FROM：指定基础镜像，必须为第一个命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">　　FROM &lt;image&gt;</span><br><span class="line">　　FROM &lt;image&gt;:&lt;tag&gt;</span><br><span class="line">　　FROM &lt;image&gt;@&lt;digest&gt;</span><br><span class="line">示例：</span><br><span class="line">　　FROM mysql:5.6</span><br><span class="line">注：</span><br><span class="line">　　tag或digest是可选的，如果不使用这两个值时，会使用latest版本的基础镜像</span><br></pre></td></tr></table></figure>
+
+<p><strong>MAINTAINER: 维护者信息</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    MAINTAINER &lt;name&gt;</span><br><span class="line">示例：</span><br><span class="line">    MAINTAINER Jasper Xu</span><br><span class="line">    MAINTAINER sorex@163.com</span><br><span class="line">    MAINTAINER Jasper Xu &lt;sorex@163.com&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>RUN：构建镜像时执行的命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RUN用于在镜像容器中执行命令，其有以下两种命令执行方式：</span><br><span class="line">shell执行</span><br><span class="line">格式：</span><br><span class="line">    RUN &lt;command&gt;</span><br><span class="line">exec执行</span><br><span class="line">格式：</span><br><span class="line">    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br><span class="line">示例：</span><br><span class="line">    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br><span class="line">    RUN apk update</span><br><span class="line">    RUN [&quot;/etc/execfile&quot;, &quot;arg1&quot;, &quot;arg1&quot;]</span><br><span class="line">注：</span><br><span class="line">　　RUN指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定--no-cache参数，如：docker build --no-cache</span><br></pre></td></tr></table></figure>
+
+<p><strong>ADD：将本地文件添加到容器中，tar类型文件会自动解压(网络压缩资源不会被解压)，可以访问网络资源，类似wget</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ADD &lt;src&gt;... &lt;dest&gt;</span><br><span class="line">    ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;] 用于支持包含空格的路径</span><br><span class="line">示例：</span><br><span class="line">    ADD hom* /mydir/          # 添加所有以&quot;hom&quot;开头的文件</span><br><span class="line">    ADD hom?.txt /mydir/      # ? 替代一个单字符,例如：&quot;home.txt&quot;</span><br><span class="line">    ADD test relativeDir/     # 添加 &quot;test&quot; 到 `WORKDIR`/relativeDir/</span><br><span class="line">    ADD test /absoluteDir/    # 添加 &quot;test&quot; 到 /absoluteDir/</span><br></pre></td></tr></table></figure>
+
+<p><strong>COPY：功能类似ADD，但是是不会自动解压文件，也不能访问网络资源</strong></p>
+<p><strong>CMD：构建容器后调用，也就是在容器启动时才进行调用。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (执行可执行文件，优先)</span><br><span class="line">    CMD [&quot;param1&quot;,&quot;param2&quot;] (设置了ENTRYPOINT，则直接调用ENTRYPOINT添加参数)</span><br><span class="line">    CMD command param1 param2 (执行shell内部命令)</span><br><span class="line">示例：</span><br><span class="line">    CMD echo &quot;This is a test.&quot; | wc -</span><br><span class="line">    CMD [&quot;/usr/bin/wc&quot;,&quot;--help&quot;]</span><br><span class="line">注：</span><br><span class="line"> 　　CMD不同于RUN，CMD用于指定在容器启动时所要执行的命令，而RUN用于指定镜像构建时所要执行的命令。</span><br></pre></td></tr></table></figure>
+
+<p><strong>ENTRYPOINT：配置容器，使其可执行化。配合CMD可省去”application”，只使用参数。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (可执行文件, 优先)</span><br><span class="line">    ENTRYPOINT command param1 param2 (shell内部命令)</span><br><span class="line">示例：</span><br><span class="line">    FROM ubuntu</span><br><span class="line">    ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]</span><br><span class="line">    CMD [&quot;-c&quot;]</span><br><span class="line">注：</span><br><span class="line">　　　ENTRYPOINT与CMD非常类似，不同的是通过docker run执行的命令不会覆盖ENTRYPOINT，而docker run命令中指定的任何参数，都会被当做参数再次传递给ENTRYPOINT。Dockerfile中只允许有一个ENTRYPOINT命令，多指定时会覆盖前面的设置，而只执行最后的ENTRYPOINT指令。</span><br></pre></td></tr></table></figure>
+
+<p><strong>LABEL：用于为镜像添加元数据</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span><br><span class="line">示例：</span><br><span class="line">　　LABEL version=&quot;1.0&quot; description=&quot;这是一个Web服务器&quot; by=&quot;IT笔录&quot;</span><br><span class="line">注：</span><br><span class="line">　　使用LABEL指定元数据时，一条LABEL指定可以指定一或多条元数据，指定多条元数据时不同元数据之间通过空格分隔。推荐将所有的元数据通过一条LABEL指令指定，以免生成过多的中间镜像。</span><br></pre></td></tr></table></figure>
+
+<p><strong>ENV：设置环境变量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ENV &lt;key&gt; &lt;value&gt;  #&lt;key&gt;之后的所有内容均会被视为其&lt;value&gt;的组成部分，因此，一次只能设置一个变量</span><br><span class="line">    ENV &lt;key&gt;=&lt;value&gt; ...  #可以设置多个变量，每个变量为一个&quot;&lt;key&gt;=&lt;value&gt;&quot;的键值对，如果&lt;key&gt;中包含空格，可以使用\来进行转义，也可以通过&quot;&quot;来进行标示；另外，反斜线也可以用于续行</span><br><span class="line">示例：</span><br><span class="line">    ENV myName John Doe</span><br><span class="line">    ENV myDog Rex The Dog</span><br><span class="line">    ENV myCat=fluffy</span><br></pre></td></tr></table></figure>
+
+<p><strong>EXPOSE：指定于外界交互的端口</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    EXPOSE &lt;port&gt; [&lt;port&gt;...]</span><br><span class="line">示例：</span><br><span class="line">    EXPOSE 80 443</span><br><span class="line">    EXPOSE 8080</span><br><span class="line">    EXPOSE 11211/tcp 11211/udp</span><br><span class="line">注：</span><br><span class="line">　　EXPOSE并不会让容器的端口访问到主机。要使其可访问，需要在docker run运行容器时通过-p来发布这些端口，或通过-P参数来发布EXPOSE导出的所有端口</span><br></pre></td></tr></table></figure>
+
+<p><strong>VOLUME：用于指定持久化目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    VOLUME [&quot;/path/to/dir&quot;]</span><br><span class="line">示例：</span><br><span class="line">    VOLUME [&quot;/data&quot;]</span><br><span class="line">    VOLUME [&quot;/var/www&quot;, &quot;/var/log/apache2&quot;, &quot;/etc/apache2&quot;</span><br><span class="line">注：</span><br><span class="line">　　一个卷可以存在于一个或多个容器的指定目录，该目录可以绕过联合文件系统，并具有以下功能：</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 卷可以容器间共享和重用</span><br><span class="line">2 容器并不一定要和其它容器共享卷</span><br><span class="line">3 修改卷后会立即生效</span><br><span class="line">4 对卷的修改不会对镜像产生影响</span><br><span class="line">5 卷会一直存在，直到没有任何容器在使用它</span><br></pre></td></tr></table></figure>
+
+<p><strong>WORKDIR：工作目录，类似于cd命令</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    WORKDIR /path/to/workdir</span><br><span class="line">示例：</span><br><span class="line">    WORKDIR /a  (这时工作目录为/a)</span><br><span class="line">    WORKDIR b  (这时工作目录为/a/b)</span><br><span class="line">    WORKDIR c  (这时工作目录为/a/b/c)</span><br><span class="line">注：</span><br><span class="line">　　通过WORKDIR设置工作目录后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT、ADD、COPY等命令都会在该目录下执行。在使用docker run运行容器时，可以通过-w参数覆盖构建时所设置的工作目录。</span><br></pre></td></tr></table></figure>
+
+<p>**USER:**<strong>指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。使用USER指定用户时，可以使用用户名、UID或GID，或是两者的组合。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户</strong></p>
+<p> 格式:<br>　　USER user<br>　　USER user:group<br>　　USER uid<br>　　USER uid:gid<br>　　USER user:gid<br>　　USER uid:group</p>
+<p> 示例：<br>　　USER www</p>
+<p> 注：</p>
+<p>　　使用USER指定用户后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT都将使用该用户。镜像构建完成后，通过<code>docker run</code>运行容器时，可以通过-u参数来覆盖所指定的用户。</p>
+<p><strong>ARG：用于指定传递给构建运行时的变量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ARG &lt;name&gt;[=&lt;default value&gt;]</span><br><span class="line">示例：</span><br><span class="line">    ARG site</span><br><span class="line">    ARG build_user=www</span><br></pre></td></tr></table></figure>
+
+<p><strong>ONBUILD：用于设置镜像触发器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">　　ONBUILD [INSTRUCTION]</span><br><span class="line">示例：</span><br><span class="line">　　ONBUILD ADD . /app/src</span><br><span class="line">　　ONBUILD RUN /usr/local/bin/python-build --dir /app/src</span><br><span class="line">注：</span><br><span class="line">　　当所构建的镜像被用做其它镜像的基础镜像，该镜像中的触发器将会被钥触发</span><br></pre></td></tr></table></figure>
+
+<p><strong>以下是一个小例子：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># This my first nginx Dockerfile</span><br><span class="line"># Version 1.0</span><br><span class="line"></span><br><span class="line"># Base images 基础镜像</span><br><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">#MAINTAINER 维护者信息</span><br><span class="line">MAINTAINER tianfeiyu </span><br><span class="line"></span><br><span class="line">#ENV 设置环境变量</span><br><span class="line">ENV PATH /usr/local/nginx/sbin:$PATH</span><br><span class="line"></span><br><span class="line">#ADD  文件放在当前目录下，拷过去会自动解压</span><br><span class="line">ADD nginx-1.8.0.tar.gz /usr/local/  </span><br><span class="line">ADD epel-release-latest-7.noarch.rpm /usr/local/  </span><br><span class="line"></span><br><span class="line">#RUN 执行以下命令 </span><br><span class="line">RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm</span><br><span class="line">RUN yum install -y wget lftp gcc gcc-c++ make openssl-devel pcre-devel pcre &amp;&amp; yum clean all</span><br><span class="line">RUN useradd -s /sbin/nologin -M www</span><br><span class="line"></span><br><span class="line">#WORKDIR 相当于cd</span><br><span class="line">WORKDIR /usr/local/nginx-1.8.0 </span><br><span class="line"></span><br><span class="line">RUN ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-pcre &amp;&amp; make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">RUN echo &quot;daemon off;&quot; &gt;&gt; /etc/nginx.conf</span><br><span class="line"></span><br><span class="line">#EXPOSE 映射端口</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">#CMD 运行以下命令</span><br><span class="line">CMD [&quot;nginx&quot;]</span><br></pre></td></tr></table></figure>
+
+<p><strong>最后用一张图解释常用指令的意义^-^</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ebcca944fbba19df0269a02d8e9110d9.png" alt="img"></p>
+<p>“一劳永逸” 的话，有是有的，而 “一劳永逸” 的事却极少</p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker常用命令大全</title>
+    <url>/2020/11/19/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作:"></a>基础操作:</h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
+<p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
+<p>3 **docker pull  [images]:[version]**从dockerhub拉取指定镜像</p>
+<p>4 <strong>docker run -p 8000:80 -tdi –privileged [imageID][command]</strong>  后台启动docker,并指定宿主机端口和docker映射端口。</p>
+<span id="more"></span>
+<p> **-i:**以交互模式运行容器，通常与 -t 同时使用；</p>
+<p> **-d:**后台运行容器，并返回容器ID；</p>
+<p>**-t:**为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
+<p><strong>–privileged</strong> 容器将拥有访问主机所有设备的权限</p>
+<p>通常情况下 [command] 填下 <strong>&#x2F;bin&#x2F;bash</strong> 即可。</p>
+<p>特殊情况下，如需要在centos镜像中使用<strong>systemctl</strong> . 则应添加**–privileged** 并设置[command ]为 <strong>init</strong>。</p>
+<p>5 当镜像通过run 启动后，便会载入到一个动态的container(容器)中运行，此时若需要进入终端交互模式：</p>
+<p><strong>sudo docker exec -it [containerID] &#x2F;bin&#x2F;bash</strong></p>
+<p>交互模式中，使用  ctrl+p+q退出交互 保持运行,使用 exit命令退出并停止容器。</p>
+<p>6 在容器非交互模式下，通过docker  start&#x2F;stop 命令来启动&#x2F;停止已部署的容器服务。</p>
+<p>7 <strong>docker rm [containerID]</strong> 删除容器</p>
+<p>8 <strong>docker rmi [imageID]</strong> 删除镜像</p>
+<p>9 <strong>docker cp [YourHostFilePath][containerID]:[DockerPath]</strong>  将宿主机内的指定文件传输至容器内部的指定地址。</p>
+<h2 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作:"></a>镜像制作:</h2><p>1  <strong>docker commit [containerID] [ImageName]:[Version]</strong> 将修改后的容器重新打包成镜像</p>
+<p>2 <strong>docker commit -a “runoob.com” -m “my apache” a404c6c174a2 mymysql:v1</strong> 将容器a404c6c174a2 保存为新的镜像,并添加提交人信息和说明信息。</p>
+<p><strong>-a</strong> :提交的镜像作者；</p>
+<p> <strong>-c</strong> :使用Dockerfile指令来创建镜像；</p>
+<p> <strong>-m</strong> :提交时的说明文字；</p>
+<p> <strong>-p</strong> :在commit时，将容器暂停。</p>
+<p>3 **docker push [ImageID][repertory_address]**提交镜像到云仓库</p>
+<p>（暂时先记录这些，后续再更新）</p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker的安装和简单使用</title>
     <url>/2020/11/19/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="介绍一下docker"><a href="#介绍一下docker" class="headerlink" title="介绍一下docker"></a>介绍一下docker</h3><p>2013年发布至今， <a href="https://www.docker.com/">Docker</a> 一直广受瞩目，被认为可能会改变软件行业。但是，许多人并不清楚 Docker 到底是什么，要解决什么问题，好处又在哪里？本文就来详细解释，帮助大家理解它，还带有简单易懂的实例，教你如何将它用于日常开发。</p>
@@ -462,78 +571,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile文件详解</title>
-    <url>/2020/11/22/Dockerfile%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="什么是dockerfile"><a href="#什么是dockerfile" class="headerlink" title="什么是dockerfile?"></a>什么是dockerfile?</h2><p>Dockerfile是一个包含用于组合映像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取<code>Dockerfile</code>中的指令自动生成映像。</p>
-<p><code>docker build</code>命令用于从Dockerfile构建映像。可以在<code>docker build</code>命令中使用<code>-f</code>标志指向文件系统中任何位置的Dockerfile。</p>
-<span id="more"></span>
-<p>例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker build -f /path/to/a/Dockerfile</span><br></pre></td></tr></table></figure>
-<h2 id="Dockerfile的基本结构"><a href="#Dockerfile的基本结构" class="headerlink" title="Dockerfile的基本结构"></a>Dockerfile的基本结构</h2><p>Dockerfile 一般分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令，’#’ 为 Dockerfile 中的注释。</p>
-<h2 id="Dockerfile文件说明"><a href="#Dockerfile文件说明" class="headerlink" title="Dockerfile文件说明"></a>Dockerfile文件说明</h2><p>Docker以从上到下的顺序运行Dockerfile的指令。为了指定基本映像，第一条指令必须是<em>FROM</em>。一个声明以<code>＃</code>字符开头则被视为注释。可以在Docker文件中使用<code>RUN</code>，<code>CMD</code>，<code>FROM</code>，<code>EXPOSE</code>，<code>ENV</code>等指令。</p>
-<p><strong>在这里列出了一些常用的指令。</strong></p>
-<p><strong>FROM：指定基础镜像，必须为第一个命令</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">　　FROM &lt;image&gt;</span><br><span class="line">　　FROM &lt;image&gt;:&lt;tag&gt;</span><br><span class="line">　　FROM &lt;image&gt;@&lt;digest&gt;</span><br><span class="line">示例：</span><br><span class="line">　　FROM mysql:5.6</span><br><span class="line">注：</span><br><span class="line">　　tag或digest是可选的，如果不使用这两个值时，会使用latest版本的基础镜像</span><br></pre></td></tr></table></figure>
-
-<p><strong>MAINTAINER: 维护者信息</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    MAINTAINER &lt;name&gt;</span><br><span class="line">示例：</span><br><span class="line">    MAINTAINER Jasper Xu</span><br><span class="line">    MAINTAINER sorex@163.com</span><br><span class="line">    MAINTAINER Jasper Xu &lt;sorex@163.com&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>RUN：构建镜像时执行的命令</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RUN用于在镜像容器中执行命令，其有以下两种命令执行方式：</span><br><span class="line">shell执行</span><br><span class="line">格式：</span><br><span class="line">    RUN &lt;command&gt;</span><br><span class="line">exec执行</span><br><span class="line">格式：</span><br><span class="line">    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br><span class="line">示例：</span><br><span class="line">    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br><span class="line">    RUN apk update</span><br><span class="line">    RUN [&quot;/etc/execfile&quot;, &quot;arg1&quot;, &quot;arg1&quot;]</span><br><span class="line">注：</span><br><span class="line">　　RUN指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定--no-cache参数，如：docker build --no-cache</span><br></pre></td></tr></table></figure>
-
-<p><strong>ADD：将本地文件添加到容器中，tar类型文件会自动解压(网络压缩资源不会被解压)，可以访问网络资源，类似wget</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ADD &lt;src&gt;... &lt;dest&gt;</span><br><span class="line">    ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;] 用于支持包含空格的路径</span><br><span class="line">示例：</span><br><span class="line">    ADD hom* /mydir/          # 添加所有以&quot;hom&quot;开头的文件</span><br><span class="line">    ADD hom?.txt /mydir/      # ? 替代一个单字符,例如：&quot;home.txt&quot;</span><br><span class="line">    ADD test relativeDir/     # 添加 &quot;test&quot; 到 `WORKDIR`/relativeDir/</span><br><span class="line">    ADD test /absoluteDir/    # 添加 &quot;test&quot; 到 /absoluteDir/</span><br></pre></td></tr></table></figure>
-
-<p><strong>COPY：功能类似ADD，但是是不会自动解压文件，也不能访问网络资源</strong></p>
-<p><strong>CMD：构建容器后调用，也就是在容器启动时才进行调用。</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (执行可执行文件，优先)</span><br><span class="line">    CMD [&quot;param1&quot;,&quot;param2&quot;] (设置了ENTRYPOINT，则直接调用ENTRYPOINT添加参数)</span><br><span class="line">    CMD command param1 param2 (执行shell内部命令)</span><br><span class="line">示例：</span><br><span class="line">    CMD echo &quot;This is a test.&quot; | wc -</span><br><span class="line">    CMD [&quot;/usr/bin/wc&quot;,&quot;--help&quot;]</span><br><span class="line">注：</span><br><span class="line"> 　　CMD不同于RUN，CMD用于指定在容器启动时所要执行的命令，而RUN用于指定镜像构建时所要执行的命令。</span><br></pre></td></tr></table></figure>
-
-<p><strong>ENTRYPOINT：配置容器，使其可执行化。配合CMD可省去”application”，只使用参数。</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (可执行文件, 优先)</span><br><span class="line">    ENTRYPOINT command param1 param2 (shell内部命令)</span><br><span class="line">示例：</span><br><span class="line">    FROM ubuntu</span><br><span class="line">    ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]</span><br><span class="line">    CMD [&quot;-c&quot;]</span><br><span class="line">注：</span><br><span class="line">　　　ENTRYPOINT与CMD非常类似，不同的是通过docker run执行的命令不会覆盖ENTRYPOINT，而docker run命令中指定的任何参数，都会被当做参数再次传递给ENTRYPOINT。Dockerfile中只允许有一个ENTRYPOINT命令，多指定时会覆盖前面的设置，而只执行最后的ENTRYPOINT指令。</span><br></pre></td></tr></table></figure>
-
-<p><strong>LABEL：用于为镜像添加元数据</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span><br><span class="line">示例：</span><br><span class="line">　　LABEL version=&quot;1.0&quot; description=&quot;这是一个Web服务器&quot; by=&quot;IT笔录&quot;</span><br><span class="line">注：</span><br><span class="line">　　使用LABEL指定元数据时，一条LABEL指定可以指定一或多条元数据，指定多条元数据时不同元数据之间通过空格分隔。推荐将所有的元数据通过一条LABEL指令指定，以免生成过多的中间镜像。</span><br></pre></td></tr></table></figure>
-
-<p><strong>ENV：设置环境变量</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ENV &lt;key&gt; &lt;value&gt;  #&lt;key&gt;之后的所有内容均会被视为其&lt;value&gt;的组成部分，因此，一次只能设置一个变量</span><br><span class="line">    ENV &lt;key&gt;=&lt;value&gt; ...  #可以设置多个变量，每个变量为一个&quot;&lt;key&gt;=&lt;value&gt;&quot;的键值对，如果&lt;key&gt;中包含空格，可以使用\来进行转义，也可以通过&quot;&quot;来进行标示；另外，反斜线也可以用于续行</span><br><span class="line">示例：</span><br><span class="line">    ENV myName John Doe</span><br><span class="line">    ENV myDog Rex The Dog</span><br><span class="line">    ENV myCat=fluffy</span><br></pre></td></tr></table></figure>
-
-<p><strong>EXPOSE：指定于外界交互的端口</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    EXPOSE &lt;port&gt; [&lt;port&gt;...]</span><br><span class="line">示例：</span><br><span class="line">    EXPOSE 80 443</span><br><span class="line">    EXPOSE 8080</span><br><span class="line">    EXPOSE 11211/tcp 11211/udp</span><br><span class="line">注：</span><br><span class="line">　　EXPOSE并不会让容器的端口访问到主机。要使其可访问，需要在docker run运行容器时通过-p来发布这些端口，或通过-P参数来发布EXPOSE导出的所有端口</span><br></pre></td></tr></table></figure>
-
-<p><strong>VOLUME：用于指定持久化目录</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    VOLUME [&quot;/path/to/dir&quot;]</span><br><span class="line">示例：</span><br><span class="line">    VOLUME [&quot;/data&quot;]</span><br><span class="line">    VOLUME [&quot;/var/www&quot;, &quot;/var/log/apache2&quot;, &quot;/etc/apache2&quot;</span><br><span class="line">注：</span><br><span class="line">　　一个卷可以存在于一个或多个容器的指定目录，该目录可以绕过联合文件系统，并具有以下功能：</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1 卷可以容器间共享和重用</span><br><span class="line">2 容器并不一定要和其它容器共享卷</span><br><span class="line">3 修改卷后会立即生效</span><br><span class="line">4 对卷的修改不会对镜像产生影响</span><br><span class="line">5 卷会一直存在，直到没有任何容器在使用它</span><br></pre></td></tr></table></figure>
-
-<p><strong>WORKDIR：工作目录，类似于cd命令</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    WORKDIR /path/to/workdir</span><br><span class="line">示例：</span><br><span class="line">    WORKDIR /a  (这时工作目录为/a)</span><br><span class="line">    WORKDIR b  (这时工作目录为/a/b)</span><br><span class="line">    WORKDIR c  (这时工作目录为/a/b/c)</span><br><span class="line">注：</span><br><span class="line">　　通过WORKDIR设置工作目录后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT、ADD、COPY等命令都会在该目录下执行。在使用docker run运行容器时，可以通过-w参数覆盖构建时所设置的工作目录。</span><br></pre></td></tr></table></figure>
-
-<p>**USER:**<strong>指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。使用USER指定用户时，可以使用用户名、UID或GID，或是两者的组合。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户</strong></p>
-<p> 格式:<br>　　USER user<br>　　USER user:group<br>　　USER uid<br>　　USER uid:gid<br>　　USER user:gid<br>　　USER uid:group</p>
-<p> 示例：<br>　　USER www</p>
-<p> 注：</p>
-<p>　　使用USER指定用户后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT都将使用该用户。镜像构建完成后，通过<code>docker run</code>运行容器时，可以通过-u参数来覆盖所指定的用户。</p>
-<p><strong>ARG：用于指定传递给构建运行时的变量</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    ARG &lt;name&gt;[=&lt;default value&gt;]</span><br><span class="line">示例：</span><br><span class="line">    ARG site</span><br><span class="line">    ARG build_user=www</span><br></pre></td></tr></table></figure>
-
-<p><strong>ONBUILD：用于设置镜像触发器</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">　　ONBUILD [INSTRUCTION]</span><br><span class="line">示例：</span><br><span class="line">　　ONBUILD ADD . /app/src</span><br><span class="line">　　ONBUILD RUN /usr/local/bin/python-build --dir /app/src</span><br><span class="line">注：</span><br><span class="line">　　当所构建的镜像被用做其它镜像的基础镜像，该镜像中的触发器将会被钥触发</span><br></pre></td></tr></table></figure>
-
-<p><strong>以下是一个小例子：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># This my first nginx Dockerfile</span><br><span class="line"># Version 1.0</span><br><span class="line"></span><br><span class="line"># Base images 基础镜像</span><br><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">#MAINTAINER 维护者信息</span><br><span class="line">MAINTAINER tianfeiyu </span><br><span class="line"></span><br><span class="line">#ENV 设置环境变量</span><br><span class="line">ENV PATH /usr/local/nginx/sbin:$PATH</span><br><span class="line"></span><br><span class="line">#ADD  文件放在当前目录下，拷过去会自动解压</span><br><span class="line">ADD nginx-1.8.0.tar.gz /usr/local/  </span><br><span class="line">ADD epel-release-latest-7.noarch.rpm /usr/local/  </span><br><span class="line"></span><br><span class="line">#RUN 执行以下命令 </span><br><span class="line">RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm</span><br><span class="line">RUN yum install -y wget lftp gcc gcc-c++ make openssl-devel pcre-devel pcre &amp;&amp; yum clean all</span><br><span class="line">RUN useradd -s /sbin/nologin -M www</span><br><span class="line"></span><br><span class="line">#WORKDIR 相当于cd</span><br><span class="line">WORKDIR /usr/local/nginx-1.8.0 </span><br><span class="line"></span><br><span class="line">RUN ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-pcre &amp;&amp; make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">RUN echo &quot;daemon off;&quot; &gt;&gt; /etc/nginx.conf</span><br><span class="line"></span><br><span class="line">#EXPOSE 映射端口</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">#CMD 运行以下命令</span><br><span class="line">CMD [&quot;nginx&quot;]</span><br></pre></td></tr></table></figure>
-
-<p><strong>最后用一张图解释常用指令的意义^-^</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/ebcca944fbba19df0269a02d8e9110d9.png" alt="img"></p>
-<p>“一劳永逸” 的话，有是有的，而 “一劳永逸” 的事却极少</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>EChart.js（前端数据可视化）实现外汇实时走势</title>
     <url>/2020/11/26/EChart-js%EF%BC%88%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%89%E5%AE%9E%E7%8E%B0%E5%A4%96%E6%B1%87%E5%AE%9E%E6%97%B6%E8%B5%B0%E5%8A%BF/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p>你可以通过以下几种方式获取 Apache ECharts (incubating)TM。</p>
@@ -617,6 +654,76 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python多线程和锁</title>
+    <url>/2020/11/23/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%94%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h3><p>进程是执行中的计算机程序。每个进程都拥有自己的地址空间、内存、数据栈及其它的辅助数据。操作系统管理着所有的进程，并为这些进程合理分配时间。进程可以通过派生新的进程来执行其它任务，不过每个进程都拥有自己的内存和数据栈等，进程之间的数据交换采用 <strong>进程间通信(IPC)</strong> 方式。<br>线程在进程之下执行，一个进程下可以运行多个线程，它们之间共享相同上下文。线程包括开始、执行顺序和结束三部分。它有一个指针，用于记录当前运行的上下文。当其它线程执行时，它可以被抢占(中断)和临时挂起(也称睡眠) ——这种做法叫做 <strong>让步(yielding)</strong> 。</p>
+<span id="more"></span>
+<p>一个进程中的各个线程与主进程共享同一片数据空间，与独立进程相比，线程之间信息共享和通信更加容易。线程一般以并发执行，正是由于这种并发和数据共享机制，使多任务间的协作成为可能。当然，这种共享也并不是没有风险的，如果多个线程访问同一数据空间，由于访问顺序不同，可能导致结果不一致，这种情况通常称为**竞态条件(race condition)**，不过大多数线程库都有同步原语，以允许线程管理器的控制执行和访问；另一个要注意的问题是，线程无法给予公平执行时间，CPU 时间分配会倾向那些阻塞更少的函数。</p>
+<h3 id="全局解释器锁-GIL"><a href="#全局解释器锁-GIL" class="headerlink" title="全局解释器锁(GIL)"></a>全局解释器锁(GIL)</h3><p>Python 代码执行由 <em>Python 虚拟机</em> (又名解释器主循环) 进行控制。Python 在设计时是这样考虑的，在主循环中同时只能有一个控制线程在执行。对 Python 虚拟机的访问由 <em>全局解释器(GIL)</em> 控制，这个锁用于，当有多个线程时保证同一时刻只能有一个线程在运行。</p>
+<p>由于 Python 的 GIL 的限制，多线程更适合 I&#x2F;O 密集型应用( I&#x2F;O 释放了 GIL，可以允许更多的并发)，对于计算密集型应用，为了实现更好的并行性，适合使用多进程，已便利用 CPU 的多核优势。Python 的多进程相关模块：subprocess、multiprocessing、concurrent.futures</p>
+<h3 id="threading-模块"><a href="#threading-模块" class="headerlink" title="threading 模块"></a>threading 模块</h3><p>threading 是 Python 高级别的多线程模块。</p>
+<h4 id="threading-模块的函数"><a href="#threading-模块的函数" class="headerlink" title="threading 模块的函数"></a>threading 模块的函数</h4><ul>
+<li><strong>active_count()</strong> 当前活动的 Thread 对象个数</li>
+<li><strong>current_thread()</strong> 返回当前 Thread 对象</li>
+<li><strong>get_ident()</strong> 返回当前线程</li>
+<li><strong>enumerater()</strong> 返回当前活动 Thread 对象列表</li>
+<li><strong>main_thread()</strong> 返回主 Thread 对象</li>
+<li><strong>settrace(func)</strong> 为所有线程设置一个 trace 函数</li>
+<li><strong>setprofile(func)</strong> 为所有线程设置一个 profile 函数</li>
+<li><strong>stack_size([size])</strong> 返回新创建线程栈大小；或为后续创建的线程设定栈大小为 size</li>
+<li><strong>TIMEOUT_MAX</strong> <code>Lock.acquire()</code>, <code>RLock.acquire()</code>, <code>Condition.wait()</code> 允许的最大值</li>
+</ul>
+<p>threading 可用对象列表：</p>
+<ul>
+<li><strong>Thread</strong> 表示执行线程的对象</li>
+<li><strong>Lock</strong> 锁原语对象</li>
+<li><strong>RLock</strong> 可重入锁对象，使单一进程再次获得已持有的锁(递归锁)</li>
+<li><strong>Condition</strong> 条件变量对象，使得一个线程等待另一个线程满足特定条件，比如改变状态或某个值</li>
+<li><strong>Semaphore</strong> 为线程间共享的有限资源提供一个”计数器”，如果没有可用资源会被阻塞</li>
+<li><strong>Event</strong> 条件变量的通用版本，任意数量的线程等待某个时间的发生，在改事件发生后所有线程被激活</li>
+<li><strong>Timer</strong> 与 Thread 相识，不过它要在运行前等待一段时间</li>
+<li><strong>Barrier</strong> 创建一个”阻碍”，必须达到指定数量的线程后才可以继续</li>
+</ul>
+<h4 id="Thread-类"><a href="#Thread-类" class="headerlink" title="Thread 类"></a>Thread 类</h4><p>Thread 对象的属性有：<code>Thread.name</code>、<code>Thread.ident</code>、<code>Thread.daemon</code>。详见(<em>The Python Standard Library</em>)</p>
+<p>Thread 对象方法：<br><code>Thread.start()</code>、<code>Thread.run()</code>、<code>Thread.join(timeout=None)</code>、<code>Thread.getName</code>、<code>Thread.setName</code>、<code>Thread.is_alive()</code>、<code>Thread.isDaemon()</code>、<code>Thread.setDaemon()</code>。详见(<em>The Python Standard Library</em>)</p>
+<p>使用 Thread 类，可以有很多种方法来创建线程，这里使用常见的两种：</p>
+<ul>
+<li>创建 Thread 实例，传给它一个函数。</li>
+<li>派生 Thread 子类，并创建子类的实例。</li>
+</ul>
+<h4 id="一个单线程例子"><a href="#一个单线程例子" class="headerlink" title="一个单线程例子"></a>一个单线程例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)    <span class="comment"># 打印 Sleep 的秒数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        hi(randint(<span class="number">1</span>,<span class="number">2</span>))    <span class="comment"># 调用十次，每次 Sleep 1秒或2秒</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:11:00 2016</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:11:14 2016</span></span><br></pre></td></tr></table></figure>
+
+<p>一共是用了14秒。</p>
+<h4 id="多线程：创建-Thread-实例，传给它一个函数"><a href="#多线程：创建-Thread-实例，传给它一个函数" class="headerlink" title="多线程：创建 Thread 实例，传给它一个函数"></a>多线程：创建 Thread 实例，传给它一个函数</h4><p>直接上代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        <span class="comment"># 实例化每个 Thread 对象，把函数和参数传递进去，返回 Thread 实例</span></span><br><span class="line">        t = threading.Thread(target=hi, args=(rands,))</span><br><span class="line">        threads.append(t)     <span class="comment"># 分配线程</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()    <span class="comment"># 开始执行多线程</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()     <span class="comment"># (自旋锁)等待线程结束或超时，然后再往下执行</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:18:00 2016</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:18:02 2016</span></span><br></pre></td></tr></table></figure>
+
+<p>使用多线程，只用了2秒。</p>
+<h4 id="多线程：派生-Thread-子类，并创建子类的实例"><a href="#多线程：派生-Thread-子类，并创建子类的实例" class="headerlink" title="多线程：派生 Thread 子类，并创建子类的实例"></a>多线程：派生 Thread 子类，并创建子类的实例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyThread</span>(threading.Thread):</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func, args, times</span>):</span><br><span class="line">        <span class="built_in">super</span>(MyThread, self).__init__()</span><br><span class="line">        self.func = func</span><br><span class="line">        self.args = args</span><br><span class="line">        self.times = times</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin thread......&quot;</span>, self.times)</span><br><span class="line">        self.res = self.func(*self.args)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;end threads......&quot;</span>, self.times)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        t = MyThread(hi, (rands,), i+<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:47:09 2016</span></span><br><span class="line">begin thread...... <span class="number">1</span></span><br><span class="line">begin thread...... <span class="number">2</span></span><br><span class="line">begin thread...... <span class="number">3</span></span><br><span class="line">begin thread...... <span class="number">4</span></span><br><span class="line">begin thread...... <span class="number">5</span></span><br><span class="line">begin thread...... <span class="number">6</span></span><br><span class="line">begin thread...... <span class="number">7</span></span><br><span class="line">begin thread...... <span class="number">8</span></span><br><span class="line">begin thread...... <span class="number">9</span></span><br><span class="line">begin thread...... <span class="number">10</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">4</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">7</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">3</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">9</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">5</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">10</span></span><br><span class="line">end threads...... <span class="number">6</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">8</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:47:11 2016</span></span><br></pre></td></tr></table></figure>
+
+<p>这个栗子对 Thread 子类化，而不是对其实例化，使得定制线程对象更具灵活性，同时也简化线程创建的调用过程。</p>
+<h3 id="线程锁"><a href="#线程锁" class="headerlink" title="线程锁"></a>线程锁</h3><p>当多线程争夺锁时，允许第一个获得锁的线程进入临街区，并执行代码。所有之后到达的线程将被阻塞，直到第一个线程执行结束，退出临街区，并释放锁。需要注意，那些阻塞的线程是没有顺序的。</p>
+<p>举个栗子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line">L = threading.Lock() <span class="comment"># 引入锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    L.acquire()    <span class="comment"># 加锁</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">2</span>]:</span><br><span class="line">        <span class="built_in">print</span>(i)</span><br><span class="line">        sleep(n)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line">    L.release()    <span class="comment"># 释放锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        t = threading.Thread(target=hi, args=(rands,))</span><br><span class="line">        threads.append(t)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>运行上面的代码，再将锁的代码注释掉，对比下输出。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -733,113 +840,6 @@
       </categories>
       <tags>
         <tag>排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker常用命令大全</title>
-    <url>/2020/11/19/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作:"></a>基础操作:</h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
-<p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
-<p>3 **docker pull  [images]:[version]**从dockerhub拉取指定镜像</p>
-<p>4 <strong>docker run -p 8000:80 -tdi –privileged [imageID][command]</strong>  后台启动docker,并指定宿主机端口和docker映射端口。</p>
-<span id="more"></span>
-<p> **-i:**以交互模式运行容器，通常与 -t 同时使用；</p>
-<p> **-d:**后台运行容器，并返回容器ID；</p>
-<p>**-t:**为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
-<p><strong>–privileged</strong> 容器将拥有访问主机所有设备的权限</p>
-<p>通常情况下 [command] 填下 <strong>&#x2F;bin&#x2F;bash</strong> 即可。</p>
-<p>特殊情况下，如需要在centos镜像中使用<strong>systemctl</strong> . 则应添加**–privileged** 并设置[command ]为 <strong>init</strong>。</p>
-<p>5 当镜像通过run 启动后，便会载入到一个动态的container(容器)中运行，此时若需要进入终端交互模式：</p>
-<p><strong>sudo docker exec -it [containerID] &#x2F;bin&#x2F;bash</strong></p>
-<p>交互模式中，使用  ctrl+p+q退出交互 保持运行,使用 exit命令退出并停止容器。</p>
-<p>6 在容器非交互模式下，通过docker  start&#x2F;stop 命令来启动&#x2F;停止已部署的容器服务。</p>
-<p>7 <strong>docker rm [containerID]</strong> 删除容器</p>
-<p>8 <strong>docker rmi [imageID]</strong> 删除镜像</p>
-<p>9 <strong>docker cp [YourHostFilePath][containerID]:[DockerPath]</strong>  将宿主机内的指定文件传输至容器内部的指定地址。</p>
-<h2 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作:"></a>镜像制作:</h2><p>1  <strong>docker commit [containerID] [ImageName]:[Version]</strong> 将修改后的容器重新打包成镜像</p>
-<p>2 <strong>docker commit -a “runoob.com” -m “my apache” a404c6c174a2 mymysql:v1</strong> 将容器a404c6c174a2 保存为新的镜像,并添加提交人信息和说明信息。</p>
-<p><strong>-a</strong> :提交的镜像作者；</p>
-<p> <strong>-c</strong> :使用Dockerfile指令来创建镜像；</p>
-<p> <strong>-m</strong> :提交时的说明文字；</p>
-<p> <strong>-p</strong> :在commit时，将容器暂停。</p>
-<p>3 **docker push [ImageID][repertory_address]**提交镜像到云仓库</p>
-<p>（暂时先记录这些，后续再更新）</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python多线程和锁</title>
-    <url>/2020/11/23/Python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E9%94%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h3><p>进程是执行中的计算机程序。每个进程都拥有自己的地址空间、内存、数据栈及其它的辅助数据。操作系统管理着所有的进程，并为这些进程合理分配时间。进程可以通过派生新的进程来执行其它任务，不过每个进程都拥有自己的内存和数据栈等，进程之间的数据交换采用 <strong>进程间通信(IPC)</strong> 方式。<br>线程在进程之下执行，一个进程下可以运行多个线程，它们之间共享相同上下文。线程包括开始、执行顺序和结束三部分。它有一个指针，用于记录当前运行的上下文。当其它线程执行时，它可以被抢占(中断)和临时挂起(也称睡眠) ——这种做法叫做 <strong>让步(yielding)</strong> 。</p>
-<span id="more"></span>
-<p>一个进程中的各个线程与主进程共享同一片数据空间，与独立进程相比，线程之间信息共享和通信更加容易。线程一般以并发执行，正是由于这种并发和数据共享机制，使多任务间的协作成为可能。当然，这种共享也并不是没有风险的，如果多个线程访问同一数据空间，由于访问顺序不同，可能导致结果不一致，这种情况通常称为**竞态条件(race condition)**，不过大多数线程库都有同步原语，以允许线程管理器的控制执行和访问；另一个要注意的问题是，线程无法给予公平执行时间，CPU 时间分配会倾向那些阻塞更少的函数。</p>
-<h3 id="全局解释器锁-GIL"><a href="#全局解释器锁-GIL" class="headerlink" title="全局解释器锁(GIL)"></a>全局解释器锁(GIL)</h3><p>Python 代码执行由 <em>Python 虚拟机</em> (又名解释器主循环) 进行控制。Python 在设计时是这样考虑的，在主循环中同时只能有一个控制线程在执行。对 Python 虚拟机的访问由 <em>全局解释器(GIL)</em> 控制，这个锁用于，当有多个线程时保证同一时刻只能有一个线程在运行。</p>
-<p>由于 Python 的 GIL 的限制，多线程更适合 I&#x2F;O 密集型应用( I&#x2F;O 释放了 GIL，可以允许更多的并发)，对于计算密集型应用，为了实现更好的并行性，适合使用多进程，已便利用 CPU 的多核优势。Python 的多进程相关模块：subprocess、multiprocessing、concurrent.futures</p>
-<h3 id="threading-模块"><a href="#threading-模块" class="headerlink" title="threading 模块"></a>threading 模块</h3><p>threading 是 Python 高级别的多线程模块。</p>
-<h4 id="threading-模块的函数"><a href="#threading-模块的函数" class="headerlink" title="threading 模块的函数"></a>threading 模块的函数</h4><ul>
-<li><strong>active_count()</strong> 当前活动的 Thread 对象个数</li>
-<li><strong>current_thread()</strong> 返回当前 Thread 对象</li>
-<li><strong>get_ident()</strong> 返回当前线程</li>
-<li><strong>enumerater()</strong> 返回当前活动 Thread 对象列表</li>
-<li><strong>main_thread()</strong> 返回主 Thread 对象</li>
-<li><strong>settrace(func)</strong> 为所有线程设置一个 trace 函数</li>
-<li><strong>setprofile(func)</strong> 为所有线程设置一个 profile 函数</li>
-<li><strong>stack_size([size])</strong> 返回新创建线程栈大小；或为后续创建的线程设定栈大小为 size</li>
-<li><strong>TIMEOUT_MAX</strong> <code>Lock.acquire()</code>, <code>RLock.acquire()</code>, <code>Condition.wait()</code> 允许的最大值</li>
-</ul>
-<p>threading 可用对象列表：</p>
-<ul>
-<li><strong>Thread</strong> 表示执行线程的对象</li>
-<li><strong>Lock</strong> 锁原语对象</li>
-<li><strong>RLock</strong> 可重入锁对象，使单一进程再次获得已持有的锁(递归锁)</li>
-<li><strong>Condition</strong> 条件变量对象，使得一个线程等待另一个线程满足特定条件，比如改变状态或某个值</li>
-<li><strong>Semaphore</strong> 为线程间共享的有限资源提供一个”计数器”，如果没有可用资源会被阻塞</li>
-<li><strong>Event</strong> 条件变量的通用版本，任意数量的线程等待某个时间的发生，在改事件发生后所有线程被激活</li>
-<li><strong>Timer</strong> 与 Thread 相识，不过它要在运行前等待一段时间</li>
-<li><strong>Barrier</strong> 创建一个”阻碍”，必须达到指定数量的线程后才可以继续</li>
-</ul>
-<h4 id="Thread-类"><a href="#Thread-类" class="headerlink" title="Thread 类"></a>Thread 类</h4><p>Thread 对象的属性有：<code>Thread.name</code>、<code>Thread.ident</code>、<code>Thread.daemon</code>。详见(<em>The Python Standard Library</em>)</p>
-<p>Thread 对象方法：<br><code>Thread.start()</code>、<code>Thread.run()</code>、<code>Thread.join(timeout=None)</code>、<code>Thread.getName</code>、<code>Thread.setName</code>、<code>Thread.is_alive()</code>、<code>Thread.isDaemon()</code>、<code>Thread.setDaemon()</code>。详见(<em>The Python Standard Library</em>)</p>
-<p>使用 Thread 类，可以有很多种方法来创建线程，这里使用常见的两种：</p>
-<ul>
-<li>创建 Thread 实例，传给它一个函数。</li>
-<li>派生 Thread 子类，并创建子类的实例。</li>
-</ul>
-<h4 id="一个单线程例子"><a href="#一个单线程例子" class="headerlink" title="一个单线程例子"></a>一个单线程例子</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)    <span class="comment"># 打印 Sleep 的秒数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        hi(randint(<span class="number">1</span>,<span class="number">2</span>))    <span class="comment"># 调用十次，每次 Sleep 1秒或2秒</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:11:00 2016</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:11:14 2016</span></span><br></pre></td></tr></table></figure>
-
-<p>一共是用了14秒。</p>
-<h4 id="多线程：创建-Thread-实例，传给它一个函数"><a href="#多线程：创建-Thread-实例，传给它一个函数" class="headerlink" title="多线程：创建 Thread 实例，传给它一个函数"></a>多线程：创建 Thread 实例，传给它一个函数</h4><p>直接上代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        <span class="comment"># 实例化每个 Thread 对象，把函数和参数传递进去，返回 Thread 实例</span></span><br><span class="line">        t = threading.Thread(target=hi, args=(rands,))</span><br><span class="line">        threads.append(t)     <span class="comment"># 分配线程</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()    <span class="comment"># 开始执行多线程</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()     <span class="comment"># (自旋锁)等待线程结束或超时，然后再往下执行</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:18:00 2016</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:18:02 2016</span></span><br></pre></td></tr></table></figure>
-
-<p>使用多线程，只用了2秒。</p>
-<h4 id="多线程：派生-Thread-子类，并创建子类的实例"><a href="#多线程：派生-Thread-子类，并创建子类的实例" class="headerlink" title="多线程：派生 Thread 子类，并创建子类的实例"></a>多线程：派生 Thread 子类，并创建子类的实例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyThread</span>(threading.Thread):</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func, args, times</span>):</span><br><span class="line">        <span class="built_in">super</span>(MyThread, self).__init__()</span><br><span class="line">        self.func = func</span><br><span class="line">        self.args = args</span><br><span class="line">        self.times = times</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;begin thread......&quot;</span>, self.times)</span><br><span class="line">        self.res = self.func(*self.args)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;end threads......&quot;</span>, self.times)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    sleep(n)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        t = MyThread(hi, (rands,), i+<span class="number">1</span>)</span><br><span class="line">        threads.append(t)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<p>执行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### Start at:  Thu Sep  1 14:47:09 2016</span></span><br><span class="line">begin thread...... <span class="number">1</span></span><br><span class="line">begin thread...... <span class="number">2</span></span><br><span class="line">begin thread...... <span class="number">3</span></span><br><span class="line">begin thread...... <span class="number">4</span></span><br><span class="line">begin thread...... <span class="number">5</span></span><br><span class="line">begin thread...... <span class="number">6</span></span><br><span class="line">begin thread...... <span class="number">7</span></span><br><span class="line">begin thread...... <span class="number">8</span></span><br><span class="line">begin thread...... <span class="number">9</span></span><br><span class="line">begin thread...... <span class="number">10</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">4</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">7</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">3</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">1</span></span><br><span class="line">end threads...... <span class="number">9</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">5</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">10</span></span><br><span class="line">end threads...... <span class="number">6</span></span><br><span class="line">ZzZzzz, sleep:  <span class="number">2</span></span><br><span class="line">end threads...... <span class="number">8</span></span><br><span class="line"><span class="comment">### Done at:  Thu Sep  1 14:47:11 2016</span></span><br></pre></td></tr></table></figure>
-
-<p>这个栗子对 Thread 子类化，而不是对其实例化，使得定制线程对象更具灵活性，同时也简化线程创建的调用过程。</p>
-<h3 id="线程锁"><a href="#线程锁" class="headerlink" title="线程锁"></a>线程锁</h3><p>当多线程争夺锁时，允许第一个获得锁的线程进入临街区，并执行代码。所有之后到达的线程将被阻塞，直到第一个线程执行结束，退出临街区，并释放锁。需要注意，那些阻塞的线程是没有顺序的。</p>
-<p>举个栗子：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep, ctime</span><br><span class="line"></span><br><span class="line">L = threading.Lock() <span class="comment"># 引入锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hi</span>(<span class="params">n</span>):</span><br><span class="line">    L.acquire()    <span class="comment"># 加锁</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">2</span>]:</span><br><span class="line">        <span class="built_in">print</span>(i)</span><br><span class="line">        sleep(n)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;ZzZzzz, sleep: &quot;</span>, n)</span><br><span class="line">    L.release()    <span class="comment"># 释放锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Start at: &quot;</span>, ctime())</span><br><span class="line">    threads = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        rands = randint(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        t = threading.Thread(target=hi, args=(rands,))</span><br><span class="line">        threads.append(t)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].start()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        threads[i].join()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;### Done at: &quot;</span>, ctime())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<p>运行上面的代码，再将锁的代码注释掉，对比下输出。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -987,6 +987,35 @@
       </tags>
   </entry>
   <entry>
+    <title>mongodb数据</title>
+    <url>/2020/11/19/mongodb%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MySQL: 关系型数据库</span><br><span class="line">Redis: 非关系型数据库</span><br><span class="line">MongoDB: 非关系型数据库, NoSQL(Not only SQL)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="2-主线来啦-增删改查"><a href="#2-主线来啦-增删改查" class="headerlink" title="2.主线来啦: 增删改查"></a>2.主线来啦: 增删改查</h4><span id="more"></span>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1.查看数据库</span></span><br><span class="line">show dbs</span><br><span class="line"><span class="comment">// 2.创建并使用数据库</span></span><br><span class="line">use tst</span><br><span class="line"><span class="comment">// 3.查看当前工作的数据库</span></span><br><span class="line">db</span><br><span class="line"><span class="comment">// 4.创建表并插入一条数据</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">insert</span>(&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;glf&quot;</span>, <span class="string">&quot;score&quot;</span>:<span class="number">89</span>&#125;)</span><br><span class="line"><span class="comment">// 5.查看所有表</span></span><br><span class="line">show tables</span><br><span class="line"><span class="comment">// 6.查询表中所有数据</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">find</span>()</span><br><span class="line"><span class="comment">// 7.删除表操作</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">drop</span>()</span><br><span class="line"><span class="comment">// 8.删除数据库</span></span><br><span class="line">db.<span class="title function_">dropDatabase</span>()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据的增加: db.tablename.insert(&#123;.....&#125;)</span></span><br><span class="line"><span class="comment">// 创建一个货物的表</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insert</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.5</span>&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insertOne</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;雷霆嘎巴&#x27;</span>, <span class="string">&#x27;price&#x27;</span>: <span class="number">2.5</span>&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insertMany</span>([&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;老八秘制小汉堡&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">15</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;魔法师方便面&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.5</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;大大泡泡糖&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.25</span>&#125;])</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insert</span>([&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;上天小汽水&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.1</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;无花果干&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.2</span>&#125;])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据查询: db.tablename.find(&#123;...&#125;)</span></span><br><span class="line"><span class="comment">// 等值查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>&#125;)  <span class="comment">// 等值</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>, <span class="string">&#x27;price&#x27;</span>: <span class="number">5</span>&#125;) <span class="comment">// and查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;$or&#x27;</span>: [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>&#125;, &#123;<span class="string">&#x27;price&#x27;</span>: <span class="number">2.5</span>&#125;]&#125;) <span class="comment">// or查询</span></span><br><span class="line"><span class="comment">// 非等值查询: 大于$gt, 小于$lt, 大于等于$gte, 小于等于$lte, 不等于$ne</span></span><br><span class="line"><span class="comment">// gt:great than  lt: little than, e:equal</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 小于1块钱的零食</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">1</span>&#125;&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$gt&#x27;</span>: <span class="number">5</span>&#125;&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;$or&#x27;</span>: [&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">1</span>&#125;&#125;,&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$gt&#x27;</span>: <span class="number">5</span>&#125;&#125;]&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">5</span>, <span class="string">&#x27;$gt&#x27;</span>:<span class="number">2</span>&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模糊查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: &#123;<span class="string">&#x27;$regex&#x27;</span>: <span class="string">&#x27;.*辣.*&#x27;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据的更新: db.tablename.update(&#123;定位数据&#125;, &#123;指定修改&#125;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+  </entry>
+  <entry>
     <title>python的进程、线程与多进程</title>
     <url>/2018/11/22/python%E7%9A%84%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%A4%9A%E8%BF%9B%E7%A8%8B/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="python大佬养成计划—-进程、线程与多进程"><a href="#python大佬养成计划—-进程、线程与多进程" class="headerlink" title="python大佬养成计划—-进程、线程与多进程"></a>python大佬养成计划—-进程、线程与多进程</h1><span id="more"></span>
@@ -1036,35 +1065,6 @@
       <tags>
         <tag>第三方应用</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>mongodb数据</title>
-    <url>/2020/11/19/mongodb%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MySQL: 关系型数据库</span><br><span class="line">Redis: 非关系型数据库</span><br><span class="line">MongoDB: 非关系型数据库, NoSQL(Not only SQL)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="2-主线来啦-增删改查"><a href="#2-主线来啦-增删改查" class="headerlink" title="2.主线来啦: 增删改查"></a>2.主线来啦: 增删改查</h4><span id="more"></span>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1.查看数据库</span></span><br><span class="line">show dbs</span><br><span class="line"><span class="comment">// 2.创建并使用数据库</span></span><br><span class="line">use tst</span><br><span class="line"><span class="comment">// 3.查看当前工作的数据库</span></span><br><span class="line">db</span><br><span class="line"><span class="comment">// 4.创建表并插入一条数据</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">insert</span>(&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;glf&quot;</span>, <span class="string">&quot;score&quot;</span>:<span class="number">89</span>&#125;)</span><br><span class="line"><span class="comment">// 5.查看所有表</span></span><br><span class="line">show tables</span><br><span class="line"><span class="comment">// 6.查询表中所有数据</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">find</span>()</span><br><span class="line"><span class="comment">// 7.删除表操作</span></span><br><span class="line">db.<span class="property">score</span>.<span class="title function_">drop</span>()</span><br><span class="line"><span class="comment">// 8.删除数据库</span></span><br><span class="line">db.<span class="title function_">dropDatabase</span>()</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据的增加: db.tablename.insert(&#123;.....&#125;)</span></span><br><span class="line"><span class="comment">// 创建一个货物的表</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insert</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.5</span>&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insertOne</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;雷霆嘎巴&#x27;</span>, <span class="string">&#x27;price&#x27;</span>: <span class="number">2.5</span>&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insertMany</span>([&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;老八秘制小汉堡&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">15</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;魔法师方便面&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.5</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;大大泡泡糖&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.25</span>&#125;])</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">insert</span>([&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;上天小汽水&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.1</span>&#125;,&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;无花果干&#x27;</span>, <span class="string">&quot;price&quot;</span>:<span class="number">0.2</span>&#125;])</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据查询: db.tablename.find(&#123;...&#125;)</span></span><br><span class="line"><span class="comment">// 等值查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>&#125;)  <span class="comment">// 等值</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>, <span class="string">&#x27;price&#x27;</span>: <span class="number">5</span>&#125;) <span class="comment">// and查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;$or&#x27;</span>: [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;辣条&#x27;</span>&#125;, &#123;<span class="string">&#x27;price&#x27;</span>: <span class="number">2.5</span>&#125;]&#125;) <span class="comment">// or查询</span></span><br><span class="line"><span class="comment">// 非等值查询: 大于$gt, 小于$lt, 大于等于$gte, 小于等于$lte, 不等于$ne</span></span><br><span class="line"><span class="comment">// gt:great than  lt: little than, e:equal</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 小于1块钱的零食</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">1</span>&#125;&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$gt&#x27;</span>: <span class="number">5</span>&#125;&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;$or&#x27;</span>: [&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">1</span>&#125;&#125;,&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$gt&#x27;</span>: <span class="number">5</span>&#125;&#125;]&#125;)</span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;price&#x27;</span>: &#123;<span class="string">&#x27;$lt&#x27;</span>: <span class="number">5</span>, <span class="string">&#x27;$gt&#x27;</span>:<span class="number">2</span>&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模糊查询</span></span><br><span class="line">db.<span class="property">goods</span>.<span class="title function_">find</span>(&#123;<span class="string">&#x27;name&#x27;</span>: &#123;<span class="string">&#x27;$regex&#x27;</span>: <span class="string">&#x27;.*辣.*&#x27;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 数据的更新: db.tablename.update(&#123;定位数据&#125;, &#123;指定修改&#125;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
   </entry>
   <entry>
     <title>redis主从模式,哨兵模式,cluster(集群)模式</title>
@@ -1144,6 +1144,49 @@
       </categories>
       <tags>
         <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sql语句对数据库表进行加锁和解锁</title>
+    <url>/2019/08/19/sql%E8%AF%AD%E5%8F%A5%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%BF%9B%E8%A1%8C%E5%8A%A0%E9%94%81%E5%92%8C%E8%A7%A3%E9%94%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="如何处理大量数据并发操作"><a href="#如何处理大量数据并发操作" class="headerlink" title="如何处理大量数据并发操作"></a>如何处理大量数据并发操作</h1><p>文件缓存，数据库缓存，优化sql,数据分流,数据库表的横向和纵向划分，使用协程处理并发,优化代码结构,使用协程处理并发！</p>
+<h1 id="锁的概概"><a href="#锁的概概" class="headerlink" title="锁的概概"></a>锁的概概</h1><span id="more"></span>
+<h2 id="一-为什么要引入锁"><a href="#一-为什么要引入锁" class="headerlink" title="一. 为什么要引入锁"></a>一. 为什么要引入锁</h2><p>多个用户同时对数据库的并发操作时会带来以下数据不一致的问题:<br>丢失更新<br>A,B两个用户读同一数据并进行修改,其中一个用户的修改结果破坏了另一个修改的结果,比如订票系统<br>脏读<br>A用户修改了数据,随后B用户又读出该数据,但A用户因为某些原因取消了对数据的修改,数据恢复原值,此时B得到的数据就与数据库内的数据产生了不一致<br>不可重复读<br>A用户读取数据,随后B用户读出该数据并修改,此时A用户再读取数据时发现前后两次的值不一致<br>并发控制的主要方法是封锁,锁就是在一段时间内禁止用户做某些操作以避免产生数据不一致</p>
+<h2 id="二-Mysql中的锁"><a href="#二-Mysql中的锁" class="headerlink" title="二. Mysql中的锁"></a>二. Mysql中的锁</h2><h3 id="1-锁分类"><a href="#1-锁分类" class="headerlink" title="1.锁分类"></a>1.锁分类</h3><ol>
+<li>按操作划分：DML锁，DDL锁</li>
+<li>按锁的粒度划分：表级锁、行级锁、页级锁</li>
+<li>按锁级别划分：共享锁、排他锁</li>
+<li>按加锁方式划分：自动锁、显示锁</li>
+<li>按使用方式划分：乐观锁、悲观锁</li>
+</ol>
+<h3 id="2-乐观锁实现方法"><a href="#2-乐观锁实现方法" class="headerlink" title="2. 乐观锁实现方法"></a><strong>2. 乐观锁实现方法</strong></h3><ol>
+<li>每次获取商品时，不对该商品加锁。</li>
+<li>在更新数据的时候需要比较程序中的库存量与数据库中的库存量是否相等，如果相等则进行更新</li>
+<li>反之程序重新获取库存量，再次进行比较，直到两个库存量的数值相等才进行数据更新。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### 乐观锁实现加一操作代码</span></span><br><span class="line"><span class="comment"># 我们可以看到，只有当对数量-1操作时才会加锁，只有当程序中值和数据库中的值相等时才正真执行。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">//不加锁</span></span><br><span class="line"><span class="string">select id,name,stock where id=1;</span></span><br><span class="line"><span class="string">//业务处理</span></span><br><span class="line"><span class="string">begin;</span></span><br><span class="line"><span class="string">update shop set stock=stock-1 where id=1 and stock=stock;</span></span><br><span class="line"><span class="string">commit;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-悲观锁"><a href="#3-悲观锁" class="headerlink" title="3.悲观锁"></a>3.悲观锁</h3><ol>
+<li>每次获取商品时，对该商品加排他锁。</li>
+<li>也就是在用户A获取获取 id&#x3D;1 的商品信息时对该行记录加锁，期间其他用户阻塞等待访问该记录。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### 悲观锁实现加一操作代码</span></span><br><span class="line"><span class="comment"># 我们可以看到，首先通过begin开启一个事物，在获得shop信息和修改数据的整个过程中都对数据加锁，保证了数据的一致性。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">begin;</span></span><br><span class="line"><span class="string">select id,name,stock as old_stock from shop  where id=1 for update;</span></span><br><span class="line"><span class="string">update shop set stock=stock-1 where id=1 and stock=old_stock;</span></span><br><span class="line"><span class="string">commit</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-排它锁"><a href="#4-排它锁" class="headerlink" title="4.排它锁"></a>4.排它锁</h3><ol>
+<li>排它锁又叫写锁，如果事务T对A加上排它锁，则其它事务都不能对A加任何类型的锁。获准排它锁的事务既能读数据，又能写数据。</li>
+<li>用法 ： SELECT _ FOR_UPDATE</li>
+</ol>
+<h3 id="5-共享锁-share-lock"><a href="#5-共享锁-share-lock" class="headerlink" title="5.共享锁(share lock)"></a>5.共享锁(share lock)</h3><ol>
+<li>共享锁又叫读锁，如果事务T对A加上共享锁，则其它事务只能对A再加共享锁，不能加其它锁。</li>
+<li>获准共享锁的事务只能读数据，不能写数据。</li>
+<li>用法： SELECT … LOCK IN SHARE MODE;</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>Mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -1276,6 +1319,20 @@
       </tags>
   </entry>
   <entry>
+    <title>两数之和</title>
+    <url>/2021/11/15/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。"><a href="#给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。" class="headerlink" title="给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。"></a>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</h3><h3 id="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"><a href="#你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。" class="headerlink" title="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"></a>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</h3><h3 id="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"><a href="#参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。" class="headerlink" title="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"></a>参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。</h3><h3 id="个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。"><a href="#个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。" class="headerlink" title="个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。"></a>个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。</h3><h3 id="不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。"><a href="#不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。" class="headerlink" title="不需要 mun2 不需要在整个 dict 中去查找。可以在 num1 之前的 dict 中查找，因此就只需要一次循环可解决。"></a>不需要 <code>mun2</code> 不需要在整个 <code>dict</code> 中去查找。可以在 <code>num1</code> 之前的 <code>dict</code> 中查找，因此就只需要一次循环可解决。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">nums, target</span>):</span><br><span class="line">    hashmap=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i,num <span class="keyword">in</span> <span class="built_in">enumerate</span>(nums):</span><br><span class="line">        <span class="keyword">if</span> hashmap.get(target - num) <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> [i,hashmap.get(target - num)]</span><br><span class="line">        hashmap[num] = i <span class="comment">#这句不能放在if语句之前，解决list中有重复值或target-num=num的情况</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="通过字典的方法，查找效率快很多，执行速度大幅缩短，共-12ms。"><a href="#通过字典的方法，查找效率快很多，执行速度大幅缩短，共-12ms。" class="headerlink" title="通过字典的方法，查找效率快很多，执行速度大幅缩短，共 12ms。"></a>通过字典的方法，查找效率快很多，执行速度大幅缩短，共 12ms。</h3><p><img src="https://img-blog.csdnimg.cn/4e489f986f3c4ec2ae0600645026e783.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASzExNjMzMTc1MTU=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>主键约束和唯一性约束</title>
     <url>/2018/11/19/%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%92%8C%E5%94%AF%E4%B8%80%E6%80%A7%E7%BA%A6%E6%9D%9F/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="1-主键约束（PRIMARY-KEY）"><a href="#1-主键约束（PRIMARY-KEY）" class="headerlink" title="1.主键约束（PRIMARY KEY）"></a>1.主键约束（PRIMARY KEY）</h2><ol>
@@ -1396,20 +1453,6 @@
       </tags>
   </entry>
   <entry>
-    <title>两数之和</title>
-    <url>/2021/11/15/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。"><a href="#给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。" class="headerlink" title="给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。"></a>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</h3><h3 id="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"><a href="#你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。" class="headerlink" title="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"></a>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</h3><h3 id="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"><a href="#参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。" class="headerlink" title="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"></a>参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。</h3><h3 id="个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。"><a href="#个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。" class="headerlink" title="个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。"></a>个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。</h3><h3 id="不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。"><a href="#不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。" class="headerlink" title="不需要 mun2 不需要在整个 dict 中去查找。可以在 num1 之前的 dict 中查找，因此就只需要一次循环可解决。"></a>不需要 <code>mun2</code> 不需要在整个 <code>dict</code> 中去查找。可以在 <code>num1</code> 之前的 <code>dict</code> 中查找，因此就只需要一次循环可解决。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">nums, target</span>):</span><br><span class="line">    hashmap=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i,num <span class="keyword">in</span> <span class="built_in">enumerate</span>(nums):</span><br><span class="line">        <span class="keyword">if</span> hashmap.get(target - num) <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> [i,hashmap.get(target - num)]</span><br><span class="line">        hashmap[num] = i <span class="comment">#这句不能放在if语句之前，解决list中有重复值或target-num=num的情况</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="通过字典的方法，查找效率快很多，执行速度大幅缩短，共-12ms。"><a href="#通过字典的方法，查找效率快很多，执行速度大幅缩短，共-12ms。" class="headerlink" title="通过字典的方法，查找效率快很多，执行速度大幅缩短，共 12ms。"></a>通过字典的方法，查找效率快很多，执行速度大幅缩短，共 12ms。</h3><p><img src="https://img-blog.csdnimg.cn/4e489f986f3c4ec2ae0600645026e783.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASzExNjMzMTc1MTU=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>发布订阅模式与观察者模式</title>
     <url>/2020/11/16/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>设计模式并非是软件开发的专业术语，实际上，“模式”最早诞生于建筑学。</p>
@@ -1451,6 +1494,20 @@
       </tags>
   </entry>
   <entry>
+    <title>周末时光</title>
+    <url>/2023/05/21/%E5%91%A8%E6%9C%AB%E6%97%B6%E5%85%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京房山高尔夫球场"><a href="#北京房山高尔夫球场" class="headerlink" title="北京房山高尔夫球场"></a>北京房山高尔夫球场</h2><p><a href="https://postimg.cc/T5PwPYZt"><img src="https://i.postimg.cc/T1VWCKQv/Wechat-IMG164.jpg" alt="Wechat-IMG164.jpg"></a><br><a href="https://postimg.cc/RNkMkRVs"><img src="https://i.postimg.cc/x1Ccbpr2/Wechat-IMG165.jpg" alt="Wechat-IMG165.jpg"></a><br><a href="https://postimg.cc/68XkV1QX"><img src="https://i.postimg.cc/t4Z9jKQY/Wechat-IMG166.jpg" alt="Wechat-IMG166.jpg"></a></p>
+<h2 id="废弃铁路"><a href="#废弃铁路" class="headerlink" title="废弃铁路"></a>废弃铁路</h2><p><a href="https://postimg.cc/yWTp4Y1w"><img src="https://i.postimg.cc/T2zzbpZY/Wechat-IMG167.jpg" alt="Wechat-IMG167.jpg"></a><br><a href="https://postimg.cc/mtfLqjrd"><img src="https://i.postimg.cc/VL5JJHPc/Wechat-IMG168.jpg" alt="Wechat-IMG168.jpg"></a><br><a href="https://postimg.cc/KRGGxznL"><img src="https://i.postimg.cc/vH9c7xTP/Wechat-IMG169.jpg" alt="Wechat-IMG169.jpg"></a><br><a href="https://postimg.cc/kB0TWVfR"><img src="https://i.postimg.cc/Bn6R9HFp/Wechat-IMG170.jpg" alt="Wechat-IMG170.jpg"></a><br><a href="https://postimg.cc/hh9vK6NF"><img src="https://i.postimg.cc/4409QT53/Wechat-IMG171.jpg" alt="Wechat-IMG171.jpg"></a><br><a href="https://postimg.cc/GBwh0jz3"><img src="https://i.postimg.cc/XvXZCHC5/Wechat-IMG172.jpg" alt="Wechat-IMG172.jpg"></a></p>
+<h2 id="麦当劳"><a href="#麦当劳" class="headerlink" title="麦当劳"></a>麦当劳</h2><p><a href="https://postimg.cc/06PRdXcS"><img src="https://i.postimg.cc/XvyjWT5s/Wechat-IMG173.jpg" alt="Wechat-IMG173.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>旅行</category>
+      </categories>
+      <tags>
+        <tag>周末时光</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>回文数</title>
     <url>/2021/11/17/%E5%9B%9E%E6%96%87%E6%95%B0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给你一个整数-x-，如果-x-是一个回文整数，返回-true-；否则，返回-false-。"><a href="#给你一个整数-x-，如果-x-是一个回文整数，返回-true-；否则，返回-false-。" class="headerlink" title="给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。"></a>给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。</h3><h3 id="回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121-是回文，而-123-不是。"><a href="#回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121-是回文，而-123-不是。" class="headerlink" title="回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121 是回文，而 123 不是。"></a>回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。例如，121 是回文，而 123 不是。</h3><h3 id="python两种解法"><a href="#python两种解法" class="headerlink" title="python两种解法:"></a>python两种解法:</h3><h3 id="第一种执行用时64ms。"><a href="#第一种执行用时64ms。" class="headerlink" title="第一种执行用时64ms。"></a>第一种执行用时64ms。</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def reverse(x):</span><br><span class="line">    if str(x)[::-1] == str(x):</span><br><span class="line">        return True</span><br><span class="line">    else:</span><br><span class="line">        return False</span><br></pre></td></tr></table></figure>
@@ -1466,63 +1523,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sql语句对数据库表进行加锁和解锁</title>
-    <url>/2019/08/19/sql%E8%AF%AD%E5%8F%A5%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%BF%9B%E8%A1%8C%E5%8A%A0%E9%94%81%E5%92%8C%E8%A7%A3%E9%94%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="如何处理大量数据并发操作"><a href="#如何处理大量数据并发操作" class="headerlink" title="如何处理大量数据并发操作"></a>如何处理大量数据并发操作</h1><p>文件缓存，数据库缓存，优化sql,数据分流,数据库表的横向和纵向划分，使用协程处理并发,优化代码结构,使用协程处理并发！</p>
-<h1 id="锁的概概"><a href="#锁的概概" class="headerlink" title="锁的概概"></a>锁的概概</h1><span id="more"></span>
-<h2 id="一-为什么要引入锁"><a href="#一-为什么要引入锁" class="headerlink" title="一. 为什么要引入锁"></a>一. 为什么要引入锁</h2><p>多个用户同时对数据库的并发操作时会带来以下数据不一致的问题:<br>丢失更新<br>A,B两个用户读同一数据并进行修改,其中一个用户的修改结果破坏了另一个修改的结果,比如订票系统<br>脏读<br>A用户修改了数据,随后B用户又读出该数据,但A用户因为某些原因取消了对数据的修改,数据恢复原值,此时B得到的数据就与数据库内的数据产生了不一致<br>不可重复读<br>A用户读取数据,随后B用户读出该数据并修改,此时A用户再读取数据时发现前后两次的值不一致<br>并发控制的主要方法是封锁,锁就是在一段时间内禁止用户做某些操作以避免产生数据不一致</p>
-<h2 id="二-Mysql中的锁"><a href="#二-Mysql中的锁" class="headerlink" title="二. Mysql中的锁"></a>二. Mysql中的锁</h2><h3 id="1-锁分类"><a href="#1-锁分类" class="headerlink" title="1.锁分类"></a>1.锁分类</h3><ol>
-<li>按操作划分：DML锁，DDL锁</li>
-<li>按锁的粒度划分：表级锁、行级锁、页级锁</li>
-<li>按锁级别划分：共享锁、排他锁</li>
-<li>按加锁方式划分：自动锁、显示锁</li>
-<li>按使用方式划分：乐观锁、悲观锁</li>
-</ol>
-<h3 id="2-乐观锁实现方法"><a href="#2-乐观锁实现方法" class="headerlink" title="2. 乐观锁实现方法"></a><strong>2. 乐观锁实现方法</strong></h3><ol>
-<li>每次获取商品时，不对该商品加锁。</li>
-<li>在更新数据的时候需要比较程序中的库存量与数据库中的库存量是否相等，如果相等则进行更新</li>
-<li>反之程序重新获取库存量，再次进行比较，直到两个库存量的数值相等才进行数据更新。</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### 乐观锁实现加一操作代码</span></span><br><span class="line"><span class="comment"># 我们可以看到，只有当对数量-1操作时才会加锁，只有当程序中值和数据库中的值相等时才正真执行。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">//不加锁</span></span><br><span class="line"><span class="string">select id,name,stock where id=1;</span></span><br><span class="line"><span class="string">//业务处理</span></span><br><span class="line"><span class="string">begin;</span></span><br><span class="line"><span class="string">update shop set stock=stock-1 where id=1 and stock=stock;</span></span><br><span class="line"><span class="string">commit;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-悲观锁"><a href="#3-悲观锁" class="headerlink" title="3.悲观锁"></a>3.悲观锁</h3><ol>
-<li>每次获取商品时，对该商品加排他锁。</li>
-<li>也就是在用户A获取获取 id&#x3D;1 的商品信息时对该行记录加锁，期间其他用户阻塞等待访问该记录。</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### 悲观锁实现加一操作代码</span></span><br><span class="line"><span class="comment"># 我们可以看到，首先通过begin开启一个事物，在获得shop信息和修改数据的整个过程中都对数据加锁，保证了数据的一致性。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">begin;</span></span><br><span class="line"><span class="string">select id,name,stock as old_stock from shop  where id=1 for update;</span></span><br><span class="line"><span class="string">update shop set stock=stock-1 where id=1 and stock=old_stock;</span></span><br><span class="line"><span class="string">commit</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-排它锁"><a href="#4-排它锁" class="headerlink" title="4.排它锁"></a>4.排它锁</h3><ol>
-<li>排它锁又叫写锁，如果事务T对A加上排它锁，则其它事务都不能对A加任何类型的锁。获准排它锁的事务既能读数据，又能写数据。</li>
-<li>用法 ： SELECT _ FOR_UPDATE</li>
-</ol>
-<h3 id="5-共享锁-share-lock"><a href="#5-共享锁-share-lock" class="headerlink" title="5.共享锁(share lock)"></a>5.共享锁(share lock)</h3><ol>
-<li>共享锁又叫读锁，如果事务T对A加上共享锁，则其它事务只能对A再加共享锁，不能加其它锁。</li>
-<li>获准共享锁的事务只能读数据，不能写数据。</li>
-<li>用法： SELECT … LOCK IN SHARE MODE;</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Mysql</category>
-      </categories>
-      <tags>
-        <tag>Mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>周末时光</title>
-    <url>/2023/05/21/%E5%91%A8%E6%9C%AB%E6%97%B6%E5%85%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京房山高尔夫球场"><a href="#北京房山高尔夫球场" class="headerlink" title="北京房山高尔夫球场"></a>北京房山高尔夫球场</h2><p><a href="https://postimg.cc/T5PwPYZt"><img src="https://i.postimg.cc/T1VWCKQv/Wechat-IMG164.jpg" alt="Wechat-IMG164.jpg"></a><br><a href="https://postimg.cc/RNkMkRVs"><img src="https://i.postimg.cc/x1Ccbpr2/Wechat-IMG165.jpg" alt="Wechat-IMG165.jpg"></a><br><a href="https://postimg.cc/68XkV1QX"><img src="https://i.postimg.cc/t4Z9jKQY/Wechat-IMG166.jpg" alt="Wechat-IMG166.jpg"></a></p>
-<h2 id="废弃铁路"><a href="#废弃铁路" class="headerlink" title="废弃铁路"></a>废弃铁路</h2><p><a href="https://postimg.cc/yWTp4Y1w"><img src="https://i.postimg.cc/T2zzbpZY/Wechat-IMG167.jpg" alt="Wechat-IMG167.jpg"></a><br><a href="https://postimg.cc/mtfLqjrd"><img src="https://i.postimg.cc/VL5JJHPc/Wechat-IMG168.jpg" alt="Wechat-IMG168.jpg"></a><br><a href="https://postimg.cc/KRGGxznL"><img src="https://i.postimg.cc/vH9c7xTP/Wechat-IMG169.jpg" alt="Wechat-IMG169.jpg"></a><br><a href="https://postimg.cc/kB0TWVfR"><img src="https://i.postimg.cc/Bn6R9HFp/Wechat-IMG170.jpg" alt="Wechat-IMG170.jpg"></a><br><a href="https://postimg.cc/hh9vK6NF"><img src="https://i.postimg.cc/4409QT53/Wechat-IMG171.jpg" alt="Wechat-IMG171.jpg"></a><br><a href="https://postimg.cc/GBwh0jz3"><img src="https://i.postimg.cc/XvXZCHC5/Wechat-IMG172.jpg" alt="Wechat-IMG172.jpg"></a></p>
-<h2 id="麦当劳"><a href="#麦当劳" class="headerlink" title="麦当劳"></a>麦当劳</h2><p><a href="https://postimg.cc/06PRdXcS"><img src="https://i.postimg.cc/XvyjWT5s/Wechat-IMG173.jpg" alt="Wechat-IMG173.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>旅行</category>
-      </categories>
-      <tags>
-        <tag>周末时光</tag>
       </tags>
   </entry>
   <entry>
@@ -1577,6 +1577,18 @@
       </tags>
   </entry>
   <entry>
+    <title>在北京郊区的时光</title>
+    <url>/2022/11/05/%E5%9C%A8%E5%8C%97%E4%BA%AC%E9%83%8A%E5%8C%BA%E7%9A%84%E6%97%B6%E5%85%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><a href="https://postimg.cc/SJPCNjRW"><img src="https://i.postimg.cc/pLWZCFt1/Wechat-IMG201.jpg" alt="Wechat-IMG201.jpg"></a><br><a href="https://postimg.cc/94BSPvX7"><img src="https://i.postimg.cc/Y9cH7HJb/Wechat-IMG202.jpg" alt="Wechat-IMG202.jpg"></a><br><a href="https://postimg.cc/FYynm2LB"><img src="https://i.postimg.cc/Sx30L4Nk/Wechat-IMG203.jpg" alt="Wechat-IMG203.jpg"></a><br><a href="https://postimg.cc/kVMwCD92"><img src="https://i.postimg.cc/KYBWngHD/Wechat-IMG204.jpg" alt="Wechat-IMG204.jpg"></a><br><a href="https://postimg.cc/WdTwmtd5"><img src="https://i.postimg.cc/cL8kSn0G/Wechat-IMG205.jpg" alt="Wechat-IMG205.jpg"></a><br><a href="https://postimg.cc/K4TPdtL9"><img src="https://i.postimg.cc/rynfRJpL/Wechat-IMG206.jpg" alt="Wechat-IMG206.jpg"></a><br><a href="https://postimg.cc/nMqmdpbg"><img src="https://i.postimg.cc/L4bV88y9/Wechat-IMG207.jpg" alt="Wechat-IMG207.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>周末</category>
+      </categories>
+      <tags>
+        <tag>郊区</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在线人数</title>
     <url>/2020/11/19/%E5%9C%A8%E7%BA%BF%E4%BA%BA%E6%95%B0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="在线人数"><a href="#在线人数" class="headerlink" title="在线人数"></a>在线人数</h1><p>实现逻辑是，当一个用户访问，把用户的ip作为key放到cache中，然后设置online_ips 作为key来存放所有的ip,每次请求会先取出online_ips 的所有值，任何在根据这个list 来从cache中取出依然存在的ip，再次存入online_ips。</p>
@@ -1590,18 +1602,6 @@
       </categories>
       <tags>
         <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在北京郊区的时光</title>
-    <url>/2022/11/05/%E5%9C%A8%E5%8C%97%E4%BA%AC%E9%83%8A%E5%8C%BA%E7%9A%84%E6%97%B6%E5%85%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><a href="https://postimg.cc/SJPCNjRW"><img src="https://i.postimg.cc/pLWZCFt1/Wechat-IMG201.jpg" alt="Wechat-IMG201.jpg"></a><br><a href="https://postimg.cc/94BSPvX7"><img src="https://i.postimg.cc/Y9cH7HJb/Wechat-IMG202.jpg" alt="Wechat-IMG202.jpg"></a><br><a href="https://postimg.cc/FYynm2LB"><img src="https://i.postimg.cc/Sx30L4Nk/Wechat-IMG203.jpg" alt="Wechat-IMG203.jpg"></a><br><a href="https://postimg.cc/kVMwCD92"><img src="https://i.postimg.cc/KYBWngHD/Wechat-IMG204.jpg" alt="Wechat-IMG204.jpg"></a><br><a href="https://postimg.cc/WdTwmtd5"><img src="https://i.postimg.cc/cL8kSn0G/Wechat-IMG205.jpg" alt="Wechat-IMG205.jpg"></a><br><a href="https://postimg.cc/K4TPdtL9"><img src="https://i.postimg.cc/rynfRJpL/Wechat-IMG206.jpg" alt="Wechat-IMG206.jpg"></a><br><a href="https://postimg.cc/nMqmdpbg"><img src="https://i.postimg.cc/L4bV88y9/Wechat-IMG207.jpg" alt="Wechat-IMG207.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>周末</category>
-      </categories>
-      <tags>
-        <tag>郊区</tag>
       </tags>
   </entry>
   <entry>
@@ -1655,50 +1655,6 @@
       </tags>
   </entry>
   <entry>
-    <title>带你弄懂Jwt</title>
-    <url>/2020/11/19/%E5%B8%A6%E4%BD%A0%E5%BC%84%E6%87%82Jwt/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="1-JWT介绍"><a href="#1-JWT介绍" class="headerlink" title="1.JWT介绍"></a>1.JWT介绍</h2><h3 id="2-1-jwt原则"><a href="#2-1-jwt原则" class="headerlink" title="2.1 jwt原则"></a>2.1 jwt原则</h3><ul>
-<li>最简单理解：jwt本质就是， <font color="orange"><code>把用户信息通过加密后生成的一个字符串</code></font> <span id="more"></span>
- <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable constant_">JWT</span>的原则是在服务器身份验证之后，将生成一个<span class="title class_">JSON</span>对象并将其发送回用户</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="string">&quot;UserName&quot;</span>: <span class="string">&quot;Chongchong&quot;</span>, </span><br><span class="line"> <span class="string">&quot;Role&quot;</span>: <span class="string">&quot;Admin&quot;</span>, </span><br><span class="line"> <span class="string">&quot;Expire&quot;</span>: <span class="string">&quot;2018-08-08 20:15:56&quot;</span> </span><br><span class="line"> &#125;</span><br><span class="line"> 之后，当用户与服务器通信时，客户在请求中发回<span class="title class_">JSON</span>对象，服务器仅依赖于这个<span class="title class_">JSON</span>对象来标识用户。 </span><br><span class="line"> 为了防止用户篡改数据，服务器将在生成对象时添加签名（有关详细信息，请参阅下文）。 </span><br><span class="line"> 服务器不保存任何会话数据，即服务器变为无状态，使其更容易扩展</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="2-2-JWT的数据结构"><a href="#2-2-JWT的数据结构" class="headerlink" title="2.2 JWT的数据结构"></a>2.2 JWT的数据结构</h3><ul>
-<li>1）jwt头：JWT头部分是一个描述JWT元数据的JSON对象</li>
-<li>2）有效载荷：七个默认字段+自定义私有字段</li>
-<li>3）签名&#x3D;HMACSHA256( base64UrlEncode(header) +”.”+base64UrlEncode(payload) ,secret)<br> <img src="https://img-blog.csdnimg.cn/img_convert/a8107fbe9dffb1995927f2628755557d.png"><blockquote>
-<p>第一部分： <font color="orange"><code>JWT头</code></font></p>
-</blockquote>
-</li>
-<li><font color="orange"><code>base64UrlEncode(header)</code></font> —&gt;字符串 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JWT头部分是一个描述JWT元数据的JSON对象，通常如下所示。</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line"><span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 1）alg属性表示签名使用的算法，默认为HMAC SHA256（写为HS256）；</span></span><br><span class="line"><span class="comment"># 2）typ属性表示令牌的类型，JWT令牌统一写为JWT。</span></span><br><span class="line"><span class="comment"># 3）最后，使用Base64 URL算法将上述JSON对象转换为字符串保存。</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>第二部分： <font color="orange"><code>有效载荷</code></font> 没有敏感数据的用户信息</p>
-</blockquote>
-</li>
-<li><font color="orange"><code>base64UrlEncode(payload)</code></font> —&gt;字符串 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1、有效载荷部分，是JWT的主体内容部分，也是一个JSON对象，包含需要传递的数据。 JWT指定七个默认</span></span><br><span class="line">字段供选择。</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">iss：发行人</span></span><br><span class="line"><span class="string">exp：到期时间</span></span><br><span class="line"><span class="string">aud：用户 </span></span><br><span class="line"><span class="string">nbf：在此之前不可用 </span></span><br><span class="line"><span class="string">iat：发布时间 </span></span><br><span class="line"><span class="string">jti：JWT ID用于标识该JWT </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2、除以上默认字段外，我们还可以自定义私有字段，如下例：</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;sub&quot;</span>: <span class="string">&quot;1234567890&quot;</span>, </span><br><span class="line"><span class="string">&quot;name&quot;</span>: <span class="string">&quot;chongchong&quot;</span>, </span><br><span class="line"><span class="string">&quot;admin&quot;</span>: true </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#3、注意</span></span><br><span class="line">默认情况下JWT是未加密的，任何人都可以解读其内容，因此不要构建隐私信息字段，存放保密信息，以防 止信息泄露。 </span><br><span class="line">JSON对象也使用Base64 URL算法转换为字符串保存。</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>第三部分： <font color="orange"><code>签名哈希</code></font></p>
-</blockquote>
-</li>
-<li>签名&#x3D;HMACSHA256<font color="orange"><code>( base64UrlEncode(header)</code></font> + “.” + <font color="orange"><code>base64UrlEncode(payload)</code></font> ,secret) <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1.签名哈希部分是对上面两部分数据签名，通过指定的算法生成哈希，以确保数据不会被篡改。 </span></span><br><span class="line"><span class="comment"># 2.首先，需要指定一个密码（secret），该密码仅仅为保存在服务器中，并且不能向用户公开。 </span></span><br><span class="line"><span class="comment"># 3.然后，使用标头中指定的签名算法（默认情况下为HMAC SHA256）根据以下公式生成签名。 </span></span><br><span class="line"><span class="comment"># 4.HMACSHA256(base64UrlEncode(header) + &quot;.&quot; + base64UrlEncode(payload),secret) </span></span><br><span class="line"><span class="comment"># 5.在计算出签名哈希后，JWT头，有效载荷和签名哈希的三个部分组合成一个字符串，每个部分用&quot;.&quot;分 隔，就构成整个JWT对象。</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="2-3-jwt核心"><a href="#2-3-jwt核心" class="headerlink" title="2.3 jwt核心"></a>2.3 jwt核心</h3><ul>
-<li>1）给用户颁发的token值相当于一把锁，服务器端的秘钥相当于一把钥匙</li>
-<li>2）每次客户端请求都会携带这把锁，服务器端用秘钥去开这把锁，若果无法打开就证明是伪造的</li>
-</ul>
-<h3 id="2-4-jwt特点分析"><a href="#2-4-jwt特点分析" class="headerlink" title="2.4 jwt特点分析"></a>2.4 jwt特点分析</h3><ul>
-<li>1、JWT的最大缺点是服务器不保存会话状态，所以在使用期间不可能取消令牌或更改令牌的权限，一旦JWT签发，在有效期内将会一直有效。</li>
-<li>2、JWT本身包含认证信息，因此一旦信息泄露，任何人都可以获得令牌的所有权限。</li>
-<li>3、为了减少盗用和窃取，JWT不建议使用HTTP协议来传输代码，而是使用加密的HTTPS协议进行传输。</li>
-<li>4、JWT不仅可用于认证，还可用于信息交换，善用JWT有助于减少服务器请求数据库的次数。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Django</category>
-      </categories>
-      <tags>
-        <tag>Django</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>工单处理逻辑</title>
     <url>/2020/11/19/%E5%B7%A5%E5%8D%95%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p>1、在新建工单的页面中，用户选择工单类型，后台根据“工单类型与工作流关联”的表来确定使用的工作流</p>
@@ -1734,89 +1690,6 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。"><a href="#leetcode原题-编写一个函数来查找字符串数组中的最长公共前缀。" class="headerlink" title="leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。"></a>leetcode原题,编写一个函数来查找字符串数组中的最长公共前缀。</h3><h3 id="如果不存在公共前缀，返回空字符串-。"><a href="#如果不存在公共前缀，返回空字符串-。" class="headerlink" title="如果不存在公共前缀，返回空字符串 &quot;&quot;。"></a>如果不存在公共前缀，返回空字符串 <code>&quot;&quot;</code>。</h3><h3 id="利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"><a href="#利用python的max-和min-，在Python里字符串是可以比较的，按照ascII值排，举例abb，-aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀" class="headerlink" title="利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀"></a>利用python的max()和min()，在Python里字符串是可以比较的，按照ascII值排，举例abb， aba，abac，最大为abb，最小为aba。所以只需要比较最大最小的公共前缀就是整个数组的公共前缀</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">def longestCommonPrefix(self, strs):</span><br><span class="line">    if not strs: return &quot;&quot;</span><br><span class="line">    s1 = min(strs)</span><br><span class="line">    s2 = max(strs)</span><br><span class="line">    for i,x in enumerate(s1):</span><br><span class="line">        if x != s2[i]:</span><br><span class="line">            return s2[:i]</span><br><span class="line">    return s1</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://img-blog.csdnimg.cn/3d5c6f3527a242e89a405db305928c9a.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBASzExNjMzMTc1MTU=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>注册以及邮箱发送邮件</title>
-    <url>/2020/11/19/%E6%B3%A8%E5%86%8C%E4%BB%A5%E5%8F%8A%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p>今天要完成注册逻辑流程图,注册接口以及前端页面，手机号和邮箱用正则校验，密码使用md5加密。</p>
-<h3 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h3><p>首先我们在Navicat for mysql建一张用户表user,字段有用户名、密码、邮箱、手机号，另外我们需要给username添加一个索引un,这个的索引类型是Unique，意思就是唯一的,因为我们要做的项目是一个工作流平台,所以用户必须给它设成唯一。Unique它的作用是在后端可以自动对用户进行唯一性验证,同时也减少了访问数据库次数，节省了类视图的资源空间。</p>
-<span id="more"></span>
-<p>在以往的注册登陆中，大多使用django自带的make_password()来对用户密码进行加密,而md5,它是不能解密的，所以在登陆的时候就遇到一个难题，怎么将密码进行比对然后判断登录呢,这个问题先放一放,后面用户登录中,我们会详细介绍。</p>
-<h3 id="注册流程图"><a href="#注册流程图" class="headerlink" title="注册流程图"></a>注册流程图</h3><p>注册逻辑很简单,就是说你是用户，然后在表单中输入信息,在注册按钮上面写一个点击事件，在methods里定义这个方法,向后端发送一个post请求,将表单内容发给django端,在后端进行用户和密码的复杂度验证、手机号和邮箱正则匹配等等,如果成功,就写入数据库,并提示信息；如果失败，提示信息，打印错误。</p>
-<p><img src="https://img-blog.csdnimg.cn/20201119213320144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0sxMTYzMzE3NTE1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h3><p>这里附上md5加密的方式:</p>
-<blockquote>
-<p>导包:<code>from hashlib import sha256</code></p>
-</blockquote>
-<blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">md5 = hashlib.md5()</span><br><span class="line">md5.update(password.encode())</span><br><span class="line">password = md5.hexdigest()</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>手机号的正则匹配方法:</p>
-<blockquote>
-<p><code>re.match(r&quot;^1[356789]\d&#123;9&#125;$&quot;, phone)</code></p>
-</blockquote>
-<p>邮箱正则匹配:</p>
-<blockquote>
-<p><code>re.search(r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;, email)</code></p>
-</blockquote>
-<p>以上内容如果完全会,注册接口就很简单啦。</p>
-<p>这是我自己写的接口:</p>
-<blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注册接口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Register</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 接收参数</span></span><br><span class="line">        username = request.POST.get(<span class="string">&#x27;username&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        password = request.POST.get(<span class="string">&#x27;password&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        md5 = hashlib.md5()</span><br><span class="line">        md5.update(password.encode())</span><br><span class="line">        password = md5.hexdigest()</span><br><span class="line">        phone = request.POST.get(<span class="string">&#x27;phone&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        email = request.POST.get(<span class="string">&#x27;email&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">all</span>([username, password, phone, email]):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;参数不全&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.<span class="keyword">match</span>(<span class="string">r&quot;^1[356789]\d&#123;9&#125;$&quot;</span>, phone):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;手机号不合法&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.search(<span class="string">r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;</span>, email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;邮箱不正确&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 唯一性验证</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            user = User(username=username, password=password, phone=phone, email=email)</span><br><span class="line">            user.save()</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;注册成功&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>&#125;)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;错误信息为:&#x27;</span>, e)</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;注册失败&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>可以看到,上面的password使用了md5加密,None是当获取的值为空的时候，默认给它设为空值，避免获取不到值而报错。</p>
-<p>这里最主要的问题就是怎么使用md5加密,如图的加密方式是我在百度上面找的,写得很好,我根据它写了一个脚本,用它来生成密文,用做登录时与数据库里的密文进行比对。</p>
-<p>####脚本如下:</p>
-<blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_password</span>(<span class="params">mypass</span>):</span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义加密对象</span></span><br><span class="line">    sign_str = mypass</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 转码</span></span><br><span class="line">    sign_utf8 = <span class="built_in">str</span>(sign_str).encode(encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#加密</span></span><br><span class="line">    md5.update(sign_utf8)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#生成密文</span></span><br><span class="line">    md5_server = md5.hexdigest()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> md5_server</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(make_password(<span class="string">&#x27;1234&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>这个脚本的作用不言而喻。可以加密并生成密文，就可以用它来比对密码。</p>
-<h3 id="邮箱发送邮件"><a href="#邮箱发送邮件" class="headerlink" title="邮箱发送邮件"></a>邮箱发送邮件</h3><h4 id="我们写一个发送邮箱的脚本"><a href="#我们写一个发送邮箱的脚本" class="headerlink" title="我们写一个发送邮箱的脚本"></a>我们写一个发送邮箱的脚本</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.utils <span class="keyword">import</span> formataddr</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义参数</span></span><br><span class="line">my_mail = <span class="string">&quot;2438702658@qq.com&quot;</span></span><br><span class="line"><span class="comment">#授权码</span></span><br><span class="line">my_pass = <span class="string">&quot;feympxnumtwmdicj&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义发送邮件的方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mail</span>(<span class="params">subject,content,mailaddr</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment">#声明邮件对象</span></span><br><span class="line">    msg = MIMEText(content,<span class="string">&#x27;plain&#x27;</span>,<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置发送方对象</span></span><br><span class="line">    msg[<span class="string">&#x27;From&#x27;</span>] = formataddr([<span class="string">&#x27;在线教育平台&#x27;</span>,my_mail])</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置收件方对象</span></span><br><span class="line">    msg[<span class="string">&#x27;To&#x27;</span>] = formataddr([<span class="string">&#x27;尊敬的客户&#x27;</span>,mailaddr])</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置标题</span></span><br><span class="line">    msg[<span class="string">&#x27;Subject&#x27;</span>] = subject</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置smtp服务器</span></span><br><span class="line">    server = smtplib.SMTP_SSL(<span class="string">&quot;smtp.qq.com&quot;</span>,<span class="number">465</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#登录邮箱</span></span><br><span class="line">    server.login(my_mail,my_pass)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#发送邮件</span></span><br><span class="line">    server.sendmail(my_mail,[mailaddr],msg.as_string())</span><br><span class="line"></span><br><span class="line">    <span class="comment">#关闭smtp链接</span></span><br><span class="line">    server.quit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># mail(&#x27;验证码验证服务&#x27;,&#x27;您的验证码是6666，有限期为2分钟&#x27;,&#x27;2438702658@qq.com&#x27;)</span></span><br></pre></td></tr></table></figure>
-
-<p>我们用函数进行封装，传入三个参数，分别是:</p>
-<p>subject:标题，就是你所接收到的邮件的标题</p>
-<p>content:邮件的内容</p>
-<p>mailaddr:邮箱地址，就是收件方对象</p>
-<p>脚本测试完成之后，我们就要写接口了，逻辑很简单,就是获取表单的邮箱，给这个邮箱发送验证码，然后将发送的验证码和表单中输入的验证码进行比对，成功之后将用户信息写入数据库,将邮箱写入redis数据库。</p>
-<p>redis 在setting里导入.</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">redis = redis.Redis(host=<span class="string">&quot;127.0.0.1&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>因为存入redis里的数据有时效性,这时我们就可以判断邮件是否发送频繁,因为这个数据有时效性，只要可以获取到用户邮箱,就说明发送频繁。否则再将邮箱写入数据库中。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Send_mail</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line">        code = random.randint(<span class="number">10000</span>, <span class="number">99999</span>)</span><br><span class="line">        email = request.POST.get(<span class="string">&#x27;email&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.search(<span class="string">r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;</span>, email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;邮箱不正确&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> redis.get(email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&quot;发送频繁&quot;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            redis.<span class="built_in">set</span>(email, code)</span><br><span class="line">            redis.expire(email, <span class="number">300</span>)</span><br><span class="line">            mail(<span class="string">&#x27;验证码验证服务&#x27;</span>, <span class="string">&#x27;您的验证码是%s，有限期为2分钟&#x27;</span> % code, email)</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&quot;发送成功&quot;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: code&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前写注册接口，总在想一个问题，经过这次的深入学习,真正了解了注册功能，md5加密方式，加上邮箱验证码后，对它的印象又深刻啦，编程加油!生活加油!</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>洪水过后</title>
-    <url>/2023/08/19/%E6%B4%AA%E6%B0%B4%E8%BF%87%E5%90%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京十渡风景区附近"><a href="#北京十渡风景区附近" class="headerlink" title="北京十渡风景区附近"></a>北京十渡风景区附近</h2><p><a href="https://postimg.cc/zbSfFPmH"><img src="https://i.postimg.cc/Y9TmkJbR/Wechat-IMG191.jpg" alt="Wechat-IMG191.jpg"></a><br><a href="https://postimg.cc/JG8N897v"><img src="https://i.postimg.cc/WbFXGvBN/Wechat-IMG192.jpg" alt="Wechat-IMG192.jpg"></a><br><a href="https://postimg.cc/8js6TNQy"><img src="https://i.postimg.cc/7YnMMZBy/Wechat-IMG193.jpg" alt="Wechat-IMG193.jpg"></a><br><a href="https://postimg.cc/XBB4D2mg"><img src="https://i.postimg.cc/qqjqqSGW/Wechat-IMG194.jpg" alt="Wechat-IMG194.jpg"></a><br><a href="https://postimg.cc/xcH9v4Kf"><img src="https://i.postimg.cc/CLrdgy5q/Wechat-IMG195.jpg" alt="Wechat-IMG195.jpg"></a><br><a href="https://postimg.cc/RJK2H222"><img src="https://i.postimg.cc/RhDmjBdC/Wechat-IMG196.jpg" alt="Wechat-IMG196.jpg"></a><br><a href="https://postimg.cc/5HyG3XZB"><img src="https://i.postimg.cc/5tSVfvgR/Wechat-IMG197.jpg" alt="Wechat-IMG197.jpg"></a><br><a href="https://postimg.cc/682b2kRc"><img src="https://i.postimg.cc/YC85VkC5/Wechat-IMG198.jpg" alt="Wechat-IMG198.jpg"></a><br><a href="https://postimg.cc/2VvB1Tyv"><img src="https://i.postimg.cc/J4Y3d2WT/Wechat-IMG199.jpg" alt="Wechat-IMG199.jpg"></a><br><a href="https://postimg.cc/wRMZW7y8"><img src="https://i.postimg.cc/1XrS3Fyt/Wechat-IMG200.jpg" alt="Wechat-IMG200.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>考察</category>
-      </categories>
-      <tags>
-        <tag>洪水</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>移除元素</title>
-    <url>/2021/11/21/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。"><a href="#给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。" class="headerlink" title="给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。"></a>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</h3><h3 id="不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。"><a href="#不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。" class="headerlink" title="不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。"></a>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</h3><h3 id="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"><a href="#元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。" class="headerlink" title="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"></a>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</h3><h3 id="如下解法-执行时间12ms。"><a href="#如下解法-执行时间12ms。" class="headerlink" title="如下解法,执行时间12ms。"></a>如下解法,执行时间12ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">removeElement</span>(<span class="params">self, nums, val</span>):</span><br><span class="line">        <span class="keyword">while</span> (val <span class="keyword">in</span> nums):</span><br><span class="line">            nums.remove(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>python</category>
@@ -1962,6 +1835,146 @@
       </tags>
   </entry>
   <entry>
+    <title>移除元素</title>
+    <url>/2021/11/21/%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。"><a href="#给你一个数组-nums-和一个值-val，你需要-原地-移除所有数值等于-val-的元素，并返回移除后数组的新长度。" class="headerlink" title="给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。"></a>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</h3><h3 id="不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。"><a href="#不要使用额外的数组空间，你必须仅使用-O-1-额外空间并-原地-修改输入数组。" class="headerlink" title="不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。"></a>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</h3><h3 id="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"><a href="#元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。" class="headerlink" title="元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。"></a>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</h3><h3 id="如下解法-执行时间12ms。"><a href="#如下解法-执行时间12ms。" class="headerlink" title="如下解法,执行时间12ms。"></a>如下解法,执行时间12ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">removeElement</span>(<span class="params">self, nums, val</span>):</span><br><span class="line">        <span class="keyword">while</span> (val <span class="keyword">in</span> nums):</span><br><span class="line">            nums.remove(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>注册以及邮箱发送邮件</title>
+    <url>/2020/11/19/%E6%B3%A8%E5%86%8C%E4%BB%A5%E5%8F%8A%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p>今天要完成注册逻辑流程图,注册接口以及前端页面，手机号和邮箱用正则校验，密码使用md5加密。</p>
+<h3 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h3><p>首先我们在Navicat for mysql建一张用户表user,字段有用户名、密码、邮箱、手机号，另外我们需要给username添加一个索引un,这个的索引类型是Unique，意思就是唯一的,因为我们要做的项目是一个工作流平台,所以用户必须给它设成唯一。Unique它的作用是在后端可以自动对用户进行唯一性验证,同时也减少了访问数据库次数，节省了类视图的资源空间。</p>
+<span id="more"></span>
+<p>在以往的注册登陆中，大多使用django自带的make_password()来对用户密码进行加密,而md5,它是不能解密的，所以在登陆的时候就遇到一个难题，怎么将密码进行比对然后判断登录呢,这个问题先放一放,后面用户登录中,我们会详细介绍。</p>
+<h3 id="注册流程图"><a href="#注册流程图" class="headerlink" title="注册流程图"></a>注册流程图</h3><p>注册逻辑很简单,就是说你是用户，然后在表单中输入信息,在注册按钮上面写一个点击事件，在methods里定义这个方法,向后端发送一个post请求,将表单内容发给django端,在后端进行用户和密码的复杂度验证、手机号和邮箱正则匹配等等,如果成功,就写入数据库,并提示信息；如果失败，提示信息，打印错误。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201119213320144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0sxMTYzMzE3NTE1,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h3><p>这里附上md5加密的方式:</p>
+<blockquote>
+<p>导包:<code>from hashlib import sha256</code></p>
+</blockquote>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">md5 = hashlib.md5()</span><br><span class="line">md5.update(password.encode())</span><br><span class="line">password = md5.hexdigest()</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>手机号的正则匹配方法:</p>
+<blockquote>
+<p><code>re.match(r&quot;^1[356789]\d&#123;9&#125;$&quot;, phone)</code></p>
+</blockquote>
+<p>邮箱正则匹配:</p>
+<blockquote>
+<p><code>re.search(r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;, email)</code></p>
+</blockquote>
+<p>以上内容如果完全会,注册接口就很简单啦。</p>
+<p>这是我自己写的接口:</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 注册接口</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Register</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 接收参数</span></span><br><span class="line">        username = request.POST.get(<span class="string">&#x27;username&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        password = request.POST.get(<span class="string">&#x27;password&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        md5 = hashlib.md5()</span><br><span class="line">        md5.update(password.encode())</span><br><span class="line">        password = md5.hexdigest()</span><br><span class="line">        phone = request.POST.get(<span class="string">&#x27;phone&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        email = request.POST.get(<span class="string">&#x27;email&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">all</span>([username, password, phone, email]):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;参数不全&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.<span class="keyword">match</span>(<span class="string">r&quot;^1[356789]\d&#123;9&#125;$&quot;</span>, phone):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;手机号不合法&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.search(<span class="string">r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;</span>, email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;邮箱不正确&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 唯一性验证</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            user = User(username=username, password=password, phone=phone, email=email)</span><br><span class="line">            user.save()</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;注册成功&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>&#125;)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;错误信息为:&#x27;</span>, e)</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;注册失败&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>可以看到,上面的password使用了md5加密,None是当获取的值为空的时候，默认给它设为空值，避免获取不到值而报错。</p>
+<p>这里最主要的问题就是怎么使用md5加密,如图的加密方式是我在百度上面找的,写得很好,我根据它写了一个脚本,用它来生成密文,用做登录时与数据库里的密文进行比对。</p>
+<p>####脚本如下:</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_password</span>(<span class="params">mypass</span>):</span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义加密对象</span></span><br><span class="line">    sign_str = mypass</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 转码</span></span><br><span class="line">    sign_utf8 = <span class="built_in">str</span>(sign_str).encode(encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#加密</span></span><br><span class="line">    md5.update(sign_utf8)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#生成密文</span></span><br><span class="line">    md5_server = md5.hexdigest()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> md5_server</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(make_password(<span class="string">&#x27;1234&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这个脚本的作用不言而喻。可以加密并生成密文，就可以用它来比对密码。</p>
+<h3 id="邮箱发送邮件"><a href="#邮箱发送邮件" class="headerlink" title="邮箱发送邮件"></a>邮箱发送邮件</h3><h4 id="我们写一个发送邮箱的脚本"><a href="#我们写一个发送邮箱的脚本" class="headerlink" title="我们写一个发送邮箱的脚本"></a>我们写一个发送邮箱的脚本</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.utils <span class="keyword">import</span> formataddr</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义参数</span></span><br><span class="line">my_mail = <span class="string">&quot;2438702658@qq.com&quot;</span></span><br><span class="line"><span class="comment">#授权码</span></span><br><span class="line">my_pass = <span class="string">&quot;feympxnumtwmdicj&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义发送邮件的方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mail</span>(<span class="params">subject,content,mailaddr</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment">#声明邮件对象</span></span><br><span class="line">    msg = MIMEText(content,<span class="string">&#x27;plain&#x27;</span>,<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置发送方对象</span></span><br><span class="line">    msg[<span class="string">&#x27;From&#x27;</span>] = formataddr([<span class="string">&#x27;在线教育平台&#x27;</span>,my_mail])</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置收件方对象</span></span><br><span class="line">    msg[<span class="string">&#x27;To&#x27;</span>] = formataddr([<span class="string">&#x27;尊敬的客户&#x27;</span>,mailaddr])</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置标题</span></span><br><span class="line">    msg[<span class="string">&#x27;Subject&#x27;</span>] = subject</span><br><span class="line"></span><br><span class="line">    <span class="comment">#设置smtp服务器</span></span><br><span class="line">    server = smtplib.SMTP_SSL(<span class="string">&quot;smtp.qq.com&quot;</span>,<span class="number">465</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#登录邮箱</span></span><br><span class="line">    server.login(my_mail,my_pass)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#发送邮件</span></span><br><span class="line">    server.sendmail(my_mail,[mailaddr],msg.as_string())</span><br><span class="line"></span><br><span class="line">    <span class="comment">#关闭smtp链接</span></span><br><span class="line">    server.quit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># mail(&#x27;验证码验证服务&#x27;,&#x27;您的验证码是6666，有限期为2分钟&#x27;,&#x27;2438702658@qq.com&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+<p>我们用函数进行封装，传入三个参数，分别是:</p>
+<p>subject:标题，就是你所接收到的邮件的标题</p>
+<p>content:邮件的内容</p>
+<p>mailaddr:邮箱地址，就是收件方对象</p>
+<p>脚本测试完成之后，我们就要写接口了，逻辑很简单,就是获取表单的邮箱，给这个邮箱发送验证码，然后将发送的验证码和表单中输入的验证码进行比对，成功之后将用户信息写入数据库,将邮箱写入redis数据库。</p>
+<p>redis 在setting里导入.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">redis = redis.Redis(host=<span class="string">&quot;127.0.0.1&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>因为存入redis里的数据有时效性,这时我们就可以判断邮件是否发送频繁,因为这个数据有时效性，只要可以获取到用户邮箱,就说明发送频繁。否则再将邮箱写入数据库中。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Send_mail</span>(<span class="title class_ inherited__">APIView</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self, request</span>):</span><br><span class="line">        code = random.randint(<span class="number">10000</span>, <span class="number">99999</span>)</span><br><span class="line">        email = request.POST.get(<span class="string">&#x27;email&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> re.search(<span class="string">r&quot;[0-9a-zA-Z_]&#123;0,19&#125;@[0-9a-zA-Z]&#123;1,13&#125;\.[com,cn,net]&#123;1,3&#125;&quot;</span>, email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;邮箱不正确&#x27;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">if</span> redis.get(email):</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&quot;发送频繁&quot;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">400</span>&#125;)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            redis.<span class="built_in">set</span>(email, code)</span><br><span class="line">            redis.expire(email, <span class="number">300</span>)</span><br><span class="line">            mail(<span class="string">&#x27;验证码验证服务&#x27;</span>, <span class="string">&#x27;您的验证码是%s，有限期为2分钟&#x27;</span> % code, email)</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&quot;发送成功&quot;</span>, <span class="string">&#x27;code&#x27;</span>: <span class="number">200</span>, <span class="string">&#x27;data&#x27;</span>: code&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前写注册接口，总在想一个问题，经过这次的深入学习,真正了解了注册功能，md5加密方式，加上邮箱验证码后，对它的印象又深刻啦，编程加油!生活加油!</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>罗马数字转整数</title>
+    <url>/2021/11/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。"><a href="#罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。" class="headerlink" title="罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。"></a>罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。</h3><h3 id="字符-数值"><a href="#字符-数值" class="headerlink" title="字符          数值"></a>字符          数值</h3><h3 id="I-1"><a href="#I-1" class="headerlink" title="I             1"></a>I             1</h3><h3 id="V-5"><a href="#V-5" class="headerlink" title="V             5"></a>V             5</h3><h3 id="X-10"><a href="#X-10" class="headerlink" title="X             10"></a>X             10</h3><h3 id="L-50"><a href="#L-50" class="headerlink" title="L             50"></a>L             50</h3><h3 id="C-100"><a href="#C-100" class="headerlink" title="C             100"></a>C             100</h3><h3 id="D-500"><a href="#D-500" class="headerlink" title="D             500"></a>D             500</h3><h3 id="M-1000"><a href="#M-1000" class="headerlink" title="M             1000"></a>M             1000</h3><h3 id="例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。"><a href="#例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。" class="headerlink" title="例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。"></a>例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。</h3><h3 id="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况："><a href="#通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况：" class="headerlink" title="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况："></a>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：</h3><h3 id="I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。"><a href="#I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。" class="headerlink" title="I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。"></a>I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。</h3><h3 id="X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。"><a href="#X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。" class="headerlink" title="X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。"></a>X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。</h3><h3 id="C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。"><a href="#C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。" class="headerlink" title="C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。"></a>C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。</h3><h3 id="给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。"><a href="#给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。" class="headerlink" title="给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。"></a>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</h3><h3 id="python解法-执行用时44ms。"><a href="#python解法-执行用时44ms。" class="headerlink" title="python解法,执行用时44ms。"></a>python解法,执行用时44ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;IV&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;IX&#x27;</span>,<span class="string">&#x27;W&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XL&#x27;</span>,<span class="string">&#x27;E&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XC&#x27;</span>,<span class="string">&#x27;R&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CM&#x27;</span>,<span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CD&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        keys = &#123;</span><br><span class="line">            <span class="string">&#x27;Q&#x27;</span>:<span class="number">4</span>,</span><br><span class="line">            <span class="string">&#x27;W&#x27;</span>:<span class="number">9</span>,</span><br><span class="line">            <span class="string">&#x27;E&#x27;</span>:<span class="number">40</span>,</span><br><span class="line">            <span class="string">&#x27;R&#x27;</span>:<span class="number">90</span>,</span><br><span class="line">            <span class="string">&#x27;T&#x27;</span>:<span class="number">900</span>,</span><br><span class="line">            <span class="string">&#x27;Y&#x27;</span>:<span class="number">400</span>,</span><br><span class="line">            <span class="string">&#x27;I&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">            <span class="string">&#x27;V&#x27;</span>:<span class="number">5</span>,</span><br><span class="line">            <span class="string">&#x27;X&#x27;</span>:<span class="number">10</span>,</span><br><span class="line">            <span class="string">&#x27;L&#x27;</span>:<span class="number">50</span>,</span><br><span class="line">            <span class="string">&#x27;C&#x27;</span>:<span class="number">100</span>,</span><br><span class="line">            <span class="string">&#x27;D&#x27;</span>:<span class="number">500</span>,</span><br><span class="line">            <span class="string">&#x27;M&#x27;</span>:<span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            ans += keys[ch]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>洪水过后</title>
+    <url>/2023/08/19/%E6%B4%AA%E6%B0%B4%E8%BF%87%E5%90%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京十渡风景区附近"><a href="#北京十渡风景区附近" class="headerlink" title="北京十渡风景区附近"></a>北京十渡风景区附近</h2><p><a href="https://postimg.cc/zbSfFPmH"><img src="https://i.postimg.cc/Y9TmkJbR/Wechat-IMG191.jpg" alt="Wechat-IMG191.jpg"></a><br><a href="https://postimg.cc/JG8N897v"><img src="https://i.postimg.cc/WbFXGvBN/Wechat-IMG192.jpg" alt="Wechat-IMG192.jpg"></a><br><a href="https://postimg.cc/8js6TNQy"><img src="https://i.postimg.cc/7YnMMZBy/Wechat-IMG193.jpg" alt="Wechat-IMG193.jpg"></a><br><a href="https://postimg.cc/XBB4D2mg"><img src="https://i.postimg.cc/qqjqqSGW/Wechat-IMG194.jpg" alt="Wechat-IMG194.jpg"></a><br><a href="https://postimg.cc/xcH9v4Kf"><img src="https://i.postimg.cc/CLrdgy5q/Wechat-IMG195.jpg" alt="Wechat-IMG195.jpg"></a><br><a href="https://postimg.cc/RJK2H222"><img src="https://i.postimg.cc/RhDmjBdC/Wechat-IMG196.jpg" alt="Wechat-IMG196.jpg"></a><br><a href="https://postimg.cc/5HyG3XZB"><img src="https://i.postimg.cc/5tSVfvgR/Wechat-IMG197.jpg" alt="Wechat-IMG197.jpg"></a><br><a href="https://postimg.cc/682b2kRc"><img src="https://i.postimg.cc/YC85VkC5/Wechat-IMG198.jpg" alt="Wechat-IMG198.jpg"></a><br><a href="https://postimg.cc/2VvB1Tyv"><img src="https://i.postimg.cc/J4Y3d2WT/Wechat-IMG199.jpg" alt="Wechat-IMG199.jpg"></a><br><a href="https://postimg.cc/wRMZW7y8"><img src="https://i.postimg.cc/1XrS3Fyt/Wechat-IMG200.jpg" alt="Wechat-IMG200.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>考察</category>
+      </categories>
+      <tags>
+        <tag>洪水</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>带你弄懂Jwt</title>
+    <url>/2020/11/19/%E5%B8%A6%E4%BD%A0%E5%BC%84%E6%87%82Jwt/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="1-JWT介绍"><a href="#1-JWT介绍" class="headerlink" title="1.JWT介绍"></a>1.JWT介绍</h2><h3 id="2-1-jwt原则"><a href="#2-1-jwt原则" class="headerlink" title="2.1 jwt原则"></a>2.1 jwt原则</h3><ul>
+<li>最简单理解：jwt本质就是， <font color="orange"><code>把用户信息通过加密后生成的一个字符串</code></font> <span id="more"></span>
+ <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable constant_">JWT</span>的原则是在服务器身份验证之后，将生成一个<span class="title class_">JSON</span>对象并将其发送回用户</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="string">&quot;UserName&quot;</span>: <span class="string">&quot;Chongchong&quot;</span>, </span><br><span class="line"> <span class="string">&quot;Role&quot;</span>: <span class="string">&quot;Admin&quot;</span>, </span><br><span class="line"> <span class="string">&quot;Expire&quot;</span>: <span class="string">&quot;2018-08-08 20:15:56&quot;</span> </span><br><span class="line"> &#125;</span><br><span class="line"> 之后，当用户与服务器通信时，客户在请求中发回<span class="title class_">JSON</span>对象，服务器仅依赖于这个<span class="title class_">JSON</span>对象来标识用户。 </span><br><span class="line"> 为了防止用户篡改数据，服务器将在生成对象时添加签名（有关详细信息，请参阅下文）。 </span><br><span class="line"> 服务器不保存任何会话数据，即服务器变为无状态，使其更容易扩展</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-2-JWT的数据结构"><a href="#2-2-JWT的数据结构" class="headerlink" title="2.2 JWT的数据结构"></a>2.2 JWT的数据结构</h3><ul>
+<li>1）jwt头：JWT头部分是一个描述JWT元数据的JSON对象</li>
+<li>2）有效载荷：七个默认字段+自定义私有字段</li>
+<li>3）签名&#x3D;HMACSHA256( base64UrlEncode(header) +”.”+base64UrlEncode(payload) ,secret)<br> <img src="https://img-blog.csdnimg.cn/img_convert/a8107fbe9dffb1995927f2628755557d.png"><blockquote>
+<p>第一部分： <font color="orange"><code>JWT头</code></font></p>
+</blockquote>
+</li>
+<li><font color="orange"><code>base64UrlEncode(header)</code></font> —&gt;字符串 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># JWT头部分是一个描述JWT元数据的JSON对象，通常如下所示。</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line"><span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 1）alg属性表示签名使用的算法，默认为HMAC SHA256（写为HS256）；</span></span><br><span class="line"><span class="comment"># 2）typ属性表示令牌的类型，JWT令牌统一写为JWT。</span></span><br><span class="line"><span class="comment"># 3）最后，使用Base64 URL算法将上述JSON对象转换为字符串保存。</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第二部分： <font color="orange"><code>有效载荷</code></font> 没有敏感数据的用户信息</p>
+</blockquote>
+</li>
+<li><font color="orange"><code>base64UrlEncode(payload)</code></font> —&gt;字符串 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1、有效载荷部分，是JWT的主体内容部分，也是一个JSON对象，包含需要传递的数据。 JWT指定七个默认</span></span><br><span class="line">字段供选择。</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">iss：发行人</span></span><br><span class="line"><span class="string">exp：到期时间</span></span><br><span class="line"><span class="string">aud：用户 </span></span><br><span class="line"><span class="string">nbf：在此之前不可用 </span></span><br><span class="line"><span class="string">iat：发布时间 </span></span><br><span class="line"><span class="string">jti：JWT ID用于标识该JWT </span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2、除以上默认字段外，我们还可以自定义私有字段，如下例：</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="string">&quot;sub&quot;</span>: <span class="string">&quot;1234567890&quot;</span>, </span><br><span class="line"><span class="string">&quot;name&quot;</span>: <span class="string">&quot;chongchong&quot;</span>, </span><br><span class="line"><span class="string">&quot;admin&quot;</span>: true </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#3、注意</span></span><br><span class="line">默认情况下JWT是未加密的，任何人都可以解读其内容，因此不要构建隐私信息字段，存放保密信息，以防 止信息泄露。 </span><br><span class="line">JSON对象也使用Base64 URL算法转换为字符串保存。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第三部分： <font color="orange"><code>签名哈希</code></font></p>
+</blockquote>
+</li>
+<li>签名&#x3D;HMACSHA256<font color="orange"><code>( base64UrlEncode(header)</code></font> + “.” + <font color="orange"><code>base64UrlEncode(payload)</code></font> ,secret) <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1.签名哈希部分是对上面两部分数据签名，通过指定的算法生成哈希，以确保数据不会被篡改。 </span></span><br><span class="line"><span class="comment"># 2.首先，需要指定一个密码（secret），该密码仅仅为保存在服务器中，并且不能向用户公开。 </span></span><br><span class="line"><span class="comment"># 3.然后，使用标头中指定的签名算法（默认情况下为HMAC SHA256）根据以下公式生成签名。 </span></span><br><span class="line"><span class="comment"># 4.HMACSHA256(base64UrlEncode(header) + &quot;.&quot; + base64UrlEncode(payload),secret) </span></span><br><span class="line"><span class="comment"># 5.在计算出签名哈希后，JWT头，有效载荷和签名哈希的三个部分组合成一个字符串，每个部分用&quot;.&quot;分 隔，就构成整个JWT对象。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-3-jwt核心"><a href="#2-3-jwt核心" class="headerlink" title="2.3 jwt核心"></a>2.3 jwt核心</h3><ul>
+<li>1）给用户颁发的token值相当于一把锁，服务器端的秘钥相当于一把钥匙</li>
+<li>2）每次客户端请求都会携带这把锁，服务器端用秘钥去开这把锁，若果无法打开就证明是伪造的</li>
+</ul>
+<h3 id="2-4-jwt特点分析"><a href="#2-4-jwt特点分析" class="headerlink" title="2.4 jwt特点分析"></a>2.4 jwt特点分析</h3><ul>
+<li>1、JWT的最大缺点是服务器不保存会话状态，所以在使用期间不可能取消令牌或更改令牌的权限，一旦JWT签发，在有效期内将会一直有效。</li>
+<li>2、JWT本身包含认证信息，因此一旦信息泄露，任何人都可以获得令牌的所有权限。</li>
+<li>3、为了减少盗用和窃取，JWT不建议使用HTTP协议来传输代码，而是使用加密的HTTPS协议进行传输。</li>
+<li>4、JWT不仅可用于认证，还可用于信息交换，善用JWT有助于减少服务器请求数据库的次数。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Django</category>
+      </categories>
+      <tags>
+        <tag>Django</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聊天窗emjoi表情</title>
     <url>/2020/11/19/%E8%81%8A%E5%A4%A9%E7%AA%97emjoi%E8%A1%A8%E6%83%85/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><ul>
@@ -2007,31 +2020,6 @@
       </tags>
   </entry>
   <entry>
-    <title>罗马数字转整数</title>
-    <url>/2021/11/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。"><a href="#罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。" class="headerlink" title="罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。"></a>罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。</h3><h3 id="字符-数值"><a href="#字符-数值" class="headerlink" title="字符          数值"></a>字符          数值</h3><h3 id="I-1"><a href="#I-1" class="headerlink" title="I             1"></a>I             1</h3><h3 id="V-5"><a href="#V-5" class="headerlink" title="V             5"></a>V             5</h3><h3 id="X-10"><a href="#X-10" class="headerlink" title="X             10"></a>X             10</h3><h3 id="L-50"><a href="#L-50" class="headerlink" title="L             50"></a>L             50</h3><h3 id="C-100"><a href="#C-100" class="headerlink" title="C             100"></a>C             100</h3><h3 id="D-500"><a href="#D-500" class="headerlink" title="D             500"></a>D             500</h3><h3 id="M-1000"><a href="#M-1000" class="headerlink" title="M             1000"></a>M             1000</h3><h3 id="例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。"><a href="#例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。" class="headerlink" title="例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。"></a>例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。</h3><h3 id="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况："><a href="#通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况：" class="headerlink" title="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况："></a>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：</h3><h3 id="I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。"><a href="#I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。" class="headerlink" title="I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。"></a>I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。</h3><h3 id="X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。"><a href="#X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。" class="headerlink" title="X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。"></a>X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。</h3><h3 id="C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。"><a href="#C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。" class="headerlink" title="C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。"></a>C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。</h3><h3 id="给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。"><a href="#给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。" class="headerlink" title="给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。"></a>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</h3><h3 id="python解法-执行用时44ms。"><a href="#python解法-执行用时44ms。" class="headerlink" title="python解法,执行用时44ms。"></a>python解法,执行用时44ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;IV&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;IX&#x27;</span>,<span class="string">&#x27;W&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XL&#x27;</span>,<span class="string">&#x27;E&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XC&#x27;</span>,<span class="string">&#x27;R&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CM&#x27;</span>,<span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CD&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        keys = &#123;</span><br><span class="line">            <span class="string">&#x27;Q&#x27;</span>:<span class="number">4</span>,</span><br><span class="line">            <span class="string">&#x27;W&#x27;</span>:<span class="number">9</span>,</span><br><span class="line">            <span class="string">&#x27;E&#x27;</span>:<span class="number">40</span>,</span><br><span class="line">            <span class="string">&#x27;R&#x27;</span>:<span class="number">90</span>,</span><br><span class="line">            <span class="string">&#x27;T&#x27;</span>:<span class="number">900</span>,</span><br><span class="line">            <span class="string">&#x27;Y&#x27;</span>:<span class="number">400</span>,</span><br><span class="line">            <span class="string">&#x27;I&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">            <span class="string">&#x27;V&#x27;</span>:<span class="number">5</span>,</span><br><span class="line">            <span class="string">&#x27;X&#x27;</span>:<span class="number">10</span>,</span><br><span class="line">            <span class="string">&#x27;L&#x27;</span>:<span class="number">50</span>,</span><br><span class="line">            <span class="string">&#x27;C&#x27;</span>:<span class="number">100</span>,</span><br><span class="line">            <span class="string">&#x27;D&#x27;</span>:<span class="number">500</span>,</span><br><span class="line">            <span class="string">&#x27;M&#x27;</span>:<span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            ans += keys[ch]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>野三坡</title>
-    <url>/2023/03/25/%E9%87%8E%E4%B8%89%E5%9D%A1/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="野三坡"><a href="#野三坡" class="headerlink" title="野三坡"></a>野三坡</h2><p><a href="https://postimg.cc/Mv9tnMVS"><img src="https://i.postimg.cc/FH46n0K7/Wechat-IMG158.jpg" alt="Wechat-IMG158.jpg"></a><br><a href="https://postimg.cc/dkJTRncS"><img src="https://i.postimg.cc/qR3XTZb0/Wechat-IMG159.jpg" alt="Wechat-IMG159.jpg"></a><br><a href="https://postimg.cc/7GcwPY9M"><img src="https://i.postimg.cc/J07nqsBg/Wechat-IMG160.jpg" alt="Wechat-IMG160.jpg"></a><br><a href="https://postimg.cc/grZPqp4Q"><img src="https://i.postimg.cc/v8PHyHnY/Wechat-IMG161.jpg" alt="Wechat-IMG161.jpg"></a><br><a href="https://postimg.cc/7ftcpQB0"><img src="https://i.postimg.cc/Z5JSvGp7/Wechat-IMG162.jpg" alt="Wechat-IMG162.jpg"></a><br><a href="https://postimg.cc/YvmXT2LB"><img src="https://i.postimg.cc/jSMGwLs2/Wechat-IMG163.jpg" alt="Wechat-IMG163.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>旅行</category>
-      </categories>
-      <tags>
-        <tag>野三坡</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新搭建博客过程中遇到的一些问题</title>
     <url>/2023/11/01/%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="之前博客一直是使用Gitee托管的，可最近才知道Gitee-Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。"><a href="#之前博客一直是使用Gitee托管的，可最近才知道Gitee-Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。" class="headerlink" title="之前博客一直是使用Gitee托管的，可最近才知道Gitee Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。"></a>之前博客一直是使用Gitee托管的，可最近才知道Gitee Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。</h1><h2 id="阿里云域名注册流程"><a href="#阿里云域名注册流程" class="headerlink" title="阿里云域名注册流程"></a>阿里云域名注册流程</h2><p><a href="https://baijiahao.baidu.com/s?id=1765615721998421361&wfr=spider&for=pc">https://baijiahao.baidu.com/s?id=1765615721998421361&amp;wfr=spider&amp;for=pc</a></p>
@@ -2046,6 +2034,30 @@
       </categories>
       <tags>
         <tag>报错收集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>银山塔林</title>
+    <url>/2022/11/06/%E9%93%B6%E5%B1%B1%E5%A1%94%E6%9E%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="银山塔林"><a href="#银山塔林" class="headerlink" title="银山塔林"></a>银山塔林</h2><p><a href="https://postimg.cc/30Mq7y3x"><img src="https://i.postimg.cc/rsz21Wbx/Wechat-IMG153.jpg" alt="Wechat-IMG153.jpg"></a><br><a href="https://postimg.cc/tZF53BH9"><img src="https://i.postimg.cc/3RccHqS0/Wechat-IMG155.jpg" alt="Wechat-IMG155.jpg"></a><br><a href="https://postimg.cc/6yMD4p0Y"><img src="https://i.postimg.cc/4xGZMKhk/Wechat-IMG156.jpg" alt="Wechat-IMG156.jpg"></a><br><a href="https://postimg.cc/xq0xGSq7"><img src="https://i.postimg.cc/59zhV4Jx/Wechat-IMG157.jpg" alt="Wechat-IMG157.jpg"></a><br><a href="https://postimg.cc/ctRtkzDL"><img src="https://i.postimg.cc/XqhKqSdd/Wechat-IMG154.jpg" alt="Wechat-IMG154.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>旅行</category>
+      </categories>
+      <tags>
+        <tag>辽金时期古塔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>野三坡</title>
+    <url>/2023/03/25/%E9%87%8E%E4%B8%89%E5%9D%A1/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="野三坡"><a href="#野三坡" class="headerlink" title="野三坡"></a>野三坡</h2><p><a href="https://postimg.cc/Mv9tnMVS"><img src="https://i.postimg.cc/FH46n0K7/Wechat-IMG158.jpg" alt="Wechat-IMG158.jpg"></a><br><a href="https://postimg.cc/dkJTRncS"><img src="https://i.postimg.cc/qR3XTZb0/Wechat-IMG159.jpg" alt="Wechat-IMG159.jpg"></a><br><a href="https://postimg.cc/7GcwPY9M"><img src="https://i.postimg.cc/J07nqsBg/Wechat-IMG160.jpg" alt="Wechat-IMG160.jpg"></a><br><a href="https://postimg.cc/grZPqp4Q"><img src="https://i.postimg.cc/v8PHyHnY/Wechat-IMG161.jpg" alt="Wechat-IMG161.jpg"></a><br><a href="https://postimg.cc/7ftcpQB0"><img src="https://i.postimg.cc/Z5JSvGp7/Wechat-IMG162.jpg" alt="Wechat-IMG162.jpg"></a><br><a href="https://postimg.cc/YvmXT2LB"><img src="https://i.postimg.cc/jSMGwLs2/Wechat-IMG163.jpg" alt="Wechat-IMG163.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>旅行</category>
+      </categories>
+      <tags>
+        <tag>野三坡</tag>
       </tags>
   </entry>
   <entry>
@@ -2444,18 +2456,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>银山塔林</title>
-    <url>/2022/11/06/%E9%93%B6%E5%B1%B1%E5%A1%94%E6%9E%97/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="银山塔林"><a href="#银山塔林" class="headerlink" title="银山塔林"></a>银山塔林</h2><p><a href="https://postimg.cc/30Mq7y3x"><img src="https://i.postimg.cc/rsz21Wbx/Wechat-IMG153.jpg" alt="Wechat-IMG153.jpg"></a><br><a href="https://postimg.cc/tZF53BH9"><img src="https://i.postimg.cc/3RccHqS0/Wechat-IMG155.jpg" alt="Wechat-IMG155.jpg"></a><br><a href="https://postimg.cc/6yMD4p0Y"><img src="https://i.postimg.cc/4xGZMKhk/Wechat-IMG156.jpg" alt="Wechat-IMG156.jpg"></a><br><a href="https://postimg.cc/xq0xGSq7"><img src="https://i.postimg.cc/59zhV4Jx/Wechat-IMG157.jpg" alt="Wechat-IMG157.jpg"></a><br><a href="https://postimg.cc/ctRtkzDL"><img src="https://i.postimg.cc/XqhKqSdd/Wechat-IMG154.jpg" alt="Wechat-IMG154.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>旅行</category>
-      </categories>
-      <tags>
-        <tag>辽金时期古塔</tag>
       </tags>
   </entry>
 </search>
