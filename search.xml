@@ -2441,4 +2441,21 @@
         <tag>辽金时期古塔</tag>
       </tags>
   </entry>
+  <entry>
+    <title>重新搭建博客过程中遇到的一些问题</title>
+    <url>/2023/11/01/%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="之前博客一直是在gitee托管的，最近才知道gitee-page停止服务了，于是把博客迁移到Github上并绑定了自定义域名，以下是在搭建过程中遇到的一些问题记录："><a href="#之前博客一直是在gitee托管的，最近才知道gitee-page停止服务了，于是把博客迁移到Github上并绑定了自定义域名，以下是在搭建过程中遇到的一些问题记录：" class="headerlink" title="之前博客一直是在gitee托管的，最近才知道gitee page停止服务了，于是把博客迁移到Github上并绑定了自定义域名，以下是在搭建过程中遇到的一些问题记录："></a>之前博客一直是在gitee托管的，最近才知道gitee page停止服务了，于是把博客迁移到Github上并绑定了自定义域名，以下是在搭建过程中遇到的一些问题记录：</h1><h2 id="阿里云域名注册流程"><a href="#阿里云域名注册流程" class="headerlink" title="阿里云域名注册流程"></a>阿里云域名注册流程</h2><p><a href="https://baijiahao.baidu.com/s?id=1765615721998421361&wfr=spider&for=pc">https://baijiahao.baidu.com/s?id=1765615721998421361&amp;wfr=spider&amp;for=pc</a></p>
+<h2 id="博客美化"><a href="#博客美化" class="headerlink" title="博客美化"></a>博客美化</h2><p><a href="https://butterfly.js.org/">https://butterfly.js.org/</a></p>
+<h2 id="评论系统搭建"><a href="#评论系统搭建" class="headerlink" title="评论系统搭建"></a>评论系统搭建</h2><p><a href="https://vercel.com/chechuan/waline-test/settings/domains">https://vercel.com/chechuan/waline-test/settings/domains</a></p>
+<h2 id="github部署问题"><a href="#github部署问题" class="headerlink" title="github部署问题"></a>github部署问题</h2><p><a href="https://blog.csdn.net/weixin_48927364/article/details/123405585">https://blog.csdn.net/weixin_48927364/article/details/123405585</a></p>
+<h2 id="阿里云ssl证书"><a href="#阿里云ssl证书" class="headerlink" title="阿里云ssl证书"></a>阿里云ssl证书</h2><p><a href="https://yundunnext.console.aliyun.com/?spm=a2c4g.11186623.0.0.b2eade53LPbv2g&p=cas#/overview/cn-hangzhou">https://yundunnext.console.aliyun.com/?spm=a2c4g.11186623.0.0.b2eade53LPbv2g&amp;p=cas#/overview/cn-hangzhou</a></p>
+<h2 id="Github绑定自定义域名"><a href="#Github绑定自定义域名" class="headerlink" title="Github绑定自定义域名"></a>Github绑定自定义域名</h2><p><a href="https://codeantenna.com/a/BFBUro6Zkx#google_vignette">https://codeantenna.com/a/BFBUro6Zkx#google_vignette</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>报错收集</tag>
+      </tags>
+  </entry>
 </search>
