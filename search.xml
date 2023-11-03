@@ -1745,8 +1745,8 @@
 <li>添加访客地球</li>
 <li>将项目文件迁移到github上, 并绑定阿里云域</li>
 <li>搭建waline评论系统, 并绑定国内域名</li>
-<li>注册评论管理系统, 并对评论功能进行测试并验证通过 </li>
-<li>导航栏新增照片、读书、电影等模块, 接入豆瓣个人主页的数据 </li>
+<li>注册评论管理系统, 并对评论功能进行测试并验证</li>
+<li>导航栏添加照片、读书、电影等模块, 接入豆瓣个人主页的数据 </li>
 <li>新增音乐模块, 部分css文件增补、配置并接入网易云数据</li>
 <li>增加全局吸底aplayer </li>
 <li>新增百度统计功能</li>
@@ -1782,7 +1782,7 @@
 </div>
 
 
-<h3 id="2023-11-03-15-30-45"><a href="#2023-11-03-15-30-45" class="headerlink" title="2023-11-03 15:30:45"></a>2023-11-03 15:30:45</h3><p>打赏二维码图片损坏问题修复，原因是之前图片存在文章下面的文件夹里，部署的时候，使用hexo clean清理缓存，导致图片损坏。<br>解决办法是: 直接使用图床生成的链接，替换掉原来的图片。安利一下目前正在使用的 <a href="https://postimages.org/">图床软件</a>，个人觉得非常好用。</p>
+<h3 id="2023-11-03-15-30-45"><a href="#2023-11-03-15-30-45" class="headerlink" title="2023-11-03 15:30:45"></a>2023-11-03 15:30:45</h3><p>打赏二维码图片损坏问题修复，原因是之前图片存在public下面的文件夹里，部署的时候，使用hexo clean清理缓存，导致图片损坏。<br>解决办法是: 直接使用图床生成的链接，替换掉原来的图片。安利一下目前正在使用的 <a href="https://postimages.org/">图床软件</a>，个人觉得非常好用。</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sponsor/reward</span></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">text:</span></span><br><span class="line">  <span class="attr">QR_code:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="attr">img:</span> <span class="string">https://i.postimg.cc/V64YJr5T/Wechat-IMG98.jpg</span></span><br><span class="line">       <span class="attr">link:</span></span><br><span class="line">       <span class="attr">text:</span> <span class="string">wechat</span></span><br><span class="line"><span class="comment">#     - img: /img/alipay.jpg</span></span><br><span class="line"><span class="comment">#       link:</span></span><br><span class="line"><span class="comment">#       text: alipay</span></span><br></pre></td></tr></table></figure>
 
 
