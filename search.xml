@@ -1603,8 +1603,8 @@
 <h3 id="2023-11-03-16-57-02"><a href="#2023-11-03-16-57-02" class="headerlink" title="2023-11-03 16:57:02"></a>2023-11-03 16:57:02</h3><p>更换博客封面</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># The banner image of home page</span></span><br><span class="line"><span class="attr">index_img:</span> <span class="string">https://i.postimg.cc/G2rVBYd5/00b9429a6e618ff3eca9e66d399e4762bf737417.jpg</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># If the banner of page not setting, it will show the top_img</span></span><br><span class="line"><span class="attr">default_top_img:</span> <span class="string">https://i.postimg.cc/G2rVBYd5/00b9429a6e618ff3eca9e66d399e4762bf737417.jpg</span></span><br></pre></td></tr></table></figure>
 
-
-
+<h3 id="2023-11-03-17-16-14"><a href="#2023-11-03-17-16-14" class="headerlink" title="2023-11-03 17:16:14"></a>2023-11-03 17:16:14</h3><p>一直觉得封面有点暗，无意中看见这个配置，试了一下果然有用，瞬间变亮了，配置如下</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Add mask to header or footer (为 header 或 footer 添加黑色半透遮罩)</span></span><br><span class="line"><span class="attr">mask:</span></span><br><span class="line">  <span class="attr">header:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">footer:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 
 ]]></content>
