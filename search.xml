@@ -1793,6 +1793,8 @@
 
 <h3 id="2023-11-03-18-33-28"><a href="#2023-11-03-18-33-28" class="headerlink" title="2023-11-03 18:33:28"></a>2023-11-03 18:33:28</h3><p>更换网站图标工作，因为从网上下载下来是矢量格式的文件，需要转化成链接才可以使用，但目前从网上还没有找到可以将矢量格式的文件转化为url的方法，只好暂时先使用base64编码来代替，修改主题配置文件如下：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Favicon（網站圖標）</span></span><br><span class="line"><span class="attr">favicon:</span> <span class="string">data:image/svg+xml;base64,PHN2ZyBpZD0icHJpbWFyeV9Mb2dvIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyOTAuNyAyNTAuMiIgd2lkdGg9IjI1MDAiIGhlaWdodD0iMjE1MiI+PHN0eWxlPi5zdDB7ZmlsbDojMmZmYzhkfS5zdDF7ZmlsbDojMDNlMzcwfS5zdDJ7ZmlsbDojMTBjNzY3fS5zdDN7ZmlsbDojMDBhYjZjfTwvc3R5bGU+PGcgaWQ9IlhNTElEXzk4XyI+PGcgaWQ9IlhNTElEXzk5XyI+PHBhdGggaWQ9IlhNTElEXzEwM18iIGNsYXNzPSJzdDAiIGQ9Ik0xOTYuNS4zYy0xLjUtLjctMi43IDAtMi43IDEuN3YyMDIuOWw4OC45IDQ0LjRjNC40IDIuMiA4IDAgOC01VjQ5YzAtMS0uNS0xLjktMS40LTIuM0wxOTYuNS4zeiIvPjxwYXRoIGlkPSJYTUxJRF8xMDJfIiBjbGFzcz0ic3QxIiBkPSJNOTYuOSAxNTYuNUwxOTIuMiAxLjZjLjktMS40IDIuOC0yIDQuMy0xLjJsOTIuMSA0NmMxLjEuNiAxLjYgMiAuOSAzLjFsLTk1LjcgMTU1LjQtOTYuOS00OC40eiIvPjxwYXRoIGlkPSJYTUxJRF8xMDFfIiBjbGFzcz0ic3QyIiBkPSJNMTAuNyA0LjRjLTUuOS0zLTcuOS0uOC00LjQgNC45bDkwLjYgMTQ3LjIgOTYuOSA0OC41TDk3LjUgNDguNWMtLjQtLjctMS0xLjItMS43LTEuNkwxMC43IDQuNHoiLz48cGF0aCBpZD0iWE1MSURfMTAwXyIgY2xhc3M9InN0MyIgZD0iTTk2LjkgMjQ0LjRjMCA0LjktMy42IDcuMi04IDVMNS40IDIwNy42Yy0zLTEuNS01LjQtNS40LTUuNC04LjdWNUMwIDEuNyAyLjQuMiA1LjQgMS43bDkwLjMgNDUuMmMuNy40IDEuMiAxLjEgMS4yIDEuOXYxOTUuNnoiLz48L2c+PC9nPjwvc3ZnPg==</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2023-11-07-14-41-05"><a href="#2023-11-07-14-41-05" class="headerlink" title="2023-11-07 14:41:05"></a>2023-11-07 14:41:05</h3><p>使用Vercel加速网站的访问速度，请查看 <a href="https://cc1204.cn/2023/11/07/%E4%BD%BF%E7%94%A8vercel%E6%9D%A5%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%BD%91%E7%AB%99/">博客</a></p>
 ]]></content>
       <categories>
         <category>版本内容更新</category>
@@ -2609,6 +2611,54 @@
 </tr>
 </tbody></table>
 <p>参考链接：<a href="https://zsyyblog.com/856ab348.html#post-comment">https://zsyyblog.com/856ab348.html#post-comment</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>使用vercel来加速访问你的网站</title>
+    <url>/2023/11/07/%E4%BD%BF%E7%94%A8vercel%E6%9D%A5%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><div class="note orange flat"><p>在观看本教程前请确认：</p>
+<ol>
+<li>你的确需要对自己的网站的访问进行加速，并且不想花太多钱</li>
+<li>你有自己的域名，或者能够购买一个可供使用的网名</li>
+<li>你对域名的解析，DNS等有一定的理解</li>
+</ol>
+</div>
+
+<h2 id="Vercel同步GitHub仓库"><a href="#Vercel同步GitHub仓库" class="headerlink" title="Vercel同步GitHub仓库"></a>Vercel同步GitHub仓库</h2><p>因为我们的博客都是部署在GitHub上并且通过GitHub Pages服务部署并提供访问，而GitHub在国内的访问情况并不算优秀。</p>
+<p>因此，在尽可能减少成本的前提下，如何能提升访问速度？</p>
+<p>答案是Vercel，Vercel是一个云计算平台，主要用于托管、构建和部署静态网站和单页面应用程序。它提供了一个简单易用的工具集，使开发人员可以更快、更方便地将他们的应用程序部署到云端。Vercel还提供了丰富的功能，如自动化部署、自动缩放、A&#x2F;B 测试、性能分析、SSL证书管理等，以帮助开发人员更好地管理和维护他们的应用程序。</p>
+<p>在一切开始之前，你需要注册一个Vercel账号并登陆。网站地址：<a href="https://vercel.com/">https://vercel.com</a></p>
+<p>回到主页，点击右上角的Add New 选择Project</p>
+<p><a href="https://postimg.cc/8FZqYj08"><img src="https://i.postimg.cc/0QvPbSGN/image-20231107134619407.png" alt="image-20231107134619407.png"></a></p>
+<p>此时你就可以看见自己在GitHub的仓库在左边列出了</p>
+<p><a href="https://postimg.cc/B8fTGgRH"><img src="https://i.postimg.cc/QMH01Yb4/image-20231107135335766.png" alt="image-20231107135335766.png"></a></p>
+<p>选择你需要部署在Vercel的博客的仓库，点击Import</p>
+<p><a href="https://postimg.cc/xJwYsXXf"><img src="https://i.postimg.cc/8c55zWD6/image-20231107135526940.png" alt="image-20231107135526940.png"></a></p>
+<p>起一个自己喜欢的名字，然后Deploy，等待Deploy结束</p>
+<p><a href="https://postimg.cc/Lg5CZD9h"><img src="https://i.postimg.cc/rsCv3Z7G/image-20231107135709948.png" alt="image-20231107135709948.png"></a></p>
+<p>deploy完成后回到主页可以看见已经被创建好的仓库</p>
+<p><a href="https://postimg.cc/F7DFvsqZ"><img src="https://i.postimg.cc/t4HshsNL/image-20231107135932748.png" alt="image-20231107135932748.png"></a></p>
+<p>你其实原本可以直接通过Vercel自带这个地址访问已经被创建好的网站了，但是因为*.vercel.app这个域名在国内被墙了，所以你需要使用自定义域名才能访问。</p>
+<p><a href="https://postimg.cc/0bpX3cWR"><img src="https://i.postimg.cc/c4jqvzfH/image-20231107140236837.png" alt="image-20231107140236837.png"></a></p>
+<p>点击settings-Domains，这里就是管理你的博客域名的地方，但是首先你得先有一个域名，我的域名cc1204.cn是在阿里云买的。</p>
+<p><a href="https://postimg.cc/PpT1CQbZ"><img src="https://i.postimg.cc/85r4nyjy/image-20231107140545192.png" alt="image-20231107140545192.png"></a></p>
+<p>在输入框内输入你购买的域名的二级域名，如 Blog.xxx.com 或 <a href="http://www.xxx.com/">www.xxx.com</a> 之类的，我的是cn域名，这里我用了bolg.cc1204.cn作为我的二级域名绑定在这儿</p>
+<p><a href="https://postimg.cc/bGjmRbHY"><img src="https://i.postimg.cc/VNJ2mWJt/image-20231107141106514.png" alt="image-20231107141106514.png"></a></p>
+<p>接下来就是去域名提供商那解析这个域名</p>
+<h2 id="阿里云解析域名"><a href="#阿里云解析域名" class="headerlink" title="阿里云解析域名"></a>阿里云解析域名</h2><p>登陆<a href="https://www.aliyun.com/">阿里云平台</a></p>
+<p>点击云解析DNS控制台</p>
+<p><a href="https://postimg.cc/9r6DNvM4"><img src="https://i.postimg.cc/7Z6Sb4rN/image-20231107141917111.png" alt="image-20231107141917111.png"></a></p>
+<p>这时进到解析页面，然后点击解析设置</p>
+<p><a href="https://postimg.cc/PpT3b3Z9"><img src="https://i.postimg.cc/DZb9TRzv/image-20231107142041397.png" alt="image-20231107142041397.png"></a></p>
+<p>然后在DNS-记录中，点击添加记录，然后按照Vercel给出的值填写</p>
+<p><a href="https://postimg.cc/ZWBB5J9K"><img src="https://i.postimg.cc/YC8189Mg/image-20231107142802704.png" alt="image-20231107142802704.png"></a></p>
+<p>回到Vercel刷新一下，如果正确填写，那么Valid Configuration和Assigned to main前面会打勾，如果你的不长这样，那大概就是哪一步错了。</p>
+<p><a href="https://postimg.cc/3WkdBKBj"><img src="https://i.postimg.cc/L4TLm5gW/image-20231107143129355.png" alt="image-20231107143129355.png"></a></p>
+<p>等待DNS缓存刷新完毕之后，你就可以通过自己新的域名来访问建立在Vercel上的博客了，正常情况下，GitHub的修改会被实时同步到Vercel上并被自动构建。也就是说以后这里就不用再自己动手操心了，只需要在GitHub上进行修改，除非你另有他用。</p>
+<p>参考链接：<a href="https://www.rikoneko.xyz/posts/65231819/">https://www.rikoneko.xyz/posts/65231819/</a></p>
 ]]></content>
       <categories>
         <category>hexo</category>
