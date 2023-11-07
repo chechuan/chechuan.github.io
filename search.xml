@@ -411,72 +411,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker的安装和简单使用</title>
-    <url>/2020/11/19/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="介绍一下docker"><a href="#介绍一下docker" class="headerlink" title="介绍一下docker"></a>介绍一下docker</h3><p>2013年发布至今， <a href="https://www.docker.com/">Docker</a> 一直广受瞩目，被认为可能会改变软件行业。但是，许多人并不清楚 Docker 到底是什么，要解决什么问题，好处又在哪里？本文就来详细解释，帮助大家理解它，还带有简单易懂的实例，教你如何将它用于日常开发。</p>
-<h4 id="Docker核心概念"><a href="#Docker核心概念" class="headerlink" title="Docker核心概念"></a>Docker核心概念</h4><span id="more"></span>
-<p>镜像(image) Docker 镜像（Image）就是一个只读的模板。例如：一个镜像可以包含一个完整的操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。</p>
-<p>仓库(repository) 仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
-<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。国内的公开仓库包括 时速云 、网易云 等，可以提供大陆用户更稳定快速的访问。当然，用户也可以在本地网络内创建一个私有仓库。</p>
-<p>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。</p>
-<p>Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。</p>
-<p>容器(container) Docker 利用容器（Container）来运行应用。容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
-<p>容器的定义和镜像几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。</p>
-<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>首先是我们的windows10版本下安装docker ,如果你的电脑是家庭教育版建议您下载docker tool box,专业版的下载docker desktop也就是桌面版。</p>
-<p>在下载过程中，我们也遇到了一些错误。</p>
-<p>比如安装之后出来了三个图标，当我们点击其中一个软件Docker Quickstart Terminal，你会发现它是打不开的 ，这里我们注意一下,docker本身是基于git的。</p>
-<p>这里我们这样解决，先找到git的文件位置，找到git下面的bin目录的位置，然后复制它的地址放到Docker Quickstart Terminal的位置前面,然后再双击运行，就可以打开了。</p>
-<h3 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h3><p>Docker CE 的安装请参考官方文档。</p>
-<blockquote>
-<ul>
-<li><a href="https://docs.docker.com/docker-for-mac/install/">Mac</a></li>
-<li><a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
-<li><a href="https://docs.docker.com/install/linux/docker-ce/binaries/">其他 Linux 发行版</a></li>
-</ul>
-</blockquote>
-<p>安装完成后，运行下面的命令，验证是否安装成功。</p>
-<blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker version</span><br><span class="line"># 或者</span><br><span class="line">$ docker info</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>我们常用的镜像有redis,mysql</p>
-<p>运行redis镜像</p>
-<blockquote>
-<p><code>$ docker run -it -p 80:80 a580a</code></p>
-</blockquote>
-<p>开启守护进程</p>
-<blockquote>
-<p><code>$ docker run -itd -p 80:80 a580a</code></p>
-</blockquote>
-<p>列出本地镜像</p>
-<blockquote>
-<p><code>$ docker images</code></p>
-</blockquote>
-<p>列出容器</p>
-<blockquote>
-<p><code>$ docker ps</code></p>
-</blockquote>
-<p>关闭服务(返回一个ID)</p>
-<blockquote>
-<p><code>$ docker stop 96f60</code></p>
-</blockquote>
-<p>强制删除</p>
-<blockquote>
-<p><code>$ docker rmi -f a580a</code></p>
-</blockquote>
-<p>docker就像是一个精灵球,我们的项目就是精灵球里面的精灵，当我们开发完毕就可以利用Docker把项目制作成镜像,部署时就可以理解为小精灵被释放出来，进行战斗，而Docker的仓库则提高了镜像的便捷性，可以让我们随时随地只要联网就可以使用自己的镜像。</p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker部署web应用(django)</title>
     <url>/2020/11/22/Docker%E9%83%A8%E7%BD%B2web%E5%BA%94%E7%94%A8-django/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="Docker的简介"><a href="#Docker的简介" class="headerlink" title="Docker的简介"></a>Docker的简介</h2><p>1.docker定义:docker是一个用来装应用的容器，就像杯子可以装水，笔筒可以装笔，书包可以放书一样。你可以把“Hello World！”放到docker中，也可以把网站放到docker中，你可以把任何你想到的程序放到docker中。</p>
@@ -562,6 +496,72 @@
 
 
 
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker的安装和简单使用</title>
+    <url>/2020/11/19/Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="介绍一下docker"><a href="#介绍一下docker" class="headerlink" title="介绍一下docker"></a>介绍一下docker</h3><p>2013年发布至今， <a href="https://www.docker.com/">Docker</a> 一直广受瞩目，被认为可能会改变软件行业。但是，许多人并不清楚 Docker 到底是什么，要解决什么问题，好处又在哪里？本文就来详细解释，帮助大家理解它，还带有简单易懂的实例，教你如何将它用于日常开发。</p>
+<h4 id="Docker核心概念"><a href="#Docker核心概念" class="headerlink" title="Docker核心概念"></a>Docker核心概念</h4><span id="more"></span>
+<p>镜像(image) Docker 镜像（Image）就是一个只读的模板。例如：一个镜像可以包含一个完整的操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。</p>
+<p>仓库(repository) 仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。</p>
+<p>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。国内的公开仓库包括 时速云 、网易云 等，可以提供大陆用户更稳定快速的访问。当然，用户也可以在本地网络内创建一个私有仓库。</p>
+<p>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。</p>
+<p>Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。</p>
+<p>容器(container) Docker 利用容器（Container）来运行应用。容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</p>
+<p>容器的定义和镜像几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。</p>
+<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>首先是我们的windows10版本下安装docker ,如果你的电脑是家庭教育版建议您下载docker tool box,专业版的下载docker desktop也就是桌面版。</p>
+<p>在下载过程中，我们也遇到了一些错误。</p>
+<p>比如安装之后出来了三个图标，当我们点击其中一个软件Docker Quickstart Terminal，你会发现它是打不开的 ，这里我们注意一下,docker本身是基于git的。</p>
+<p>这里我们这样解决，先找到git的文件位置，找到git下面的bin目录的位置，然后复制它的地址放到Docker Quickstart Terminal的位置前面,然后再双击运行，就可以打开了。</p>
+<h3 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h3><p>Docker CE 的安装请参考官方文档。</p>
+<blockquote>
+<ul>
+<li><a href="https://docs.docker.com/docker-for-mac/install/">Mac</a></li>
+<li><a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">Ubuntu</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/debian/">Debian</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/centos/">CentOS</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/fedora/">Fedora</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/binaries/">其他 Linux 发行版</a></li>
+</ul>
+</blockquote>
+<p>安装完成后，运行下面的命令，验证是否安装成功。</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker version</span><br><span class="line"># 或者</span><br><span class="line">$ docker info</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>我们常用的镜像有redis,mysql</p>
+<p>运行redis镜像</p>
+<blockquote>
+<p><code>$ docker run -it -p 80:80 a580a</code></p>
+</blockquote>
+<p>开启守护进程</p>
+<blockquote>
+<p><code>$ docker run -itd -p 80:80 a580a</code></p>
+</blockquote>
+<p>列出本地镜像</p>
+<blockquote>
+<p><code>$ docker images</code></p>
+</blockquote>
+<p>列出容器</p>
+<blockquote>
+<p><code>$ docker ps</code></p>
+</blockquote>
+<p>关闭服务(返回一个ID)</p>
+<blockquote>
+<p><code>$ docker stop 96f60</code></p>
+</blockquote>
+<p>强制删除</p>
+<blockquote>
+<p><code>$ docker rmi -f a580a</code></p>
+</blockquote>
+<p>docker就像是一个精灵球,我们的项目就是精灵球里面的精灵，当我们开发完毕就可以利用Docker把项目制作成镜像,部署时就可以理解为小精灵被释放出来，进行战斗，而Docker的仓库则提高了镜像的便捷性，可以让我们随时随地只要联网就可以使用自己的镜像。</p>
 ]]></content>
       <categories>
         <category>Docker</category>
@@ -969,6 +969,24 @@
 ]]></content>
   </entry>
   <entry>
+    <title>ip封禁</title>
+    <url>/2020/11/19/ip%E5%B0%81%E7%A6%81/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><strong>封禁原因：</strong></p>
+<p>有时候我们写的网站会因为有些不正常的用户(爬虫)请求过于频繁，导致服务器压力过大而崩溃。这时我们需要对请求过于频繁的IP实行限制。<br>1.获取IP，可将IP存入mysql，redis，session，中间件等进行保存<br>2.设置倒计时(ps：你想封多久就封多久，开心就好)</p>
+<span id="more"></span>
+<p><strong>思路</strong></p>
+<p>1.因为要确定每个接口的token是否没有被篡改，所以我们在装饰器对token进行检测。</p>
+<p>2.在装饰器中，获取token，因为又不需要携带的接口，所以当携带token的时候，判断是否能用自己的解密方式进行解密。</p>
+<p>3.ip封禁是一种使用频繁的数据。为了提高用户体验设置IP与uid为联合唯一索引来排重。</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mongodb数据</title>
     <url>/2020/11/19/mongodb%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">MySQL: 关系型数据库</span><br><span class="line">Redis: 非关系型数据库</span><br><span class="line">MongoDB: 非关系型数据库, NoSQL(Not only SQL)</span><br></pre></td></tr></table></figure>
@@ -1027,24 +1045,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ip封禁</title>
-    <url>/2020/11/19/ip%E5%B0%81%E7%A6%81/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><strong>封禁原因：</strong></p>
-<p>有时候我们写的网站会因为有些不正常的用户(爬虫)请求过于频繁，导致服务器压力过大而崩溃。这时我们需要对请求过于频繁的IP实行限制。<br>1.获取IP，可将IP存入mysql，redis，session，中间件等进行保存<br>2.设置倒计时(ps：你想封多久就封多久，开心就好)</p>
-<span id="more"></span>
-<p><strong>思路</strong></p>
-<p>1.因为要确定每个接口的token是否没有被篡改，所以我们在装饰器对token进行检测。</p>
-<p>2.在装饰器中，获取token，因为又不需要携带的接口，所以当携带token的时候，判断是否能用自己的解密方式进行解密。</p>
-<p>3.ip封禁是一种使用频繁的数据。为了提高用户体验设置IP与uid为联合唯一索引来排重。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1190,6 +1190,135 @@
       </tags>
   </entry>
   <entry>
+    <title>websocket实时推送通知</title>
+    <url>/2020/10/19/websocket%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81%E9%80%9A%E7%9F%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在解释 WebSocket 之前，先来看个生活中的小例子。</p>
+<p>比如外汇股票，由多人组成的公司,上市就有股份，每人一个股份10块钱，随着公司盈利,股票升值，如果亏损，股票贬值,  股市中只能买张不能买跌,在股票交易时间内，股票的价格变化十分迅速，股票网站需要向正在浏览页面的用户实时更新股价 ,所以k线图每分钟都要绘制,用户可以根据k线图预测是涨还是跌，如果张就买入，跌就不买，我们要把每分钟的点连起来。</p>
+<span id="more"></span>
+<p>还有心电图,心电图每秒都要绘制,把每个点连起来，就形成了曲线图。</p>
+<p>websocket的特点是持久化链接，实时化，一次强链接，实时，主动推送数据,websocket前后端可以同时推送,而http是一次请求。websocket长连接不是一对一的。</p>
+<p>在我们发送请求时，要监控newtwork，网页newtwork中websocket304 200 意味着这次链接结束 500在这里表示成功，也意味着结束。websocket 101 表示链接成功。</p>
+<p>下面我们来完成一个websocket测试。</p>
+<h2 id="写一个websocket接口"><a href="#写一个websocket接口" class="headerlink" title="写一个websocket接口"></a>写一个websocket接口</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#webscoket接口</span></span><br><span class="line"></span><br><span class="line">clients = &#123;&#125;</span><br><span class="line"><span class="meta">@accept_websocket</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">webscoketlink</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.is_websocket():</span><br><span class="line">        token = request.GET.get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        userid = jwt.decode(token,settings.SECRET_KEY,algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----------------------------------------------------------------------userid&#x27;</span>,userid)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">            message = request.websocket.wait()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;webscoket链接成功&#x27;</span> + <span class="built_in">str</span>(message))   <span class="comment"># 也可以用format</span></span><br><span class="line"></span><br><span class="line">                clients[userid] = request.websocket</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> redis.get(userid):</span><br><span class="line">                    msg = redis.get(userid).decode()</span><br><span class="line">                    request.is_websocket.send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">                    redis.delete(userid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送消息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sendmessage</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取消息</span></span><br><span class="line">    msg = request.GET.get(<span class="string">&quot;msg&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> client <span class="keyword">in</span> clients:</span><br><span class="line">        clients[client].send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;OK&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这里不需要return,我们平时写接口return表示结束返回数据,断开连接,而websocket不用断开连接，但是没有网也不行，偶尔网络波动,连上网之后，它可以立刻连上，有持久化可能性，继续回去找userid,而http断开之后，回去不找userid。</p>
+<h2 id="前端如何操作"><a href="#前端如何操作" class="headerlink" title="前端如何操作"></a>前端如何操作</h2><p>在home首页实现长连接，可以实时通知用户，每个网页写入组件，在页面加载之前连接websocket,判断浏览器是否支持websocket。为什么有的响应在前端打印，有的在后端打印,我们的链接的请求或关闭，不需要让客户知道，只要在后台默默的操作就好了，可是如果审核通过或者拒绝就需要让客户知道。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mounted</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    判断浏览器是否支持webscoket</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="variable language_">window</span>)&#123;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;支持&#x27;</span>);</span><br><span class="line">      <span class="keyword">var</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&quot;ws://localhost:8000/webscoketlink/&quot;</span>)</span><br><span class="line"></span><br><span class="line">      ws.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        ws.<span class="title function_">send</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">              </span><br><span class="line">          <span class="comment">//发送消息</span></span><br><span class="line">          ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">evt</span>)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//将获取信息打印 那个是提示 通知提醒</span></span><br><span class="line">      <span class="keyword">var</span> received_msg = evt.<span class="property">data</span></span><br><span class="line"></span><br><span class="line">      <span class="title function_">alert</span>(received_msg);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//捕获关闭链接</span></span><br><span class="line">        ws.<span class="property">onclose</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;链接已经关闭&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>所有的实时通信都是基于websocket。</p>
+<p>这块我们为什么用http协议，因为这是一个接收消息的接口，请求这个接口，然后去调用websocket然后返回给前端。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">path(<span class="string">&#x27;webscoketlink/&#x27;</span>, webscoketlink),</span><br><span class="line">  path(<span class="string">&#x27;sendmessage/&#x27;</span>, sendmessage),</span><br></pre></td></tr></table></figure>
+
+<p>然后重启项目，状态码101 请求连接成功。</p>
+<h4 id="我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"><a href="#我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。" class="headerlink" title="我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"></a>我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。</h4><ul>
+<li>如果申请人在线（客户端与服务器正常链接）直接将消息推送即可。如果不在线（客户端与服务端没有链接）将数据在redis中以集合类型储存</li>
+</ul>
+<ul>
+<li><p>当每个用户首次与服务端链接时首先判断该用户在redis中有没有数据，如果有数据，直接遍历发送，客户端以弹窗形式提醒用户</p>
+<blockquote>
+<p>使用redis时需要注意：用这种消息推送，只需要用户作为键，不需要别的数据作为标识。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="十种方式拼接Python字符串"><a href="#十种方式拼接Python字符串" class="headerlink" title="十种方式拼接Python字符串"></a>十种方式拼接Python字符串</h2><p>字符串是所有编程语言中都有的基本变量的类型，程序员基本每天都在和字符串打交道。 </p>
+<p>本篇文章的最后我们一起细数Python中的各种字符串拼接方法。每种字符串拼接方式的使用场景各不相同，我们可以在开发过程中灵活运用。</p>
+<p><strong>一、用逗号，拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_a = <span class="string">&#x27;python&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>, str_a, <span class="string">&#x27;!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">hello python !</span><br></pre></td></tr></table></figure>
+
+<p>用逗号拼接的结果中，相邻的两个字符串之间会有空格。</p>
+<p><strong>二、空格自动拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_b = <span class="string">&#x27;It is summer &#x27;</span> <span class="string">&#x27;of 2019!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_b)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">It <span class="keyword">is</span> summer of <span class="number">2019</span>!</span><br></pre></td></tr></table></figure>
+
+<p>空格自动拼接后，两个字符串之间的空格不会保留，两个字符串会直接连在一起，不能通过多个变量名来拼接。</p>
+<p><strong>三、多行字符串自动拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_c = <span class="string">&#x27;Love makes &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;man grow up &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;or sink down!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_c)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Love makes man grow up <span class="keyword">or</span> sink down!</span><br></pre></td></tr></table></figure>
+
+<p>多行字符串之间会有反斜杠\作为连接，自动拼接后，多行字符串会直接连在一起，中间没有空格，不能通过多个变量名来拼接。</p>
+<p>所以我们在编程中，一行写不完的字符串可以换行，最后的结果是一样的。</p>
+<p><strong>四、通过加号+拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_d = <span class="string">&#x27;string&#x27;</span></span><br><span class="line"></span><br><span class="line">str_e = <span class="string">&#x27;demo&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_d + str_e)</span><br><span class="line"></span><br><span class="line">str_e += str_d</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_e)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">stringdemo</span><br><span class="line"></span><br><span class="line">demostring</span><br></pre></td></tr></table></figure>
+
+<p>加号拼接的结果也是两个字符串直接拼接在一起，中间没有空格。</p>
+<p><strong>五、通过乘法*进行拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_f = <span class="string">&#x27;a-&#x27;</span> * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_f)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a-a-a-a-a-a-a-a-a-a-</span><br></pre></td></tr></table></figure>
+
+<p>Python中一个字符串与整数相乘的结果为字符串拼接整数次。</p>
+<p><strong>六、字符串格式化操作符%拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_g = <span class="string">&#x27;aaaaaaaaaaaa%saaaaaaaaa&#x27;</span> % <span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_g)</span><br><span class="line"></span><br><span class="line">str_h = <span class="string">&#x27;aaaaaaaaaaaa%06daaaaaaaaa&#x27;</span> % <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_h)</span><br><span class="line"></span><br><span class="line">str_i = <span class="string">&#x27;aaaaaaaaaaaa%.03faaaaaaaaa&#x27;</span> % <span class="number">0.77</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_i)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aaaaaaaaaaaaAaaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa000010aaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa0<span class="number">.770</span>aaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+<p>%s,%d,%f的作用是占位作用，然后在字符串后面跟一个%，再在后面写拼到占位位置的内容。</p>
+<p>%s:将一个字符串拼接到前面的字符串中</p>
+<p>%d:将一个整型数字转换成字符串拼接到前面的字符串中，可以设置整数的位数，前面补0</p>
+<p>%f:将一个浮点型数字转换成字符串拼接到前面的字符串中，可以设置小数点后的位数，后面补0</p>
+<p><strong>七、通过str.format()方法拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_j = <span class="string">&#x27;python &#123;&#125;! format &#123;&#125;!&#x27;</span>.<span class="built_in">format</span>(<span class="number">666</span>, <span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_j)</span><br><span class="line"></span><br><span class="line">str_k = <span class="string">&#x27;生如夏花之&#123;a&#125;，死如秋叶之&#123;b&#125;！&#x27;</span>.<span class="built_in">format</span>(b=<span class="string">&#x27;静美&#x27;</span>, a=<span class="string">&#x27;绚烂&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_k)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python <span class="number">666</span>! <span class="built_in">format</span> <span class="number">999</span>!</span><br><span class="line"></span><br><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br></pre></td></tr></table></figure>
+
+<p><strong>format()方法可以说是最通用（基本是万能的）的拼接方法了，不管后面拼接的数据是字符串还是数字，甚至元组、列表、字典、集合等数据类型，format统统都可以拼接到字符串中。</strong></p>
+<p>在要拼接的字符串中使用大括号{}来给拼接内容占位，后面按顺序依次传入对应的内容即可，也可以给每个占位的{}起一个变量名，然后通过关键字参数传递给format().</p>
+<p><strong>八、通过str.join()方法拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list_l = [<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>]</span><br><span class="line"></span><br><span class="line">str_l = <span class="string">&#x27;&#x27;</span>.join(list_l)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_l)</span><br><span class="line"></span><br><span class="line">tuple_m = (<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_m = <span class="string">&#x27;-&#x27;</span>.join(tuple_m)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_m)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br><span class="line"></span><br><span class="line">生-如-夏-花-之-绚-烂-，-死-如-秋-叶-之-静-美-！</span><br></pre></td></tr></table></figure>
+
+<p>str.join()最常用来将一个列表内的字符串拼接成一个大的字符串，列表中的每个元素都需要是字符串类型。</p>
+<p>前面的str是拼接时用于连接的字符串，列表的每两个元素之间使用str来连接。</p>
+<p><strong>九、通过string模块中的Template对象拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">t = Template(<span class="string">&#x27;$&#123;s1&#125; $&#123;s2&#125;!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_n = t.safe_substitute(s1=<span class="string">&#x27;Hello&#x27;</span>, s2=<span class="string">&#x27;Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_n)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Hello Python!</span><br></pre></td></tr></table></figure>
+
+<p>Template的实现方式是首先通过Template初始化一个字符串对象t，在创建对象t时，在字符串中使用 <strong>${变量名}</strong> 的方式来给拼接内容占位。</p>
+<p>也可以省略{}，直接 <strong>$变量名，</strong>只是没有{}时变量名后面一定要有空格，且可读性不如有{}的好。</p>
+<p>通过调用t对象的substitute或safe_subsititute方法，将拼接内容通过关键字参数的方式依次传递进去，实现在指定的位置拼接字符串。</p>
+<p>这种方法与上面的format()方法一样，不管传入的拼接内容是什么数据类型，统统都可以拼接。</p>
+<p><strong>十、通过F-strings拼接</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">o = <span class="number">6666666666</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">7777777777</span></span><br><span class="line"></span><br><span class="line">str_o = <span class="string">f&#x27;Python <span class="subst">&#123;o&#125;</span> hello <span class="subst">&#123;p&#125;</span> !&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_o)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Python <span class="number">6666666666</span> hello <span class="number">7777777777</span> !</span><br></pre></td></tr></table></figure>
+
+<p>在Python3.6版本中，提出了一种新型字符串格式化机制，被称为“字符串插值”或者<strong>F-strings，</strong>F-strings提供了一种明确且方便的方式将python表达式嵌入到字符串中来进行格式化。而且F-strings的运行速度很快，比%和format()这两种格式化方法都快得多。</p>
+<p>上面的代码中直接在f后面跟字符串，然后在字符串中用{}传入拼接内容。</p>
+<p>厉害的是，在F-strings中我们可以执行函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_string</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>.upper()</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;a k q j 10&#x27;</span></span><br><span class="line"></span><br><span class="line">str_p = <span class="string">f&#x27;顺子! <span class="subst">&#123;add_string(<span class="built_in">str</span>)&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_p)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">顺子! A K Q J 10</span><br></pre></td></tr></table></figure>
+
+<p>将函数传入{}中，最后拼接到字符串中的内容是函数执行的结果！</p>
+<p>现在我们已经细数了十种Python字符串的拼接方式，希望您可以在使用中融会贯通，灵活运用。</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>两数之和</title>
     <url>/2021/11/15/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。"><a href="#给定一个整数数组-nums-和一个整数目标值-target，请你在该数组中找出-和为目标值-target-的那-两个-整数，并返回它们的数组下标。" class="headerlink" title="给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。"></a>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</h3><h3 id="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"><a href="#你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。" class="headerlink" title="你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。"></a>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</h3><h3 id="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"><a href="#参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。" class="headerlink" title="参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。"></a>参考了大神们的解法，通过哈希来求解，这里通过字典来模拟哈希查询的过程。</h3><h3 id="个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。"><a href="#个人理解这种办法其实就是字典记录了-num1-和-num2-的值和位置，而省了再查找-num2-索引的步骤。" class="headerlink" title="个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。"></a>个人理解这种办法其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。</h3><h3 id="不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。"><a href="#不需要-mun2-不需要在整个-dict-中去查找。可以在-num1-之前的-dict-中查找，因此就只需要一次循环可解决。" class="headerlink" title="不需要 mun2 不需要在整个 dict 中去查找。可以在 num1 之前的 dict 中查找，因此就只需要一次循环可解决。"></a>不需要 <code>mun2</code> 不需要在整个 <code>dict</code> 中去查找。可以在 <code>num1</code> 之前的 <code>dict</code> 中查找，因此就只需要一次循环可解决。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">twoSum</span>(<span class="params">nums, target</span>):</span><br><span class="line">    hashmap=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i,num <span class="keyword">in</span> <span class="built_in">enumerate</span>(nums):</span><br><span class="line">        <span class="keyword">if</span> hashmap.get(target - num) <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> [i,hashmap.get(target - num)]</span><br><span class="line">        hashmap[num] = i <span class="comment">#这句不能放在if语句之前，解决list中有重复值或target-num=num的情况</span></span><br></pre></td></tr></table></figure>
@@ -1319,133 +1448,52 @@
       </tags>
   </entry>
   <entry>
-    <title>websocket实时推送通知</title>
-    <url>/2020/10/19/websocket%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81%E9%80%9A%E7%9F%A5/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在解释 WebSocket 之前，先来看个生活中的小例子。</p>
-<p>比如外汇股票，由多人组成的公司,上市就有股份，每人一个股份10块钱，随着公司盈利,股票升值，如果亏损，股票贬值,  股市中只能买张不能买跌,在股票交易时间内，股票的价格变化十分迅速，股票网站需要向正在浏览页面的用户实时更新股价 ,所以k线图每分钟都要绘制,用户可以根据k线图预测是涨还是跌，如果张就买入，跌就不买，我们要把每分钟的点连起来。</p>
-<span id="more"></span>
-<p>还有心电图,心电图每秒都要绘制,把每个点连起来，就形成了曲线图。</p>
-<p>websocket的特点是持久化链接，实时化，一次强链接，实时，主动推送数据,websocket前后端可以同时推送,而http是一次请求。websocket长连接不是一对一的。</p>
-<p>在我们发送请求时，要监控newtwork，网页newtwork中websocket304 200 意味着这次链接结束 500在这里表示成功，也意味着结束。websocket 101 表示链接成功。</p>
-<p>下面我们来完成一个websocket测试。</p>
-<h2 id="写一个websocket接口"><a href="#写一个websocket接口" class="headerlink" title="写一个websocket接口"></a>写一个websocket接口</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#webscoket接口</span></span><br><span class="line"></span><br><span class="line">clients = &#123;&#125;</span><br><span class="line"><span class="meta">@accept_websocket</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">webscoketlink</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> request.is_websocket():</span><br><span class="line">        token = request.GET.get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        userid = jwt.decode(token,settings.SECRET_KEY,algorithms=[<span class="string">&#x27;HS256&#x27;</span>]).get(<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;----------------------------------------------------------------------userid&#x27;</span>,userid)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line"></span><br><span class="line">            message = request.websocket.wait()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&#x27;webscoket链接成功&#x27;</span> + <span class="built_in">str</span>(message))   <span class="comment"># 也可以用format</span></span><br><span class="line"></span><br><span class="line">                clients[userid] = request.websocket</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> redis.get(userid):</span><br><span class="line">                    msg = redis.get(userid).decode()</span><br><span class="line">                    request.is_websocket.send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">                    redis.delete(userid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送消息</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sendmessage</span>(<span class="params">request</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取消息</span></span><br><span class="line">    msg = request.GET.get(<span class="string">&quot;msg&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> client <span class="keyword">in</span> clients:</span><br><span class="line">        clients[client].send(msg.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(&#123;<span class="string">&#x27;OK&#x27;</span>&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>使用vercel来加速访问你的网站</title>
+    <url>/2023/11/07/%E4%BD%BF%E7%94%A8vercel%E6%9D%A5%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%BD%91%E7%AB%99/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><div class="note orange flat"><p>在观看本教程前请确认：</p>
+<ol>
+<li>你的确需要对自己的网站的访问进行加速，并且不想花太多钱</li>
+<li>你有自己的域名，或者能够购买一个可供使用的网名</li>
+<li>你对域名的解析，DNS等有一定的理解</li>
+</ol>
+</div>
 
-<p>在这里不需要return,我们平时写接口return表示结束返回数据,断开连接,而websocket不用断开连接，但是没有网也不行，偶尔网络波动,连上网之后，它可以立刻连上，有持久化可能性，继续回去找userid,而http断开之后，回去不找userid。</p>
-<h2 id="前端如何操作"><a href="#前端如何操作" class="headerlink" title="前端如何操作"></a>前端如何操作</h2><p>在home首页实现长连接，可以实时通知用户，每个网页写入组件，在页面加载之前连接websocket,判断浏览器是否支持websocket。为什么有的响应在前端打印，有的在后端打印,我们的链接的请求或关闭，不需要让客户知道，只要在后台默默的操作就好了，可是如果审核通过或者拒绝就需要让客户知道。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mounted</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    判断浏览器是否支持webscoket</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;WebSocket&quot;</span> <span class="keyword">in</span> <span class="variable language_">window</span>)&#123;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;支持&#x27;</span>);</span><br><span class="line">      <span class="keyword">var</span> ws = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">&quot;ws://localhost:8000/webscoketlink/&quot;</span>)</span><br><span class="line"></span><br><span class="line">      ws.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        ws.<span class="title function_">send</span>(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">              </span><br><span class="line">          <span class="comment">//发送消息</span></span><br><span class="line">          ws.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">evt</span>)&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//将获取信息打印 那个是提示 通知提醒</span></span><br><span class="line">      <span class="keyword">var</span> received_msg = evt.<span class="property">data</span></span><br><span class="line"></span><br><span class="line">      <span class="title function_">alert</span>(received_msg);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//捕获关闭链接</span></span><br><span class="line">        ws.<span class="property">onclose</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;链接已经关闭&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>所有的实时通信都是基于websocket。</p>
-<p>这块我们为什么用http协议，因为这是一个接收消息的接口，请求这个接口，然后去调用websocket然后返回给前端。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">path(<span class="string">&#x27;webscoketlink/&#x27;</span>, webscoketlink),</span><br><span class="line">  path(<span class="string">&#x27;sendmessage/&#x27;</span>, sendmessage),</span><br></pre></td></tr></table></figure>
-
-<p>然后重启项目，状态码101 请求连接成功。</p>
-<h4 id="我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"><a href="#我们要写一个需求-就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。" class="headerlink" title="我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。"></a>我们要写一个需求,就是用户如果不在线，怎么让他上线后收到推送消息，就是向指定用户发送websocket消息并处理对方不在线的情况。</h4><ul>
-<li>如果申请人在线（客户端与服务器正常链接）直接将消息推送即可。如果不在线（客户端与服务端没有链接）将数据在redis中以集合类型储存</li>
-</ul>
-<ul>
-<li><p>当每个用户首次与服务端链接时首先判断该用户在redis中有没有数据，如果有数据，直接遍历发送，客户端以弹窗形式提醒用户</p>
-<blockquote>
-<p>使用redis时需要注意：用这种消息推送，只需要用户作为键，不需要别的数据作为标识。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="十种方式拼接Python字符串"><a href="#十种方式拼接Python字符串" class="headerlink" title="十种方式拼接Python字符串"></a>十种方式拼接Python字符串</h2><p>字符串是所有编程语言中都有的基本变量的类型，程序员基本每天都在和字符串打交道。 </p>
-<p>本篇文章的最后我们一起细数Python中的各种字符串拼接方法。每种字符串拼接方式的使用场景各不相同，我们可以在开发过程中灵活运用。</p>
-<p><strong>一、用逗号，拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_a = <span class="string">&#x27;python&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello&#x27;</span>, str_a, <span class="string">&#x27;!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">hello python !</span><br></pre></td></tr></table></figure>
-
-<p>用逗号拼接的结果中，相邻的两个字符串之间会有空格。</p>
-<p><strong>二、空格自动拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_b = <span class="string">&#x27;It is summer &#x27;</span> <span class="string">&#x27;of 2019!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_b)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">It <span class="keyword">is</span> summer of <span class="number">2019</span>!</span><br></pre></td></tr></table></figure>
-
-<p>空格自动拼接后，两个字符串之间的空格不会保留，两个字符串会直接连在一起，不能通过多个变量名来拼接。</p>
-<p><strong>三、多行字符串自动拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_c = <span class="string">&#x27;Love makes &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;man grow up &#x27;</span> \</span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;or sink down!&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_c)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Love makes man grow up <span class="keyword">or</span> sink down!</span><br></pre></td></tr></table></figure>
-
-<p>多行字符串之间会有反斜杠\作为连接，自动拼接后，多行字符串会直接连在一起，中间没有空格，不能通过多个变量名来拼接。</p>
-<p>所以我们在编程中，一行写不完的字符串可以换行，最后的结果是一样的。</p>
-<p><strong>四、通过加号+拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_d = <span class="string">&#x27;string&#x27;</span></span><br><span class="line"></span><br><span class="line">str_e = <span class="string">&#x27;demo&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_d + str_e)</span><br><span class="line"></span><br><span class="line">str_e += str_d</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_e)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">stringdemo</span><br><span class="line"></span><br><span class="line">demostring</span><br></pre></td></tr></table></figure>
-
-<p>加号拼接的结果也是两个字符串直接拼接在一起，中间没有空格。</p>
-<p><strong>五、通过乘法*进行拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_f = <span class="string">&#x27;a-&#x27;</span> * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_f)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a-a-a-a-a-a-a-a-a-a-</span><br></pre></td></tr></table></figure>
-
-<p>Python中一个字符串与整数相乘的结果为字符串拼接整数次。</p>
-<p><strong>六、字符串格式化操作符%拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_g = <span class="string">&#x27;aaaaaaaaaaaa%saaaaaaaaa&#x27;</span> % <span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_g)</span><br><span class="line"></span><br><span class="line">str_h = <span class="string">&#x27;aaaaaaaaaaaa%06daaaaaaaaa&#x27;</span> % <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_h)</span><br><span class="line"></span><br><span class="line">str_i = <span class="string">&#x27;aaaaaaaaaaaa%.03faaaaaaaaa&#x27;</span> % <span class="number">0.77</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_i)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">aaaaaaaaaaaaAaaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa000010aaaaaaaaa</span><br><span class="line"></span><br><span class="line">aaaaaaaaaaaa0<span class="number">.770</span>aaaaaaaaa</span><br></pre></td></tr></table></figure>
-
-<p>%s,%d,%f的作用是占位作用，然后在字符串后面跟一个%，再在后面写拼到占位位置的内容。</p>
-<p>%s:将一个字符串拼接到前面的字符串中</p>
-<p>%d:将一个整型数字转换成字符串拼接到前面的字符串中，可以设置整数的位数，前面补0</p>
-<p>%f:将一个浮点型数字转换成字符串拼接到前面的字符串中，可以设置小数点后的位数，后面补0</p>
-<p><strong>七、通过str.format()方法拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">str_j = <span class="string">&#x27;python &#123;&#125;! format &#123;&#125;!&#x27;</span>.<span class="built_in">format</span>(<span class="number">666</span>, <span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_j)</span><br><span class="line"></span><br><span class="line">str_k = <span class="string">&#x27;生如夏花之&#123;a&#125;，死如秋叶之&#123;b&#125;！&#x27;</span>.<span class="built_in">format</span>(b=<span class="string">&#x27;静美&#x27;</span>, a=<span class="string">&#x27;绚烂&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_k)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python <span class="number">666</span>! <span class="built_in">format</span> <span class="number">999</span>!</span><br><span class="line"></span><br><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br></pre></td></tr></table></figure>
-
-<p><strong>format()方法可以说是最通用（基本是万能的）的拼接方法了，不管后面拼接的数据是字符串还是数字，甚至元组、列表、字典、集合等数据类型，format统统都可以拼接到字符串中。</strong></p>
-<p>在要拼接的字符串中使用大括号{}来给拼接内容占位，后面按顺序依次传入对应的内容即可，也可以给每个占位的{}起一个变量名，然后通过关键字参数传递给format().</p>
-<p><strong>八、通过str.join()方法拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list_l = [<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>]</span><br><span class="line"></span><br><span class="line">str_l = <span class="string">&#x27;&#x27;</span>.join(list_l)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_l)</span><br><span class="line"></span><br><span class="line">tuple_m = (<span class="string">&#x27;生&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;夏&#x27;</span>, <span class="string">&#x27;花&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;绚&#x27;</span>, <span class="string">&#x27;烂&#x27;</span>, <span class="string">&#x27;，&#x27;</span>, <span class="string">&#x27;死&#x27;</span>, <span class="string">&#x27;如&#x27;</span>, <span class="string">&#x27;秋&#x27;</span>, <span class="string">&#x27;叶&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;静&#x27;</span>, <span class="string">&#x27;美&#x27;</span>, <span class="string">&#x27;！&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_m = <span class="string">&#x27;-&#x27;</span>.join(tuple_m)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_m)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">生如夏花之绚烂，死如秋叶之静美！</span><br><span class="line"></span><br><span class="line">生-如-夏-花-之-绚-烂-，-死-如-秋-叶-之-静-美-！</span><br></pre></td></tr></table></figure>
-
-<p>str.join()最常用来将一个列表内的字符串拼接成一个大的字符串，列表中的每个元素都需要是字符串类型。</p>
-<p>前面的str是拼接时用于连接的字符串，列表的每两个元素之间使用str来连接。</p>
-<p><strong>九、通过string模块中的Template对象拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">t = Template(<span class="string">&#x27;$&#123;s1&#125; $&#123;s2&#125;!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">str_n = t.safe_substitute(s1=<span class="string">&#x27;Hello&#x27;</span>, s2=<span class="string">&#x27;Python&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_n)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Hello Python!</span><br></pre></td></tr></table></figure>
-
-<p>Template的实现方式是首先通过Template初始化一个字符串对象t，在创建对象t时，在字符串中使用 <strong>${变量名}</strong> 的方式来给拼接内容占位。</p>
-<p>也可以省略{}，直接 <strong>$变量名，</strong>只是没有{}时变量名后面一定要有空格，且可读性不如有{}的好。</p>
-<p>通过调用t对象的substitute或safe_subsititute方法，将拼接内容通过关键字参数的方式依次传递进去，实现在指定的位置拼接字符串。</p>
-<p>这种方法与上面的format()方法一样，不管传入的拼接内容是什么数据类型，统统都可以拼接。</p>
-<p><strong>十、通过F-strings拼接</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">o = <span class="number">6666666666</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">7777777777</span></span><br><span class="line"></span><br><span class="line">str_o = <span class="string">f&#x27;Python <span class="subst">&#123;o&#125;</span> hello <span class="subst">&#123;p&#125;</span> !&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_o)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Python <span class="number">6666666666</span> hello <span class="number">7777777777</span> !</span><br></pre></td></tr></table></figure>
-
-<p>在Python3.6版本中，提出了一种新型字符串格式化机制，被称为“字符串插值”或者<strong>F-strings，</strong>F-strings提供了一种明确且方便的方式将python表达式嵌入到字符串中来进行格式化。而且F-strings的运行速度很快，比%和format()这两种格式化方法都快得多。</p>
-<p>上面的代码中直接在f后面跟字符串，然后在字符串中用{}传入拼接内容。</p>
-<p>厉害的是，在F-strings中我们可以执行函数：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_string</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">str</span>.upper()</span><br><span class="line"></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;a k q j 10&#x27;</span></span><br><span class="line"></span><br><span class="line">str_p = <span class="string">f&#x27;顺子! <span class="subst">&#123;add_string(<span class="built_in">str</span>)&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(str_p)</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">顺子! A K Q J 10</span><br></pre></td></tr></table></figure>
-
-<p>将函数传入{}中，最后拼接到字符串中的内容是函数执行的结果！</p>
-<p>现在我们已经细数了十种Python字符串的拼接方式，希望您可以在使用中融会贯通，灵活运用。</p>
+<h2 id="Vercel同步GitHub仓库"><a href="#Vercel同步GitHub仓库" class="headerlink" title="Vercel同步GitHub仓库"></a>Vercel同步GitHub仓库</h2><p>因为我们的博客都是部署在GitHub上并且通过GitHub Pages服务部署并提供访问，而GitHub在国内的访问情况并不算优秀。</p>
+<p>因此，在尽可能减少成本的前提下，如何能提升访问速度？</p>
+<p>答案是Vercel，Vercel是一个云计算平台，主要用于托管、构建和部署静态网站和单页面应用程序。它提供了一个简单易用的工具集，使开发人员可以更快、更方便地将他们的应用程序部署到云端。Vercel还提供了丰富的功能，如自动化部署、自动缩放、A&#x2F;B 测试、性能分析、SSL证书管理等，以帮助开发人员更好地管理和维护他们的应用程序。</p>
+<p>在一切开始之前，你需要注册一个Vercel账号并登陆。网站地址：<a href="https://vercel.com/">https://vercel.com</a></p>
+<p>回到主页，点击右上角的Add New 选择Project</p>
+<p><a href="https://postimg.cc/8FZqYj08"><img src="https://i.postimg.cc/0QvPbSGN/image-20231107134619407.png" alt="image-20231107134619407.png"></a></p>
+<p>此时你就可以看见自己在GitHub的仓库在左边列出了</p>
+<p><a href="https://postimg.cc/B8fTGgRH"><img src="https://i.postimg.cc/QMH01Yb4/image-20231107135335766.png" alt="image-20231107135335766.png"></a></p>
+<p>选择你需要部署在Vercel的博客的仓库，点击Import</p>
+<p><a href="https://postimg.cc/xJwYsXXf"><img src="https://i.postimg.cc/8c55zWD6/image-20231107135526940.png" alt="image-20231107135526940.png"></a></p>
+<p>起一个自己喜欢的名字，然后Deploy，等待Deploy结束</p>
+<p><a href="https://postimg.cc/Lg5CZD9h"><img src="https://i.postimg.cc/rsCv3Z7G/image-20231107135709948.png" alt="image-20231107135709948.png"></a></p>
+<p>deploy完成后回到主页可以看见已经被创建好的仓库</p>
+<p><a href="https://postimg.cc/F7DFvsqZ"><img src="https://i.postimg.cc/t4HshsNL/image-20231107135932748.png" alt="image-20231107135932748.png"></a></p>
+<p>你其实原本可以直接通过Vercel自带这个地址访问已经被创建好的网站了，但是因为*.vercel.app这个域名在国内被墙了，所以你需要使用自定义域名才能访问。</p>
+<p><a href="https://postimg.cc/0bpX3cWR"><img src="https://i.postimg.cc/c4jqvzfH/image-20231107140236837.png" alt="image-20231107140236837.png"></a></p>
+<p>点击settings-Domains，这里就是管理你的博客域名的地方，但是首先你得先有一个域名，我的域名cc1204.cn是在阿里云买的。</p>
+<p><a href="https://postimg.cc/PpT1CQbZ"><img src="https://i.postimg.cc/85r4nyjy/image-20231107140545192.png" alt="image-20231107140545192.png"></a></p>
+<p>在输入框内输入你购买的域名的二级域名，如 Blog.xxx.com 或 <a href="http://www.xxx.com/">www.xxx.com</a> 之类的，我的是cn域名，这里我用了bolg.cc1204.cn作为我的二级域名绑定在这儿</p>
+<p><a href="https://postimg.cc/bGjmRbHY"><img src="https://i.postimg.cc/VNJ2mWJt/image-20231107141106514.png" alt="image-20231107141106514.png"></a></p>
+<p>接下来就是去域名提供商那解析这个域名</p>
+<h2 id="阿里云解析域名"><a href="#阿里云解析域名" class="headerlink" title="阿里云解析域名"></a>阿里云解析域名</h2><p>登陆<a href="https://www.aliyun.com/">阿里云平台</a></p>
+<p>点击云解析DNS控制台</p>
+<p><a href="https://postimg.cc/9r6DNvM4"><img src="https://i.postimg.cc/7Z6Sb4rN/image-20231107141917111.png" alt="image-20231107141917111.png"></a></p>
+<p>这时进到解析页面，然后点击解析设置</p>
+<p><a href="https://postimg.cc/PpT3b3Z9"><img src="https://i.postimg.cc/DZb9TRzv/image-20231107142041397.png" alt="image-20231107142041397.png"></a></p>
+<p>然后在DNS-记录中，点击添加记录，然后按照Vercel给出的值填写</p>
+<p><a href="https://postimg.cc/ZWBB5J9K"><img src="https://i.postimg.cc/YC8189Mg/image-20231107142802704.png" alt="image-20231107142802704.png"></a></p>
+<p>回到Vercel刷新一下，如果正确填写，那么Valid Configuration和Assigned to main前面会打勾，如果你的不长这样，那大概就是哪一步错了。</p>
+<p><a href="https://postimg.cc/3WkdBKBj"><img src="https://i.postimg.cc/L4TLm5gW/image-20231107143129355.png" alt="image-20231107143129355.png"></a></p>
+<p>等待DNS缓存刷新完毕之后，你就可以通过自己新的域名来访问建立在Vercel上的博客了，正常情况下，GitHub的修改会被实时同步到Vercel上并被自动构建。也就是说以后这里就不用再自己动手操心了，只需要在GitHub上进行修改，除非你另有他用。</p>
+<p>参考链接：<a href="https://www.rikoneko.xyz/posts/65231819/">https://www.rikoneko.xyz/posts/65231819/</a></p>
 ]]></content>
       <categories>
-        <category>智能高并发审批流系统</category>
+        <category>hexo</category>
       </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
-      </tags>
   </entry>
   <entry>
     <title>利用docker实现Elasticsearch全文检索部署</title>
@@ -1609,54 +1657,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用vercel来加速访问你的网站</title>
-    <url>/2023/11/07/%E4%BD%BF%E7%94%A8vercel%E6%9D%A5%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%BD%91%E7%AB%99/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><div class="note orange flat"><p>在观看本教程前请确认：</p>
-<ol>
-<li>你的确需要对自己的网站的访问进行加速，并且不想花太多钱</li>
-<li>你有自己的域名，或者能够购买一个可供使用的网名</li>
-<li>你对域名的解析，DNS等有一定的理解</li>
-</ol>
-</div>
-
-<h2 id="Vercel同步GitHub仓库"><a href="#Vercel同步GitHub仓库" class="headerlink" title="Vercel同步GitHub仓库"></a>Vercel同步GitHub仓库</h2><p>因为我们的博客都是部署在GitHub上并且通过GitHub Pages服务部署并提供访问，而GitHub在国内的访问情况并不算优秀。</p>
-<p>因此，在尽可能减少成本的前提下，如何能提升访问速度？</p>
-<p>答案是Vercel，Vercel是一个云计算平台，主要用于托管、构建和部署静态网站和单页面应用程序。它提供了一个简单易用的工具集，使开发人员可以更快、更方便地将他们的应用程序部署到云端。Vercel还提供了丰富的功能，如自动化部署、自动缩放、A&#x2F;B 测试、性能分析、SSL证书管理等，以帮助开发人员更好地管理和维护他们的应用程序。</p>
-<p>在一切开始之前，你需要注册一个Vercel账号并登陆。网站地址：<a href="https://vercel.com/">https://vercel.com</a></p>
-<p>回到主页，点击右上角的Add New 选择Project</p>
-<p><a href="https://postimg.cc/8FZqYj08"><img src="https://i.postimg.cc/0QvPbSGN/image-20231107134619407.png" alt="image-20231107134619407.png"></a></p>
-<p>此时你就可以看见自己在GitHub的仓库在左边列出了</p>
-<p><a href="https://postimg.cc/B8fTGgRH"><img src="https://i.postimg.cc/QMH01Yb4/image-20231107135335766.png" alt="image-20231107135335766.png"></a></p>
-<p>选择你需要部署在Vercel的博客的仓库，点击Import</p>
-<p><a href="https://postimg.cc/xJwYsXXf"><img src="https://i.postimg.cc/8c55zWD6/image-20231107135526940.png" alt="image-20231107135526940.png"></a></p>
-<p>起一个自己喜欢的名字，然后Deploy，等待Deploy结束</p>
-<p><a href="https://postimg.cc/Lg5CZD9h"><img src="https://i.postimg.cc/rsCv3Z7G/image-20231107135709948.png" alt="image-20231107135709948.png"></a></p>
-<p>deploy完成后回到主页可以看见已经被创建好的仓库</p>
-<p><a href="https://postimg.cc/F7DFvsqZ"><img src="https://i.postimg.cc/t4HshsNL/image-20231107135932748.png" alt="image-20231107135932748.png"></a></p>
-<p>你其实原本可以直接通过Vercel自带这个地址访问已经被创建好的网站了，但是因为*.vercel.app这个域名在国内被墙了，所以你需要使用自定义域名才能访问。</p>
-<p><a href="https://postimg.cc/0bpX3cWR"><img src="https://i.postimg.cc/c4jqvzfH/image-20231107140236837.png" alt="image-20231107140236837.png"></a></p>
-<p>点击settings-Domains，这里就是管理你的博客域名的地方，但是首先你得先有一个域名，我的域名cc1204.cn是在阿里云买的。</p>
-<p><a href="https://postimg.cc/PpT1CQbZ"><img src="https://i.postimg.cc/85r4nyjy/image-20231107140545192.png" alt="image-20231107140545192.png"></a></p>
-<p>在输入框内输入你购买的域名的二级域名，如 Blog.xxx.com 或 <a href="http://www.xxx.com/">www.xxx.com</a> 之类的，我的是cn域名，这里我用了bolg.cc1204.cn作为我的二级域名绑定在这儿</p>
-<p><a href="https://postimg.cc/bGjmRbHY"><img src="https://i.postimg.cc/VNJ2mWJt/image-20231107141106514.png" alt="image-20231107141106514.png"></a></p>
-<p>接下来就是去域名提供商那解析这个域名</p>
-<h2 id="阿里云解析域名"><a href="#阿里云解析域名" class="headerlink" title="阿里云解析域名"></a>阿里云解析域名</h2><p>登陆<a href="https://www.aliyun.com/">阿里云平台</a></p>
-<p>点击云解析DNS控制台</p>
-<p><a href="https://postimg.cc/9r6DNvM4"><img src="https://i.postimg.cc/7Z6Sb4rN/image-20231107141917111.png" alt="image-20231107141917111.png"></a></p>
-<p>这时进到解析页面，然后点击解析设置</p>
-<p><a href="https://postimg.cc/PpT3b3Z9"><img src="https://i.postimg.cc/DZb9TRzv/image-20231107142041397.png" alt="image-20231107142041397.png"></a></p>
-<p>然后在DNS-记录中，点击添加记录，然后按照Vercel给出的值填写</p>
-<p><a href="https://postimg.cc/ZWBB5J9K"><img src="https://i.postimg.cc/YC8189Mg/image-20231107142802704.png" alt="image-20231107142802704.png"></a></p>
-<p>回到Vercel刷新一下，如果正确填写，那么Valid Configuration和Assigned to main前面会打勾，如果你的不长这样，那大概就是哪一步错了。</p>
-<p><a href="https://postimg.cc/3WkdBKBj"><img src="https://i.postimg.cc/L4TLm5gW/image-20231107143129355.png" alt="image-20231107143129355.png"></a></p>
-<p>等待DNS缓存刷新完毕之后，你就可以通过自己新的域名来访问建立在Vercel上的博客了，正常情况下，GitHub的修改会被实时同步到Vercel上并被自动构建。也就是说以后这里就不用再自己动手操心了，只需要在GitHub上进行修改，除非你另有他用。</p>
-<p>参考链接：<a href="https://www.rikoneko.xyz/posts/65231819/">https://www.rikoneko.xyz/posts/65231819/</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-  </entry>
-  <entry>
     <title>在Python中是如何管理内存的</title>
     <url>/2020/11/29/%E5%9C%A8Python%E4%B8%AD%E6%98%AF%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E7%9A%84/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>Python有一个私有堆空间来保存所有的对象和数据结构。作为开发者，我们无法访问它，是解释器在管理它。但是有了核心API后，我们可以访问一些工具。Python内存管理器控制内存分配。<br>另外，内置垃圾回收器会回收使用所有的未使用内存，所以使其适用于堆空间。</p>
@@ -1705,22 +1705,6 @@
       </categories>
       <tags>
         <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在线人数</title>
-    <url>/2020/11/19/%E5%9C%A8%E7%BA%BF%E4%BA%BA%E6%95%B0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="在线人数"><a href="#在线人数" class="headerlink" title="在线人数"></a>在线人数</h1><p>实现逻辑是，当一个用户访问，把用户的ip作为key放到cache中，然后设置online_ips 作为key来存放所有的ip,每次请求会先取出online_ips 的所有值，任何在根据这个list 来从cache中取出依然存在的ip，再次存入online_ips。</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这个过程要放到中间层中的 </span></span><br><span class="line"><span class="comment"># PV_middleware.py</span></span><br><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin</span><br><span class="line"></span><br><span class="line"><span class="comment"># EXLCLE_URL 这个是排除一些路由不进行统计的 比如</span></span><br><span class="line"><span class="comment"># EXLCLE_URL = [&#x27;/admin/&#x27;]</span></span><br><span class="line"><span class="keyword">from</span> HuberyBlog.settings <span class="keyword">import</span> EXCLUDE_URL </span><br><span class="line"></span><br><span class="line"><span class="comment"># 主要在settings 中添加这个中间件</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PvVisitViewMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;统计在线人数和用户访问&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">if</span> request.path <span class="keyword">not</span> <span class="keyword">in</span> EXCLUDE_URL:</span><br><span class="line">            ip = get_ip(request)</span><br><span class="line">            online_ips = cache.get(<span class="string">&quot;online_ips&quot;</span>, [])</span><br><span class="line">            <span class="keyword">if</span> online_ips:</span><br><span class="line">              <span class="comment"># 根据取出的ip list获取缓存中仍然存在的ip</span></span><br><span class="line">              <span class="comment"># 这里要加个list py2 中是直接获取的list python3中获取的是一个对象 网上很多都没加</span></span><br><span class="line">                online_ips = <span class="built_in">list</span>(cache.get_many(online_ips).keys())</span><br><span class="line">            cache.<span class="built_in">set</span>(ip, <span class="number">0</span>, <span class="number">1</span> * <span class="number">60</span>)</span><br><span class="line">            <span class="keyword">if</span> ip <span class="keyword">not</span> <span class="keyword">in</span> online_ips:</span><br><span class="line">                online_ips.append(ip)</span><br><span class="line">            cache.<span class="built_in">set</span>(<span class="string">&quot;online_ips&quot;</span>, online_ips)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ip</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    获取ip</span></span><br><span class="line"><span class="string">    :param request:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;REMOTE_ADDR&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
-
-<h1 id="什么是-utf8mb4"><a href="#什么是-utf8mb4" class="headerlink" title="什么是 utf8mb4"></a>什么是 utf8mb4</h1><p>utf8mb4 是 utf8 的超集，理论上原来使用 utf8，然后将字符集修改为 utf8mb4，也不会对已有的utf8 编码读取产生任何问题。</p>
-]]></content>
-      <categories>
-        <category>智能高并发审批流系统</category>
-      </categories>
-      <tags>
-        <tag>智能高并发审批流系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1774,6 +1758,34 @@
       </tags>
   </entry>
   <entry>
+    <title>在北京郊区的时光</title>
+    <url>/2022/11/05/%E5%9C%A8%E5%8C%97%E4%BA%AC%E9%83%8A%E5%8C%BA%E7%9A%84%E6%97%B6%E5%85%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><a href="https://postimg.cc/SJPCNjRW"><img src="https://i.postimg.cc/pLWZCFt1/Wechat-IMG201.jpg" alt="Wechat-IMG201.jpg"></a><br><a href="https://postimg.cc/94BSPvX7"><img src="https://i.postimg.cc/Y9cH7HJb/Wechat-IMG202.jpg" alt="Wechat-IMG202.jpg"></a><br><a href="https://postimg.cc/FYynm2LB"><img src="https://i.postimg.cc/Sx30L4Nk/Wechat-IMG203.jpg" alt="Wechat-IMG203.jpg"></a><br><a href="https://postimg.cc/kVMwCD92"><img src="https://i.postimg.cc/KYBWngHD/Wechat-IMG204.jpg" alt="Wechat-IMG204.jpg"></a><br><a href="https://postimg.cc/WdTwmtd5"><img src="https://i.postimg.cc/cL8kSn0G/Wechat-IMG205.jpg" alt="Wechat-IMG205.jpg"></a><br><a href="https://postimg.cc/K4TPdtL9"><img src="https://i.postimg.cc/rynfRJpL/Wechat-IMG206.jpg" alt="Wechat-IMG206.jpg"></a><br><a href="https://postimg.cc/nMqmdpbg"><img src="https://i.postimg.cc/L4bV88y9/Wechat-IMG207.jpg" alt="Wechat-IMG207.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>周末</category>
+      </categories>
+      <tags>
+        <tag>郊区</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在线人数</title>
+    <url>/2020/11/19/%E5%9C%A8%E7%BA%BF%E4%BA%BA%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="在线人数"><a href="#在线人数" class="headerlink" title="在线人数"></a>在线人数</h1><p>实现逻辑是，当一个用户访问，把用户的ip作为key放到cache中，然后设置online_ips 作为key来存放所有的ip,每次请求会先取出online_ips 的所有值，任何在根据这个list 来从cache中取出依然存在的ip，再次存入online_ips。</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这个过程要放到中间层中的 </span></span><br><span class="line"><span class="comment"># PV_middleware.py</span></span><br><span class="line"><span class="keyword">from</span> django.core.cache <span class="keyword">import</span> cache</span><br><span class="line"><span class="keyword">from</span> django.utils.deprecation <span class="keyword">import</span> MiddlewareMixin</span><br><span class="line"></span><br><span class="line"><span class="comment"># EXLCLE_URL 这个是排除一些路由不进行统计的 比如</span></span><br><span class="line"><span class="comment"># EXLCLE_URL = [&#x27;/admin/&#x27;]</span></span><br><span class="line"><span class="keyword">from</span> HuberyBlog.settings <span class="keyword">import</span> EXCLUDE_URL </span><br><span class="line"></span><br><span class="line"><span class="comment"># 主要在settings 中添加这个中间件</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PvVisitViewMiddleware</span>(<span class="title class_ inherited__">MiddlewareMixin</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;统计在线人数和用户访问&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_request</span>(<span class="params">self, request</span>):</span><br><span class="line">        <span class="keyword">if</span> request.path <span class="keyword">not</span> <span class="keyword">in</span> EXCLUDE_URL:</span><br><span class="line">            ip = get_ip(request)</span><br><span class="line">            online_ips = cache.get(<span class="string">&quot;online_ips&quot;</span>, [])</span><br><span class="line">            <span class="keyword">if</span> online_ips:</span><br><span class="line">              <span class="comment"># 根据取出的ip list获取缓存中仍然存在的ip</span></span><br><span class="line">              <span class="comment"># 这里要加个list py2 中是直接获取的list python3中获取的是一个对象 网上很多都没加</span></span><br><span class="line">                online_ips = <span class="built_in">list</span>(cache.get_many(online_ips).keys())</span><br><span class="line">            cache.<span class="built_in">set</span>(ip, <span class="number">0</span>, <span class="number">1</span> * <span class="number">60</span>)</span><br><span class="line">            <span class="keyword">if</span> ip <span class="keyword">not</span> <span class="keyword">in</span> online_ips:</span><br><span class="line">                online_ips.append(ip)</span><br><span class="line">            cache.<span class="built_in">set</span>(<span class="string">&quot;online_ips&quot;</span>, online_ips)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_ip</span>(<span class="params">request</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    获取ip</span></span><br><span class="line"><span class="string">    :param request:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span> <span class="keyword">in</span> request.META:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ip = request.META.get(<span class="string">&#x27;REMOTE_ADDR&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
+
+<h1 id="什么是-utf8mb4"><a href="#什么是-utf8mb4" class="headerlink" title="什么是 utf8mb4"></a>什么是 utf8mb4</h1><p>utf8mb4 是 utf8 的超集，理论上原来使用 utf8，然后将字符集修改为 utf8mb4，也不会对已有的utf8 编码读取产生任何问题。</p>
+]]></content>
+      <categories>
+        <category>智能高并发审批流系统</category>
+      </categories>
+      <tags>
+        <tag>智能高并发审批流系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>工单处理逻辑</title>
     <url>/2020/11/19/%E5%B7%A5%E5%8D%95%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p>1、在新建工单的页面中，用户选择工单类型，后台根据“工单类型与工作流关联”的表来确定使用的工作流</p>
@@ -1789,18 +1801,6 @@
       </categories>
       <tags>
         <tag>智能高并发审批流系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在北京郊区的时光</title>
-    <url>/2022/11/05/%E5%9C%A8%E5%8C%97%E4%BA%AC%E9%83%8A%E5%8C%BA%E7%9A%84%E6%97%B6%E5%85%89/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><p><a href="https://postimg.cc/SJPCNjRW"><img src="https://i.postimg.cc/pLWZCFt1/Wechat-IMG201.jpg" alt="Wechat-IMG201.jpg"></a><br><a href="https://postimg.cc/94BSPvX7"><img src="https://i.postimg.cc/Y9cH7HJb/Wechat-IMG202.jpg" alt="Wechat-IMG202.jpg"></a><br><a href="https://postimg.cc/FYynm2LB"><img src="https://i.postimg.cc/Sx30L4Nk/Wechat-IMG203.jpg" alt="Wechat-IMG203.jpg"></a><br><a href="https://postimg.cc/kVMwCD92"><img src="https://i.postimg.cc/KYBWngHD/Wechat-IMG204.jpg" alt="Wechat-IMG204.jpg"></a><br><a href="https://postimg.cc/WdTwmtd5"><img src="https://i.postimg.cc/cL8kSn0G/Wechat-IMG205.jpg" alt="Wechat-IMG205.jpg"></a><br><a href="https://postimg.cc/K4TPdtL9"><img src="https://i.postimg.cc/rynfRJpL/Wechat-IMG206.jpg" alt="Wechat-IMG206.jpg"></a><br><a href="https://postimg.cc/nMqmdpbg"><img src="https://i.postimg.cc/L4bV88y9/Wechat-IMG207.jpg" alt="Wechat-IMG207.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>周末</category>
-      </categories>
-      <tags>
-        <tag>郊区</tag>
       </tags>
   </entry>
   <entry>
@@ -2034,6 +2034,18 @@
       </tags>
   </entry>
   <entry>
+    <title>洪水过后</title>
+    <url>/2023/08/19/%E6%B4%AA%E6%B0%B4%E8%BF%87%E5%90%8E/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京十渡风景区附近"><a href="#北京十渡风景区附近" class="headerlink" title="北京十渡风景区附近"></a>北京十渡风景区附近</h2><p><a href="https://postimg.cc/zbSfFPmH"><img src="https://i.postimg.cc/Y9TmkJbR/Wechat-IMG191.jpg" alt="Wechat-IMG191.jpg"></a><br><a href="https://postimg.cc/JG8N897v"><img src="https://i.postimg.cc/WbFXGvBN/Wechat-IMG192.jpg" alt="Wechat-IMG192.jpg"></a><br><a href="https://postimg.cc/8js6TNQy"><img src="https://i.postimg.cc/7YnMMZBy/Wechat-IMG193.jpg" alt="Wechat-IMG193.jpg"></a><br><a href="https://postimg.cc/XBB4D2mg"><img src="https://i.postimg.cc/qqjqqSGW/Wechat-IMG194.jpg" alt="Wechat-IMG194.jpg"></a><br><a href="https://postimg.cc/xcH9v4Kf"><img src="https://i.postimg.cc/CLrdgy5q/Wechat-IMG195.jpg" alt="Wechat-IMG195.jpg"></a><br><a href="https://postimg.cc/RJK2H222"><img src="https://i.postimg.cc/RhDmjBdC/Wechat-IMG196.jpg" alt="Wechat-IMG196.jpg"></a><br><a href="https://postimg.cc/5HyG3XZB"><img src="https://i.postimg.cc/5tSVfvgR/Wechat-IMG197.jpg" alt="Wechat-IMG197.jpg"></a><br><a href="https://postimg.cc/682b2kRc"><img src="https://i.postimg.cc/YC85VkC5/Wechat-IMG198.jpg" alt="Wechat-IMG198.jpg"></a><br><a href="https://postimg.cc/2VvB1Tyv"><img src="https://i.postimg.cc/J4Y3d2WT/Wechat-IMG199.jpg" alt="Wechat-IMG199.jpg"></a><br><a href="https://postimg.cc/wRMZW7y8"><img src="https://i.postimg.cc/1XrS3Fyt/Wechat-IMG200.jpg" alt="Wechat-IMG200.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>考察</category>
+      </categories>
+      <tags>
+        <tag>洪水</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>皮肤知识</title>
     <url>/2021/10/14/%E7%9A%AE%E8%82%A4%E7%9F%A5%E8%AF%86/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="皮肤知识"><a href="#皮肤知识" class="headerlink" title="皮肤知识"></a>皮肤知识</h1><h4 id="皮肤结构由外到内："><a href="#皮肤结构由外到内：" class="headerlink" title="皮肤结构由外到内："></a>皮肤结构由外到内：</h4><p>表皮层、真皮层、皮下组织层，以及皮肤附属器：毛发、汗腺、皮脂腺</p>
@@ -2183,6 +2195,19 @@
       </tags>
   </entry>
   <entry>
+    <title>罗马数字转整数</title>
+    <url>/2021/11/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。"><a href="#罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。" class="headerlink" title="罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。"></a>罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。</h3><h3 id="字符-数值"><a href="#字符-数值" class="headerlink" title="字符          数值"></a>字符          数值</h3><h3 id="I-1"><a href="#I-1" class="headerlink" title="I             1"></a>I             1</h3><h3 id="V-5"><a href="#V-5" class="headerlink" title="V             5"></a>V             5</h3><h3 id="X-10"><a href="#X-10" class="headerlink" title="X             10"></a>X             10</h3><h3 id="L-50"><a href="#L-50" class="headerlink" title="L             50"></a>L             50</h3><h3 id="C-100"><a href="#C-100" class="headerlink" title="C             100"></a>C             100</h3><h3 id="D-500"><a href="#D-500" class="headerlink" title="D             500"></a>D             500</h3><h3 id="M-1000"><a href="#M-1000" class="headerlink" title="M             1000"></a>M             1000</h3><h3 id="例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。"><a href="#例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。" class="headerlink" title="例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。"></a>例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。</h3><h3 id="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况："><a href="#通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况：" class="headerlink" title="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况："></a>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：</h3><h3 id="I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。"><a href="#I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。" class="headerlink" title="I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。"></a>I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。</h3><h3 id="X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。"><a href="#X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。" class="headerlink" title="X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。"></a>X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。</h3><h3 id="C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。"><a href="#C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。" class="headerlink" title="C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。"></a>C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。</h3><h3 id="给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。"><a href="#给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。" class="headerlink" title="给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。"></a>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</h3><h3 id="python解法-执行用时44ms。"><a href="#python解法-执行用时44ms。" class="headerlink" title="python解法,执行用时44ms。"></a>python解法,执行用时44ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;IV&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;IX&#x27;</span>,<span class="string">&#x27;W&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XL&#x27;</span>,<span class="string">&#x27;E&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XC&#x27;</span>,<span class="string">&#x27;R&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CM&#x27;</span>,<span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CD&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        keys = &#123;</span><br><span class="line">            <span class="string">&#x27;Q&#x27;</span>:<span class="number">4</span>,</span><br><span class="line">            <span class="string">&#x27;W&#x27;</span>:<span class="number">9</span>,</span><br><span class="line">            <span class="string">&#x27;E&#x27;</span>:<span class="number">40</span>,</span><br><span class="line">            <span class="string">&#x27;R&#x27;</span>:<span class="number">90</span>,</span><br><span class="line">            <span class="string">&#x27;T&#x27;</span>:<span class="number">900</span>,</span><br><span class="line">            <span class="string">&#x27;Y&#x27;</span>:<span class="number">400</span>,</span><br><span class="line">            <span class="string">&#x27;I&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">            <span class="string">&#x27;V&#x27;</span>:<span class="number">5</span>,</span><br><span class="line">            <span class="string">&#x27;X&#x27;</span>:<span class="number">10</span>,</span><br><span class="line">            <span class="string">&#x27;L&#x27;</span>:<span class="number">50</span>,</span><br><span class="line">            <span class="string">&#x27;C&#x27;</span>:<span class="number">100</span>,</span><br><span class="line">            <span class="string">&#x27;D&#x27;</span>:<span class="number">500</span>,</span><br><span class="line">            <span class="string">&#x27;M&#x27;</span>:<span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            ans += keys[ch]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聊天机器人</title>
     <url>/2021/11/05/%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="Keras"><a href="#Keras" class="headerlink" title="Keras"></a>Keras</h1><p>Keras tf.keras 是用于构建和训练深度学习模型的 TensorFlow 高阶 API。利用此 API，可实现快速原型设计、先进的研究和生产，它具有以下三大优势：</p>
@@ -2228,31 +2253,6 @@
       </tags>
   </entry>
   <entry>
-    <title>罗马数字转整数</title>
-    <url>/2021/11/19/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97%E8%BD%AC%E6%95%B4%E6%95%B0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h3 id="罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。"><a href="#罗马数字包含以下七种字符-I，-V，-X，-L，C，D-和-M。" class="headerlink" title="罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。"></a>罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。</h3><h3 id="字符-数值"><a href="#字符-数值" class="headerlink" title="字符          数值"></a>字符          数值</h3><h3 id="I-1"><a href="#I-1" class="headerlink" title="I             1"></a>I             1</h3><h3 id="V-5"><a href="#V-5" class="headerlink" title="V             5"></a>V             5</h3><h3 id="X-10"><a href="#X-10" class="headerlink" title="X             10"></a>X             10</h3><h3 id="L-50"><a href="#L-50" class="headerlink" title="L             50"></a>L             50</h3><h3 id="C-100"><a href="#C-100" class="headerlink" title="C             100"></a>C             100</h3><h3 id="D-500"><a href="#D-500" class="headerlink" title="D             500"></a>D             500</h3><h3 id="M-1000"><a href="#M-1000" class="headerlink" title="M             1000"></a>M             1000</h3><h3 id="例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。"><a href="#例如，-罗马数字-2-写做-II-，即为两个并列的-1。12-写做-XII-，即为-X-II-。-27-写做-XXVII-即为-XX-V-II-。" class="headerlink" title="例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。"></a>例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。</h3><h3 id="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况："><a href="#通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如-4-不写做-IIII，而是-IV。数字-1-在数字-5-的左边，所表示的数等于大数-5-减小数-1-得到的数值-4-。同样地，数字-9-表示为-IX。这个特殊的规则只适用于以下六种情况：" class="headerlink" title="通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况："></a>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 IX。这个特殊的规则只适用于以下六种情况：</h3><h3 id="I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。"><a href="#I-可以放在-V-5-和-X-10-的左边，来表示-4-和-9。" class="headerlink" title="I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。"></a>I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。</h3><h3 id="X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。"><a href="#X-可以放在-L-50-和-C-100-的左边，来表示-40-和-90。" class="headerlink" title="X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。"></a>X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。</h3><h3 id="C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。"><a href="#C-可以放在-D-500-和-M-1000-的左边，来表示-400-和-900。" class="headerlink" title="C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。"></a>C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。</h3><h3 id="给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。"><a href="#给定一个罗马数字，将其转换成整数。输入确保在-1-到-3999-的范围内。" class="headerlink" title="给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。"></a>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</h3><h3 id="python解法-执行用时44ms。"><a href="#python解法-执行用时44ms。" class="headerlink" title="python解法,执行用时44ms。"></a>python解法,执行用时44ms。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">romanToInt</span>(<span class="params">self, s</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;IV&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;IX&#x27;</span>,<span class="string">&#x27;W&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XL&#x27;</span>,<span class="string">&#x27;E&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;XC&#x27;</span>,<span class="string">&#x27;R&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CM&#x27;</span>,<span class="string">&#x27;T&#x27;</span>)</span><br><span class="line">        s = s.replace(<span class="string">&#x27;CD&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        keys = &#123;</span><br><span class="line">            <span class="string">&#x27;Q&#x27;</span>:<span class="number">4</span>,</span><br><span class="line">            <span class="string">&#x27;W&#x27;</span>:<span class="number">9</span>,</span><br><span class="line">            <span class="string">&#x27;E&#x27;</span>:<span class="number">40</span>,</span><br><span class="line">            <span class="string">&#x27;R&#x27;</span>:<span class="number">90</span>,</span><br><span class="line">            <span class="string">&#x27;T&#x27;</span>:<span class="number">900</span>,</span><br><span class="line">            <span class="string">&#x27;Y&#x27;</span>:<span class="number">400</span>,</span><br><span class="line">            <span class="string">&#x27;I&#x27;</span>:<span class="number">1</span>,</span><br><span class="line">            <span class="string">&#x27;V&#x27;</span>:<span class="number">5</span>,</span><br><span class="line">            <span class="string">&#x27;X&#x27;</span>:<span class="number">10</span>,</span><br><span class="line">            <span class="string">&#x27;L&#x27;</span>:<span class="number">50</span>,</span><br><span class="line">            <span class="string">&#x27;C&#x27;</span>:<span class="number">100</span>,</span><br><span class="line">            <span class="string">&#x27;D&#x27;</span>:<span class="number">500</span>,</span><br><span class="line">            <span class="string">&#x27;M&#x27;</span>:<span class="number">1000</span></span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            ans += keys[ch]</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>洪水过后</title>
-    <url>/2023/08/19/%E6%B4%AA%E6%B0%B4%E8%BF%87%E5%90%8E/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="北京十渡风景区附近"><a href="#北京十渡风景区附近" class="headerlink" title="北京十渡风景区附近"></a>北京十渡风景区附近</h2><p><a href="https://postimg.cc/zbSfFPmH"><img src="https://i.postimg.cc/Y9TmkJbR/Wechat-IMG191.jpg" alt="Wechat-IMG191.jpg"></a><br><a href="https://postimg.cc/JG8N897v"><img src="https://i.postimg.cc/WbFXGvBN/Wechat-IMG192.jpg" alt="Wechat-IMG192.jpg"></a><br><a href="https://postimg.cc/8js6TNQy"><img src="https://i.postimg.cc/7YnMMZBy/Wechat-IMG193.jpg" alt="Wechat-IMG193.jpg"></a><br><a href="https://postimg.cc/XBB4D2mg"><img src="https://i.postimg.cc/qqjqqSGW/Wechat-IMG194.jpg" alt="Wechat-IMG194.jpg"></a><br><a href="https://postimg.cc/xcH9v4Kf"><img src="https://i.postimg.cc/CLrdgy5q/Wechat-IMG195.jpg" alt="Wechat-IMG195.jpg"></a><br><a href="https://postimg.cc/RJK2H222"><img src="https://i.postimg.cc/RhDmjBdC/Wechat-IMG196.jpg" alt="Wechat-IMG196.jpg"></a><br><a href="https://postimg.cc/5HyG3XZB"><img src="https://i.postimg.cc/5tSVfvgR/Wechat-IMG197.jpg" alt="Wechat-IMG197.jpg"></a><br><a href="https://postimg.cc/682b2kRc"><img src="https://i.postimg.cc/YC85VkC5/Wechat-IMG198.jpg" alt="Wechat-IMG198.jpg"></a><br><a href="https://postimg.cc/2VvB1Tyv"><img src="https://i.postimg.cc/J4Y3d2WT/Wechat-IMG199.jpg" alt="Wechat-IMG199.jpg"></a><br><a href="https://postimg.cc/wRMZW7y8"><img src="https://i.postimg.cc/1XrS3Fyt/Wechat-IMG200.jpg" alt="Wechat-IMG200.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>考察</category>
-      </categories>
-      <tags>
-        <tag>洪水</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>重新搭建博客过程中遇到的一些问题记录</title>
     <url>/2023/11/01/%E9%87%8D%E6%96%B0%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h1 id="之前博客一直是使用Gitee托管的，可最近才知道Gitee-Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。"><a href="#之前博客一直是使用Gitee托管的，可最近才知道Gitee-Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。" class="headerlink" title="之前博客一直是使用Gitee托管的，可最近才知道Gitee Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。"></a>之前博客一直是使用Gitee托管的，可最近才知道Gitee Pages停止服务了，这对于广大的开源开发者来说是一次不小的打击。于是就重新搭建博客，迁移到Github，并绑定了阿里云域名，以下是在搭建过程中遇到的一些问题记录。</h1><h2 id="阿里云域名注册流程"><a href="#阿里云域名注册流程" class="headerlink" title="阿里云域名注册流程"></a>阿里云域名注册流程</h2><p><a href="https://baijiahao.baidu.com/s?id=1765615721998421361&wfr=spider&for=pc">https://baijiahao.baidu.com/s?id=1765615721998421361&amp;wfr=spider&amp;for=pc</a></p>
@@ -2270,18 +2270,6 @@
       </tags>
   </entry>
   <entry>
-    <title>银山塔林</title>
-    <url>/2022/11/06/%E9%93%B6%E5%B1%B1%E5%A1%94%E6%9E%97/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="银山塔林"><a href="#银山塔林" class="headerlink" title="银山塔林"></a>银山塔林</h2><p><a href="https://postimg.cc/30Mq7y3x"><img src="https://i.postimg.cc/rsz21Wbx/Wechat-IMG153.jpg" alt="Wechat-IMG153.jpg"></a><br><a href="https://postimg.cc/tZF53BH9"><img src="https://i.postimg.cc/3RccHqS0/Wechat-IMG155.jpg" alt="Wechat-IMG155.jpg"></a><br><a href="https://postimg.cc/6yMD4p0Y"><img src="https://i.postimg.cc/4xGZMKhk/Wechat-IMG156.jpg" alt="Wechat-IMG156.jpg"></a><br><a href="https://postimg.cc/xq0xGSq7"><img src="https://i.postimg.cc/59zhV4Jx/Wechat-IMG157.jpg" alt="Wechat-IMG157.jpg"></a><br><a href="https://postimg.cc/ctRtkzDL"><img src="https://i.postimg.cc/XqhKqSdd/Wechat-IMG154.jpg" alt="Wechat-IMG154.jpg"></a></p>
-]]></content>
-      <categories>
-        <category>旅行</category>
-      </categories>
-      <tags>
-        <tag>辽金时期古塔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>野三坡</title>
     <url>/2023/03/25/%E9%87%8E%E4%B8%89%E5%9D%A1/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="野三坡"><a href="#野三坡" class="headerlink" title="野三坡"></a>野三坡</h2><p><a href="https://postimg.cc/Mv9tnMVS"><img src="https://i.postimg.cc/FH46n0K7/Wechat-IMG158.jpg" alt="Wechat-IMG158.jpg"></a><br><a href="https://postimg.cc/dkJTRncS"><img src="https://i.postimg.cc/qR3XTZb0/Wechat-IMG159.jpg" alt="Wechat-IMG159.jpg"></a><br><a href="https://postimg.cc/7GcwPY9M"><img src="https://i.postimg.cc/J07nqsBg/Wechat-IMG160.jpg" alt="Wechat-IMG160.jpg"></a><br><a href="https://postimg.cc/grZPqp4Q"><img src="https://i.postimg.cc/v8PHyHnY/Wechat-IMG161.jpg" alt="Wechat-IMG161.jpg"></a><br><a href="https://postimg.cc/7ftcpQB0"><img src="https://i.postimg.cc/Z5JSvGp7/Wechat-IMG162.jpg" alt="Wechat-IMG162.jpg"></a><br><a href="https://postimg.cc/YvmXT2LB"><img src="https://i.postimg.cc/jSMGwLs2/Wechat-IMG163.jpg" alt="Wechat-IMG163.jpg"></a></p>
@@ -2291,6 +2279,18 @@
       </categories>
       <tags>
         <tag>野三坡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>银山塔林</title>
+    <url>/2022/11/06/%E9%93%B6%E5%B1%B1%E5%A1%94%E6%9E%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/css/APlayer.min.css"><script src="/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/js/Meting.min.js"></script><h2 id="银山塔林"><a href="#银山塔林" class="headerlink" title="银山塔林"></a>银山塔林</h2><p><a href="https://postimg.cc/30Mq7y3x"><img src="https://i.postimg.cc/rsz21Wbx/Wechat-IMG153.jpg" alt="Wechat-IMG153.jpg"></a><br><a href="https://postimg.cc/tZF53BH9"><img src="https://i.postimg.cc/3RccHqS0/Wechat-IMG155.jpg" alt="Wechat-IMG155.jpg"></a><br><a href="https://postimg.cc/6yMD4p0Y"><img src="https://i.postimg.cc/4xGZMKhk/Wechat-IMG156.jpg" alt="Wechat-IMG156.jpg"></a><br><a href="https://postimg.cc/xq0xGSq7"><img src="https://i.postimg.cc/59zhV4Jx/Wechat-IMG157.jpg" alt="Wechat-IMG157.jpg"></a><br><a href="https://postimg.cc/ctRtkzDL"><img src="https://i.postimg.cc/XqhKqSdd/Wechat-IMG154.jpg" alt="Wechat-IMG154.jpg"></a></p>
+]]></content>
+      <categories>
+        <category>旅行</category>
+      </categories>
+      <tags>
+        <tag>辽金时期古塔</tag>
       </tags>
   </entry>
   <entry>
