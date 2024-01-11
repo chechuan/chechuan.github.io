@@ -60,7 +60,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2024-01-09 16:53:23'
+  postUpdate: '2024-01-11 10:05:15'
 }</script><script>(win=>{
       win.saveToLocal = {
         set: (key, value, ttl) => {
@@ -237,7 +237,7 @@
 
   const getComment = async () => {
     try {
-      const res = await fetch('https://comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
+      const res = await fetch('comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
       const result = await res.json()
       const walineArray = result.data.map(e => {
         return {

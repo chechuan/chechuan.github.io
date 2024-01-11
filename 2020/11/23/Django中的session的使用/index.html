@@ -270,7 +270,7 @@
   const initWaline = () => {
     const waline = Waline.init(Object.assign({
       el: '#waline-wrap',
-      serverURL: 'https://comment.cc1204.cn/',
+      serverURL: 'comment.cc1204.cn',
       pageview: false,
       dark: 'html[data-theme="dark"]',
       path: window.location.pathname,
@@ -337,7 +337,7 @@
 
   const getComment = async () => {
     try {
-      const res = await fetch('https://comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
+      const res = await fetch('comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
       const result = await res.json()
       const walineArray = result.data.map(e => {
         return {

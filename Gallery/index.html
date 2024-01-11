@@ -271,7 +271,7 @@
 
   const getComment = async () => {
     try {
-      const res = await fetch('https://comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
+      const res = await fetch('comment.cc1204.cn/api/comment?type=recent&count=6', { method: 'GET' })
       const result = await res.json()
       const walineArray = result.data.map(e => {
         return {
