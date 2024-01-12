@@ -1876,6 +1876,10 @@
 
 <details class="toggle"><summary class="toggle-button" style>20231108.1820</summary><div class="toggle-content"><h3 id="20231108-1820"><a href="#20231108-1820" class="headerlink" title="20231108.1820"></a>20231108.1820</h3><p>豆瓣主页书单展示不全的bug解决，将hexo_douban升级到最新版本，试图解决这个问题，但这个时候该组件的维护者后台强制更新了一下，然而我的版本也刚好升级完成，所以不确定是我们两个中谁解决的，后续如果还有回复，可以关注<a href="https://github.com/mythsman/hexo-douban/issues/159">这个问题</a></p>
 </div></details>
+
+
+<details class="toggle"><summary class="toggle-button" style>20240112.1139</summary><div class="toggle-content"><h3 id="20240112-1139"><a href="#20240112-1139" class="headerlink" title="20240112.1139"></a>20240112.1139</h3><p>因为Vercel和Waline被墙，我决定转用Twikoo，详情可查看<a href="https://cc1204.cn/2024/01/12/%E5%9B%A0%E4%B8%BAVercel%E5%92%8CWaline%E8%A2%AB%E5%A2%99%EF%BC%8C%E6%88%91%E5%86%B3%E5%AE%9A%E8%BD%AC%E7%94%A8Twikoo%EF%BC%8C%E5%B9%B6%E7%AE%80%E8%A6%81%E8%AE%B0%E5%BD%95%E4%BA%86%E5%9C%A8Vercel%E4%B8%8A%E9%83%A8%E7%BD%B2Twikoo%E5%92%8C%E7%BB%91%E5%AE%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E7%AD%89%E6%AD%A5%E9%AA%A4%E7%9A%84%E6%95%99%E7%A8%8B/">博客</a></p>
+</div></details>
 ]]></content>
       <categories>
         <category>版本内容更新</category>
