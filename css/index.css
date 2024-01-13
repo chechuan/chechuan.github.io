@@ -468,7 +468,7 @@ canvas:not(#ribbon-canvas),
   height: 75%;
   left: 0;
   top: 0;
-  margin-bottom: -70px;
+  margin-bottom: -30px;
 }
 @-moz-keyframes scroll-down-effect {
   0% {
