@@ -1904,7 +1904,9 @@
 <p>这是一份<br>来自宇宙的祝福——<br><span style="background-color: #54b6a6; padding: 5px;">2024</span><br><span style="background-color: #54b6a6; padding: 5px;">总有一颗星辰属于你</span></p>
 </center>
 
-<iframe scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="520" src="//player.bilibili.com/player.html?aid=751242337&bvid=BV1dk4y1Q7Jn&cid=1404477617&p=1"></iframe>
+<div class="bilibili">
+    <iframe src="//player.bilibili.com/player.html?aid=751242337&bvid=BV1dk4y1Q7Jn&cid=1404477617&p=1&high_quality=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts" width="100%" height="520"> </iframe>
+</div>
 
 <div class="note orange flat"><p>视频由星联CSVA创作<br>来源链接：星联CSVA官方微博和微信公众号</p>
 </div>
