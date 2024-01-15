@@ -338,6 +338,14 @@
 <li>因为在网易云音乐非会员下无法播放完整版，所以我找到了一个不错的翻唱版本，感觉和原版差不多好听。另外，刚打开页面时，侧边栏的音乐自动播放有点吵，所以我把自动播放改成了需要点击才能播放。</li>
 </ol>
 </div></details>
+
+<details class="toggle"><summary class="toggle-button" style>20240115.0947</summary><div class="toggle-content"><p>通过以下配置，解决了博客单独文章链接过长的问题。由于链接过长，分享起来不太方便，因此采取了下述配置，使生成的链接更短。参考链接：<a href="https://blog.csdn.net/weixin_58068682/article/details/116612063">https://blog.csdn.net/weixin_58068682/article/details/116612063</a></p>
+<ol>
+<li>安装 hexo-abbrlink 插件的指令如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-abbrlink --save</span><br></pre></td></tr></table></figure></li>
+<li>打开站点配置文件 _config.yml，并将 permalink 修改为：<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">permalink:</span> <span class="string">posts/:abbrlink.html</span></span><br></pre></td></tr></table></figure></li>
+<li>在站点配置文件 _config.yml 中添加以下代码：<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment">#abbrlink配置</span></span><br><span class="line"><span class="attr">abbrlink:</span></span><br><span class="line">  <span class="attr">alg:</span> <span class="string">crc32</span>  <span class="comment"># 算法：crc16(default) and crc32</span></span><br><span class="line">  <span class="attr">rep:</span> <span class="string">dec</span>    <span class="comment"># 进制：dec(default) and hex</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</div></details>
 ]]></content>
       <categories>
         <category>版本内容更新</category>
