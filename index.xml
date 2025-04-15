@@ -2,18 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>我的博客</title>
-    <link>//localhost:1313/</link>
+    <link>https://cc1204.cn/</link>
     <description>Recent content on 我的博客</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Apr 2025 10:22:17 +0800</lastBuildDate>
-    <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>One</title>
-      <link>//localhost:1313/one/</link>
-      <pubDate>Tue, 15 Apr 2025 10:22:17 +0800</pubDate>
-      <guid>//localhost:1313/one/</guid>
-      <description>&lt;h3 id=&#34;你好啊&#34;&gt;你好啊&lt;/h3&gt;&#xA;&lt;p&gt;123123123&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;print(&amp;#39;hello world&amp;#39;)&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="https://cc1204.cn/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
