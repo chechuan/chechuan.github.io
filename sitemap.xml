@@ -2,20 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
+    <loc>https://cc1204.cn/posts/my-first-post/</loc>
     <lastmod>2025-04-15T13:54:46+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://cc1204.cn/posts/</loc>
     <lastmod>2025-04-15T13:54:46+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://cc1204.cn/</loc>
     <lastmod>2025-04-15T13:54:46+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/one/</loc>
+    <loc>https://cc1204.cn/posts/one/</loc>
     <lastmod>2025-04-15T10:22:17+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://cc1204.cn/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://cc1204.cn/tags/</loc>
   </url>
 </urlset>

@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 我的博客</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://cc1204.cn/posts/</link>
     <description>Recent content in Posts on 我的博客</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 15 Apr 2025 13:54:46 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cc1204.cn/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My First Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <link>https://cc1204.cn/posts/my-first-post/</link>
       <pubDate>Tue, 15 Apr 2025 13:54:46 +0800</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <guid>https://cc1204.cn/posts/my-first-post/</guid>
       <description>&lt;p&gt;My First Post&lt;/p&gt;</description>
     </item>
     <item>
       <title>One</title>
-      <link>http://localhost:1313/posts/one/</link>
+      <link>https://cc1204.cn/posts/one/</link>
       <pubDate>Tue, 15 Apr 2025 10:22:17 +0800</pubDate>
-      <guid>http://localhost:1313/posts/one/</guid>
+      <guid>https://cc1204.cn/posts/one/</guid>
       <description>&lt;h3 id=&#34;你好啊&#34;&gt;你好啊&lt;/h3&gt;&#xA;&lt;p&gt;123123123&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;print(&amp;#39;hello world&amp;#39;)&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
   </channel>
